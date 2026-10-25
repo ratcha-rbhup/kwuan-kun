@@ -1,0 +1,107 @@
+<div class="container ak-container-narrow py-4">
+  <!-- Title & Action Bar -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-active mb-2">
+        <i class="fa-solid fa-calendar-check"></i> นัดตีแบดครั้งต่อไป
+      </div>
+      <h1 class="h3 fw-bold text-dark mb-1">
+        กิจกรรม & ตารางนัดตีแบดมินตัน
+      </h1>
+      <p class="text-secondary small mb-0">เลือกกิจกรรม ลงชื่อล่วงหน้า เช็กผู้เล่น และแชร์ค่าคอร์ตร่วมกันอย่างโปร่งใส</p>
+    </div>
+
+    <a routerLink="/groups" class="ak-btn-outline ak-btn-sm rounded-pill px-3">
+      <i class="fa-solid fa-magnifying-glass me-1"></i> ค้นหาก๊วนอื่นๆ
+    </a>
+  </div>
+
+  <!-- Activities List -->
+  <div class="d-flex flex-column gap-4">
+    <div class="ak-card shadow-sm p-4" *ngFor="let a of activities()">
+      <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-3">
+        <div>
+          <div class="d-flex align-items-center gap-2 mb-1">
+            <span class="ak-badge ak-badge-active">
+              <i class="fa-solid fa-shuttlecock"></i> เปิดรับลงชื่อ
+            </span>
+            <span class="ak-badge ak-badge-skill">{{ a.skillLevel }}</span>
+            <span class="badge bg-light text-secondary border small">{{ a.groupName }}</span>
+          </div>
+          <h2 class="h5 fw-bold text-dark mb-1">{{ a.title }}</h2>
+          <div class="text-secondary small">
+            <i class="fa-solid fa-building text-success me-1"></i> <strong>{{ a.venue }}</strong> ({{ a.courtNumbers }})
+          </div>
+        </div>
+
+        <div class="text-end">
+          <span class="fs-5 fw-bold text-success">{{ a.confirmedPlayers }}/{{ a.maxPlayers }} คน</span>
+          <div class="text-muted small">
+            <span *ngIf="a.maxPlayers - a.confirmedPlayers > 0" class="text-success fw-semibold">
+              (ว่าง {{ a.maxPlayers - a.confirmedPlayers }} ที่)
+            </span>
+            <span *ngIf="a.maxPlayers - a.confirmedPlayers === 0" class="text-danger fw-semibold">
+              (คอร์ตเต็มแล้ว)
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Schedule & Details Strip -->
+      <div class="row g-3 p-3 rounded-3 mb-3" style="background: var(--brand-surface);">
+        <div class="col-sm-6 col-md-4">
+          <div class="small text-muted"><i class="fa-regular fa-calendar text-success me-1"></i> วันที่:</div>
+          <div class="fw-bold text-dark">{{ a.date }}</div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+          <div class="small text-muted"><i class="fa-regular fa-clock text-success me-1"></i> เวลา:</div>
+          <div class="fw-bold text-dark">{{ a.time }}</div>
+        </div>
+        <div class="col-sm-12 col-md-4">
+          <div class="small text-muted"><i class="fa-solid fa-baht-sign text-success me-1"></i> ค่าใช้จ่ายเฉลี่ย:</div>
+          <div class="fw-bold text-success">{{ a.priceEst }}</div>
+        </div>
+      </div>
+
+      <!-- Facilities Pills -->
+      <div class="d-flex flex-wrap gap-1 mb-3">
+        <span class="facility-pill" *ngFor="let f of a.facilities">
+          <i class="fa-solid fa-check text-success" style="font-size: 0.65rem;"></i> {{ f }}
+        </span>
+      </div>
+
+      <!-- Confirmed Players Preview -->
+      <div class="mb-3">
+        <div class="small text-secondary fw-semibold mb-2">
+          <i class="fa-solid fa-users text-muted me-1"></i> ผู้เล่นที่ยืนยันแล้ว:
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <span class="badge bg-white border text-dark p-2 rounded-pill shadow-xs d-inline-flex align-items-center gap-1" *ngFor="let p of a.players">
+            <i class="fa-solid fa-circle-user text-success"></i>
+            <span>{{ p.name }}</span>
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-1 small">{{ p.skill }}</span>
+          </span>
+          <span class="badge bg-light text-muted p-2 rounded-pill" *ngIf="a.confirmedPlayers > a.players.length">
+            +{{ a.confirmedPlayers - a.players.length }} คนอื่นๆ
+          </span>
+        </div>
+      </div>
+
+      <!-- Action Footer -->
+      <div class="pt-3 border-top border-light d-flex flex-wrap align-items-center justify-content-between gap-2 mt-auto">
+        <a [routerLink]="['/groups', a.groupSlug]" class="text-secondary text-decoration-none small py-1">
+          <i class="fa-solid fa-arrow-up-right-from-square me-1"></i> หน้ารายละเอียดก๊วน
+        </a>
+
+        <div class="w-100 w-sm-auto text-end">
+          <button (click)="toggleRsvp(a)" 
+                  class="ak-btn rounded-pill px-4 ak-btn-responsive shadow-sm"
+                  [ngClass]="a.isJoined ? 'ak-btn-outline' : 'ak-btn-primary'">
+            <i class="fa-solid" [ngClass]="a.isJoined ? 'fa-xmark text-danger' : 'fa-check'"></i>
+            <span>{{ a.isJoined ? 'ยกเลิกการลงชื่อ' : 'ลงชื่อร่วมกิจกรรม' }}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

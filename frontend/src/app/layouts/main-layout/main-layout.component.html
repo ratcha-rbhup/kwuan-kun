@@ -1,0 +1,232 @@
+<div class="ak-app-wrapper ak-court-watermark">
+  <!-- Main Navbar (Youthful White & Green Glassmorphism) -->
+  <header class="ak-navbar">
+    <div class="container-fluid px-3 px-lg-4 px-xl-5 ak-navbar-container d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <!-- Mobile Hamburger Button -->
+        <button type="button" class="ak-btn-ghost ak-btn-sm d-lg-none rounded-pill p-1.5" (click)="toggleMobileDrawer()" title="เปิดเมนูนำทาง">
+          <i class="fa-solid fa-bars fa-lg text-success"></i>
+        </button>
+
+        <!-- Brand Logo (Vector SVG) -->
+        <a routerLink="/" class="ak-brand text-nowrap" title="KwuanKun หน้าหลัก">
+          <img src="assets/image/add-kwuan-logo.svg" alt="KwuanKun Logo" class="brand-logo-img">
+        </a>
+      </div>
+
+      <!-- Main Nav Links (Notebook & Desktop) -->
+      <nav class="d-none d-lg-flex align-items-center gap-1 gap-xl-2">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-link text-nowrap">
+          <i class="fa-solid fa-house me-1"></i> หน้าหลัก
+        </a>
+        <a routerLink="/groups" routerLinkActive="active" class="nav-link text-nowrap">
+          <i class="fa-solid fa-magnifying-glass me-1"></i> ค้นหาก๊วน
+        </a>
+        <a routerLink="/member/my-groups" routerLinkActive="active" class="nav-link text-nowrap">
+          <i class="fa-solid fa-users me-1"></i> ก๊วนของฉัน
+        </a>
+        <a routerLink="/member/activities" routerLinkActive="active" class="nav-link text-nowrap">
+          <i class="fa-solid fa-calendar-check me-1"></i> กิจกรรม
+        </a>
+        <a routerLink="/member/profile" routerLinkActive="active" class="nav-link text-nowrap">
+          <i class="fa-solid fa-circle-user me-1"></i> โปรไฟล์
+        </a>
+
+        <!-- Role Badges & Direct Links -->
+        <div class="vr mx-1 opacity-25"></div>
+        <a routerLink="/kwuan-owner" routerLinkActive="active" class="nav-link text-success fw-bold text-nowrap">
+          <i class="fa-solid fa-crown me-1 text-warning"></i> หัวหน้าก๊วน
+        </a>
+        <a routerLink="/admin" routerLinkActive="active" class="nav-link text-warning fw-bold text-nowrap">
+          <i class="fa-solid fa-shield-halved me-1 text-warning"></i> แอดมิน
+        </a>
+      </nav>
+
+      <!-- User Actions & LINE Authentication -->
+      <div class="d-flex align-items-center gap-2 flex-shrink-0">
+        <ng-container *ngIf="auth.currentUser() as user; else loginBtn">
+          <div class="d-flex align-items-center gap-2">
+            <span class="d-none d-md-inline font-weight-medium text-dark fw-bold text-nowrap ak-user-name-clamp" [title]="user.display_name">{{ user.display_name }}</span>
+            <button (click)="auth.logout()" class="ak-btn-outline ak-btn-sm text-nowrap" title="ออกจากระบบ">
+              <i class="fa-solid fa-arrow-right-from-bracket"></i><span class="d-none d-xl-inline ms-1">ออกจากระบบ</span>
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #loginBtn>
+          <button (click)="simulateLineLogin()" class="ak-btn-line ak-btn-sm text-nowrap">
+            <i class="fa-brands fa-line fa-lg"></i> <span class="d-none d-sm-inline">เข้าสู่ระบบด้วย LINE</span><span class="d-inline d-sm-none">เข้าสู่ระบบ</span>
+          </button>
+        </ng-template>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Slide-over Drawer (Sidebar) -->
+  <div *ngIf="isMobileDrawerOpen()" class="ak-mobile-drawer-backdrop" (click)="closeMobileDrawer()"></div>
+  <aside *ngIf="isMobileDrawerOpen()" class="ak-mobile-drawer">
+    <div class="drawer-header">
+      <div class="d-flex align-items-center gap-2">
+        <img src="assets/image/add-kwuan-symbol.svg" alt="KwuanKun" style="width: 28px; height: 28px;">
+        <span class="fw-bold text-dark fs-6">KwuanKun เมนูนำทาง</span>
+      </div>
+      <button type="button" class="btn-close" (click)="closeMobileDrawer()"></button>
+    </div>
+
+    <div class="drawer-body">
+      <!-- Role Switcher Segmented Control -->
+      <div>
+        <div class="drawer-section-title">สลับบทบาทการใช้งาน (Role Switcher)</div>
+        <div class="drawer-role-switcher">
+          <button type="button" class="role-btn" routerLink="/member/my-groups" (click)="closeMobileDrawer()">
+            <i class="fa-solid fa-user text-primary"></i>
+            <span>สมาชิก</span>
+          </button>
+          <button type="button" class="role-btn" routerLink="/kwuan-owner/dashboard" (click)="closeMobileDrawer()">
+            <i class="fa-solid fa-crown text-warning"></i>
+            <span>หัวหน้าก๊วน</span>
+          </button>
+          <button type="button" class="role-btn" routerLink="/admin/requests" (click)="closeMobileDrawer()">
+            <i class="fa-solid fa-shield-halved text-success"></i>
+            <span>แอดมิน</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Member Navigation Section -->
+      <div>
+        <div class="drawer-section-title">เมนูสมาชิก & ผู้เล่น (Member)</div>
+        <a routerLink="/" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-house text-success"></i>
+          <span>หน้าหลัก (Home)</span>
+        </a>
+        <a routerLink="/groups" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-magnifying-glass text-primary"></i>
+          <span>ค้นหาก๊วนแบด (Find Groups)</span>
+        </a>
+        <a routerLink="/member/my-groups" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-users text-info"></i>
+          <span>ก๊วนของฉัน (My Groups)</span>
+        </a>
+        <a routerLink="/member/activities" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-calendar-check text-warning"></i>
+          <span>กิจกรรมรอบตี (Activities)</span>
+        </a>
+        <a routerLink="/member/profile" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-circle-user text-secondary"></i>
+          <span>โปรไฟล์ส่วนตัว (Profile)</span>
+        </a>
+        <a routerLink="/member/create-group" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-plus-circle text-success"></i>
+          <span>ขอเปิดก๊วนใหม่</span>
+        </a>
+        <a routerLink="/member/join-code" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-key text-warning"></i>
+          <span>เข้าร่วมด้วยรหัสก๊วน</span>
+        </a>
+      </div>
+
+      <!-- Kwuan Owner Navigation Section -->
+      <div>
+        <div class="drawer-section-title">เมนูหัวหน้าก๊วน (Kwuan Owner)</div>
+        <a routerLink="/kwuan-owner/dashboard" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-chart-pie text-success"></i>
+          <span>ภาพรวมก๊วน (Overview)</span>
+        </a>
+        <a routerLink="/kwuan-owner/sessions" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-calendar-plus text-primary"></i>
+          <span>จัดรอบตีแบด (Sessions)</span>
+        </a>
+        <a routerLink="/kwuan-owner/members" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-users-gear text-info"></i>
+          <span>จัดการสมาชิก & ระดับมือ</span>
+        </a>
+        <a routerLink="/kwuan-owner/expenses" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-calculator text-warning"></i>
+          <span>คิดเงิน & ค่าใช้จ่าย</span>
+        </a>
+        <a routerLink="/kwuan-owner/settings" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-sliders text-secondary"></i>
+          <span>ตั้งค่าก๊วน & กฎกติกา</span>
+        </a>
+      </div>
+
+      <!-- Admin Navigation Section -->
+      <div>
+        <div class="drawer-section-title">เมนูแอดมินแพลตฟอร์ม (Admin)</div>
+        <a routerLink="/admin/requests" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-clipboard-check text-warning"></i>
+          <span>คำขอสร้างก๊วน</span>
+        </a>
+        <a routerLink="/admin/groups" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-layer-group text-success"></i>
+          <span>ก๊วนทั้งหมดในระบบ</span>
+        </a>
+        <a routerLink="/admin/reports" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+          <span>รายงานปัญหาและความปลอดภัย</span>
+        </a>
+        <a routerLink="/admin/settings" (click)="closeMobileDrawer()" class="drawer-link">
+          <i class="fa-solid fa-sliders text-secondary"></i>
+          <span>ตั้งค่าระบบส่วนกลาง</span>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Outlet -->
+  <main class="flex-grow-1">
+    <router-outlet></router-outlet>
+  </main>
+
+  <!-- Mobile Bottom Navigation (Magnific Mobile UI Design Template Style) -->
+  <nav class="ak-bottom-nav">
+    <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="bottom-nav-item">
+      <i class="fa-solid fa-house"></i>
+      <span>หน้าหลัก</span>
+    </a>
+    <a routerLink="/groups" routerLinkActive="active" class="bottom-nav-item">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <span>ค้นหาก๊วน</span>
+    </a>
+    <a routerLink="/member/my-groups" routerLinkActive="active" class="bottom-nav-item">
+      <i class="fa-solid fa-users"></i>
+      <span>ก๊วนของฉัน</span>
+    </a>
+    <a routerLink="/member/activities" routerLinkActive="active" class="bottom-nav-item">
+      <i class="fa-solid fa-calendar-check"></i>
+      <span>กิจกรรม</span>
+    </a>
+    <a routerLink="/member/profile" routerLinkActive="active" class="bottom-nav-item">
+      <i class="fa-solid fa-user"></i>
+      <span>โปรไฟล์</span>
+    </a>
+  </nav>
+
+  <!-- Footer (Clean White-Green Sports Foundation) -->
+  <footer class="ak-footer">
+    <div class="container">
+      <div class="row g-4 align-items-center">
+        <div class="col-md-6 text-center text-md-start">
+          <div class="d-flex align-items-center gap-2 justify-content-center justify-content-md-start mb-2">
+            <img src="assets/image/add-kwuan-symbol.svg" alt="KwuanKun Symbol" style="width: 28px; height: 28px;">
+            <span class="text-dark fw-bold fs-5">KwuanKun (Badminton Platform)</span>
+          </div>
+          <p class="text-secondary small mb-0">
+            ระบบค้นหา เข้าร่วม และบริหารจัดการก๊วนแบดมินตันหลายก๊วน เชื่อมโยงสนาม สมาชิก และคอร์ตนัดตีทั่วไทย
+          </p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+          <span class="ak-badge ak-badge-active me-2">
+            <i class="fa-solid fa-clock me-1"></i> เขตเวลา Asia/Bangkok
+          </span>
+          <span class="ak-badge ak-badge-verified">
+            <i class="fa-brands fa-line me-1"></i> LINE Official Verified
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Global Central UI Feedback Host (Toasts, Confirmation Dialogs, Bottom Sheets) -->
+  <app-feedback-host></app-feedback-host>
+</div>

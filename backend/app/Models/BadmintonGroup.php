@@ -32,11 +32,26 @@ class BadmintonGroup extends Model
         'current_member_count',
         'status',
         'created_by_user_id',
+        'default_walk_in_policy',
+        'default_points_per_set',
+        'default_shuttlecock_brand',
+        'default_rotation_system',
+        'default_fee_model',
+        'default_court_entry_fee',
+        'default_shuttlecock_fee',
+        'default_game_fee',
+        'default_knock_fee',
+        'default_pricing_notes',
     ];
 
     protected $casts = [
         'max_members' => 'integer',
         'current_member_count' => 'integer',
+        'default_points_per_set' => 'integer',
+        'default_court_entry_fee' => 'decimal:2',
+        'default_shuttlecock_fee' => 'decimal:2',
+        'default_game_fee' => 'decimal:2',
+        'default_knock_fee' => 'decimal:2',
     ];
 
     public function sportCategory(): BelongsTo

@@ -1,0 +1,66 @@
+<div class="ak-app-wrapper">
+  <!-- Top Bar for Kwuan Owner -->
+  <header class="ak-navbar">
+    <div class="container-fluid px-3 px-md-4 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <a routerLink="/" class="ak-brand" title="KwuanKun">
+          <img src="assets/image/add-kwuan-logo.svg" alt="KwuanKun" class="brand-logo-img">
+        </a>
+        <span class="ak-badge ak-badge-owner">
+          <i class="fa-solid fa-crown me-1"></i> หัวหน้าก๊วน (Owner Panel)
+        </span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <a routerLink="/member/my-groups" class="ak-btn-outline ak-btn-sm rounded-pill">
+          <i class="fa-solid fa-user me-1"></i> โหมดสมาชิก
+        </a>
+        <a routerLink="/admin/requests" class="ak-btn-ghost ak-btn-sm rounded-pill text-warning d-none d-sm-inline-flex" title="แอดมินระบบ">
+          <i class="fa-solid fa-shield-halved me-1"></i> แอดมิน
+        </a>
+        <a routerLink="/" class="ak-btn-ghost ak-btn-sm rounded-pill" title="กลับหน้าแรก">
+          <i class="fa-solid fa-house"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Kwuan Owner Management Shell -->
+  <div class="ak-admin-panel">
+    <aside class="admin-sidebar">
+      <div class="text-uppercase text-secondary fw-bold px-3 mb-2" style="font-size: 0.725rem; letter-spacing: 0.05em;">
+        การจัดการก๊วนของคุณ
+      </div>
+      <a routerLink="/kwuan-owner/dashboard" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-chart-pie text-success"></i>
+        <span>ภาพรวมก๊วน (Overview)</span>
+      </a>
+      <a routerLink="/kwuan-owner/sessions" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-calendar-plus text-primary"></i>
+        <span>จัดรอบตีแบด (Sessions)</span>
+      </a>
+      <a routerLink="/kwuan-owner/members" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-users-gear text-info"></i>
+        <span>จัดการสมาชิก & ระดับมือ</span>
+      </a>
+      <a routerLink="/kwuan-owner/expenses" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-qrcode text-warning"></i>
+        <span>คิดเงิน & ค่าใช้จ่าย (Expenses)</span>
+      </a>
+      <div class="text-uppercase text-secondary fw-bold px-3 mt-4 mb-2" style="font-size: 0.725rem; letter-spacing: 0.05em;">
+        ตั้งค่า
+      </div>
+      <a routerLink="/kwuan-owner/settings" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-sliders text-secondary"></i>
+        <span>ตั้งค่าก๊วน & กฎกติกา</span>
+      </a>
+    </aside>
+
+    <section class="admin-content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+
+  <!-- Global Central UI Feedback Host -->
+  <app-feedback-host></app-feedback-host>
+</div>

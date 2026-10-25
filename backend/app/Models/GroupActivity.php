@@ -32,6 +32,18 @@ class GroupActivity extends Model
         'status',
         'cancellation_reason',
         'estimated_cost_per_person',
+        'walk_in_policy',
+        'points_per_set',
+        'shuttlecock_brand',
+        'rotation_system',
+        'fee_model',
+        'court_entry_fee',
+        'shuttlecock_fee',
+        'shuttlecock_fee_type',
+        'game_fee',
+        'knock_fee',
+        'discount_female_fee',
+        'pricing_notes',
     ];
 
     protected $casts = [
@@ -42,7 +54,13 @@ class GroupActivity extends Model
         'max_waitlist' => 'integer',
         'confirmed_count' => 'integer',
         'waitlist_count' => 'integer',
+        'points_per_set' => 'integer',
         'estimated_cost_per_person' => 'decimal:2',
+        'court_entry_fee' => 'decimal:2',
+        'shuttlecock_fee' => 'decimal:2',
+        'game_fee' => 'decimal:2',
+        'knock_fee' => 'decimal:2',
+        'discount_female_fee' => 'decimal:2',
     ];
 
     public function group(): BelongsTo

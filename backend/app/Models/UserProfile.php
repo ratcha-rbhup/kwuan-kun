@@ -30,6 +30,25 @@ class UserProfile extends Model
         'experience_years' => 'integer',
     ];
 
+    protected $appends = [
+        'avatar_url',
+    ];
+
+    public function getAvatarUrlAttribute(): ?string
+    {
+        if ($this->avatar) {
+            return $this->avatar->url;
+        }
+
+        // Check if user has LINE identity avatar
+        $line = $this->user?->identities()->where('provider', 'line')->first();
+        if ($line && !empty($line->id_token_claims['picture'])) {
+            return $line->id_token_claims['picture'];
+        }
+
+        return null;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -1,0 +1,218 @@
+<div class="ak-expenses-page">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-owner mb-2">
+        <i class="fa-solid fa-calculator"></i> คิดเงิน & บันทึกค่าใช้จ่าย
+      </div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        คำนวณค่าคอร์ต ค่าลูก และสรุปยอดเรียกเก็บ
+      </h1>
+      <p class="text-secondary small mb-0">
+        {{ groupName() }} • {{ selectedSession() }}
+      </p>
+    </div>
+
+    <div class="d-flex align-items-center gap-2">
+      <button (click)="copySummaryForLine()" class="ak-btn-primary rounded-pill px-3 shadow-sm">
+        <i class="fa-brands fa-line me-1.5 fa-lg"></i> คัดลอกสรุปส่ง LINE Group
+      </button>
+      <button (click)="markAllPaid()" class="ak-btn-outline rounded-pill px-3">
+        <i class="fa-solid fa-check-double me-1"></i> ปรับจ่ายครบทุกคน
+      </button>
+    </div>
+  </div>
+
+  <!-- Calculator & Financial Cards Grid -->
+  <div class="row g-4 mb-4">
+    <!-- Left: Realtime Expense Calculator Form -->
+    <div class="col-lg-7">
+      <div class="ak-card p-4 shadow-sm h-100">
+        <h2 class="h6 fw-bold text-dark mb-3">
+          <i class="fa-solid fa-sliders text-success me-2"></i> กำหนดค่าใช้จ่ายของรอบนี้ (Expense Inputs)
+        </h2>
+
+        <div class="row g-3">
+          <!-- Court Hours & Rate -->
+          <div class="col-sm-4">
+            <label class="form-label small fw-bold text-dark">จำนวนชั่วโมงที่ตี:</label>
+            <div class="input-group input-group-sm">
+              <input type="number" min="1" max="12" class="form-control text-center fw-bold" 
+                [ngModel]="courtHours()" (ngModelChange)="courtHours.set($event)" />
+              <span class="input-group-text bg-light text-secondary">ชม.</span>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <label class="form-label small fw-bold text-dark">จำนวนคอร์ตที่ใช้:</label>
+            <div class="input-group input-group-sm">
+              <input type="number" min="1" max="20" class="form-control text-center fw-bold" 
+                [ngModel]="courtCount()" (ngModelChange)="courtCount.set($event)" />
+              <span class="input-group-text bg-light text-secondary">คอร์ต</span>
+            </div>
+          </div>
+
+          <div class="col-sm-4">
+            <label class="form-label small fw-bold text-dark">ราคาคอร์ต / ชม.:</label>
+            <div class="input-group input-group-sm">
+              <input type="number" step="10" class="form-control text-center fw-bold" 
+                [ngModel]="courtRatePerHour()" (ngModelChange)="courtRatePerHour.set($event)" />
+              <span class="input-group-text bg-light text-secondary">฿</span>
+            </div>
+          </div>
+
+          <!-- Shuttlecock Count & Rate -->
+          <div class="col-sm-6">
+            <label class="form-label small fw-bold text-dark">
+              <i class="fa-solid fa-feather text-success me-1"></i> จำนวนลูกแบดที่เปิดใช้:
+            </label>
+            <div class="input-group input-group-sm">
+              <input type="number" min="0" class="form-control text-center fw-bold" 
+                [ngModel]="shuttlecocksUsed()" (ngModelChange)="shuttlecocksUsed.set($event)" />
+              <span class="input-group-text bg-light text-secondary">ลูก</span>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <label class="form-label small fw-bold text-dark">ราคาลูกแบด / ลูก:</label>
+            <div class="input-group input-group-sm">
+              <input type="number" step="1" class="form-control text-center fw-bold" 
+                [ngModel]="shuttlecockPriceEach()" (ngModelChange)="shuttlecockPriceEach.set($event)" />
+              <span class="input-group-text bg-light text-secondary">฿</span>
+            </div>
+          </div>
+
+          <!-- Extra Fees -->
+          <div class="col-12">
+            <label class="form-label small fw-bold text-dark">ค่าน้ำดื่ม / สแน็ก / ลูกสำรองส่วนกลาง:</label>
+            <div class="input-group input-group-sm">
+              <input type="number" step="10" class="form-control fw-bold" 
+                [ngModel]="waterSnackFee()" (ngModelChange)="waterSnackFee.set($event)" />
+              <span class="input-group-text bg-light text-secondary">฿</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <!-- Expense Summary Breakdown -->
+        <div class="p-3 rounded-3 bg-light border">
+          <div class="d-flex justify-content-between mb-1.5 small">
+            <span class="text-secondary">ค่าสนามรวม ({{ courtHours() }} ชม. x {{ courtCount() }} คอร์ต):</span>
+            <span class="fw-bold text-dark">{{ totalCourtFee() }} ฿</span>
+          </div>
+          <div class="d-flex justify-content-between mb-1.5 small">
+            <span class="text-secondary">ค่าลูกแบดรวม ({{ shuttlecocksUsed() }} ลูก):</span>
+            <span class="fw-bold text-dark">{{ totalShuttleFee() }} ฿</span>
+          </div>
+          <div class="d-flex justify-content-between mb-2 small">
+            <span class="text-secondary">ค่าน้ำดื่ม/ส่วนกลาง:</span>
+            <span class="fw-bold text-dark">{{ waterSnackFee() }} ฿</span>
+          </div>
+          <div class="d-flex justify-content-between pt-2 border-top">
+            <span class="fw-bold text-dark">ยอดรวมค่าใช้จ่ายทั้งหมด:</span>
+            <span class="h5 fw-bold text-success mb-0">{{ grandTotal() }} ฿</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Per-Player Split & PromptPay QR Card -->
+    <div class="col-lg-5">
+      <div class="ak-card p-4 shadow-sm h-100 bg-white">
+        <h2 class="h6 fw-bold text-dark mb-3">
+          <i class="fa-solid fa-qrcode text-primary me-2"></i> ช่องทางรับเงิน & ยอดต่อคน
+        </h2>
+
+        <!-- Cost Per Person Display Box -->
+        <div class="p-4 rounded-3 text-center bg-success bg-opacity-10 border border-success border-opacity-30 mb-4">
+          <div class="text-secondary small fw-semibold mb-1">เฉลี่ยตกคนละ (หารเท่ากัน {{ playerCount() }} คน)</div>
+          <div class="display-5 fw-bold text-success mb-1">{{ costPerPlayerEqual() }} <span class="fs-5">฿</span></div>
+          <div class="text-muted small">
+            <i class="fa-solid fa-circle-info me-1"></i> รวมค่าสนาม {{ totalCourtFee() }} ฿ + ค่าลูก {{ totalShuttleFee() }} ฿
+          </div>
+        </div>
+
+        <!-- PromptPay Account Details -->
+        <div class="p-3 rounded-3 border bg-light mb-3">
+          <div class="d-flex align-items-center gap-2 mb-2">
+            <img src="assets/image/add-kwuan-symbol.svg" alt="PromptPay" style="width: 24px; height: 24px;">
+            <span class="small fw-bold text-dark">พร้อมเพย์รับเงิน (PromptPay):</span>
+          </div>
+          <div class="fw-bold text-dark fs-5">{{ promptPayId() }}</div>
+          <div class="text-secondary small">{{ promptPayAccountName() }}</div>
+        </div>
+
+        <!-- Collection KPI -->
+        <div class="row g-2 text-center">
+          <div class="col-6">
+            <div class="p-2.5 rounded-3 bg-light border">
+              <span class="text-secondary small d-block">โอนแล้ว</span>
+              <span class="fw-bold text-success">{{ paidCount() }} / {{ playerCount() }} คน</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="p-2.5 rounded-3 bg-light border">
+              <span class="text-secondary small d-block">ยังค้างชำระ</span>
+              <span class="fw-bold text-danger">{{ unpaidCount() }} คน</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Player Payment Checklist Table -->
+  <div class="ak-card p-0 shadow-sm overflow-hidden">
+    <div class="p-3 px-4 border-bottom bg-light d-flex align-items-center justify-content-between">
+      <h3 class="h6 fw-bold text-dark mb-0">
+        <i class="fa-solid fa-list-check text-success me-2"></i> รายการเช็กชื่อและสถานะโอนเงินของผู้เล่น
+      </h3>
+      <span class="badge bg-success bg-opacity-20 text-success fw-bold">
+        ชำระแล้ว {{ paidCount() }} จาก {{ playerCount() }} คน
+      </span>
+    </div>
+
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 ak-data-table">
+        <thead>
+          <tr>
+            <th class="ps-4">ชื่อผู้เล่น</th>
+            <th class="text-center">จำนวนเกมที่ลง</th>
+            <th class="text-center">ลูกแบดที่เปิด</th>
+            <th class="text-center">ยอดที่ต้องชำระ</th>
+            <th class="text-center">สถานะการชำระเงิน</th>
+            <th class="pe-4 text-end">บันทึกการโอน</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of players()">
+            <td class="ps-4">
+              <div class="fw-bold text-dark">{{ p.name }}</div>
+              <div *ngIf="p.paidAt" class="text-muted small">
+                <i class="fa-solid fa-clock text-success me-1"></i> โอนเมื่อ {{ p.paidAt }}
+              </div>
+            </td>
+            <td class="text-center">{{ p.gamesPlayed }} เกม</td>
+            <td class="text-center">{{ p.shuttlesUsed }} ลูก</td>
+            <td class="text-center fw-bold text-dark">{{ costPerPlayerEqual() }} ฿</td>
+            <td class="text-center">
+              <span class="badge rounded-pill px-3 py-1.5" [ngClass]="p.isPaid ? 'bg-success text-white' : 'bg-warning text-dark'">
+                <i class="fa-solid me-1" [ngClass]="p.isPaid ? 'fa-circle-check' : 'fa-clock'"></i>
+                {{ p.isPaid ? 'ชำระเงินเรียบร้อย' : 'รอชำระเงิน' }}
+              </span>
+            </td>
+            <td class="pe-4 text-end">
+              <button (click)="togglePayment(p)" class="btn btn-sm rounded-pill px-3" 
+                [class.btn-outline-secondary]="p.isPaid" 
+                [class.btn-success]="!p.isPaid">
+                <i class="fa-solid me-1" [ngClass]="p.isPaid ? 'fa-rotate-left' : 'fa-check'"></i>
+                {{ p.isPaid ? 'ยกเลิก' : 'ยืนยันสลิป' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,119 @@
+// =============================================================================
+// Add Kuan (แอดก๊วน) - Youthful White & Green (ขาว-เขียว) Design Tokens
+// Inspired by TBad App (tbadapp.com/th) & Magnific Mobile UI Templates
+// =============================================================================
+
+:root {
+  /* Core TBad Sports Brand Colors */
+  --brand-primary: #00C261;
+  --brand-primary-light: #22C55E;
+  --brand-primary-dark: #009647;
+  --brand-primary-glow: rgba(0, 194, 97, 0.28);
+  --brand-primary-gradient: linear-gradient(135deg, #00D26A 0%, #00AC52 100%);
+
+  /* Deep Forest & Neutral Contrast */
+  --brand-forest: #064E3B;
+  --brand-forest-dark: #04382A;
+
+  /* Youthful Accents */
+  --brand-accent: #A3E635; // Neon Shuttlecock Lime
+  --brand-yellow: #FACC15; // TBPoint / Reward Gold
+  --brand-coral: #EF4444;  // Playful "ไม่ง้อคนขี้เท!" Coral Pill
+  --brand-surface: #E8F8F0; // Crisp Mint Surface
+  --brand-surface-soft: #F2FAF5;
+
+  /* Typography & Interface */
+  --text-primary: #111827;   // Deep Charcoal Headings
+  --text-secondary: #4B5563; // Clean Readable Body
+  --text-muted: #9CA3AF;
+  --text-forest: #064E3B;
+  --border-default: #E5E7EB;
+  --border-card: #E8EFEA;
+  --border-mint: rgba(0, 194, 97, 0.2);
+
+  /* Consistent Sizing Grid */
+  --icon-size-sm: 16px;
+  --icon-size-md: 20px;
+  --icon-size-lg: 24px;
+
+  /* TBad App Atmosphere: Crisp Off-White Base */
+  --ak-bg-base: #F5F8F6;
+  --ak-bg-surface: #FFFFFF;
+  --ak-bg-mint: #E8F8F0;
+  --ak-bg-mint-soft: #F4FAF6;
+  --ak-bg-card: #FFFFFF;
+  --ak-bg-card-hover: #F8FCFA;
+  --ak-bg-glass: rgba(255, 255, 255, 0.94);
+
+  /* Borders & Dividers */
+  --ak-border: #E8EFEA;
+  --ak-border-strong: rgba(0, 194, 97, 0.32);
+  --ak-border-primary: var(--brand-primary);
+
+  /* LINE Rich Menu 6-Cards Theming (White & Green Edition) */
+  --ak-card-highlight-bg: linear-gradient(145deg, #E8F8F0 0%, #D1FAE5 100%);
+  --ak-card-highlight-border: #00C261;
+  --ak-card-highlight-title: #064E3B;
+  --ak-card-highlight-subtitle: #009647;
+
+  /* Brand Aliases */
+  --ak-primary: var(--brand-primary);
+  --ak-primary-light: var(--brand-primary-light);
+  --ak-primary-dark: var(--brand-primary-dark);
+  --ak-primary-glow: var(--brand-primary-glow);
+  --ak-primary-subtle: rgba(0, 194, 97, 0.08);
+
+  --ak-accent: var(--brand-accent);
+  --ak-accent-light: #BEF264;
+  --ak-accent-dark: #65A30D;
+  --ak-accent-glow: rgba(163, 230, 53, 0.25);
+
+  --ak-line-green: #06C755;
+  --ak-line-dark: #05B04C;
+
+  /* Status Colors */
+  --ak-status-active: #00C261;
+  --ak-status-pending: #F59E0B;
+  --ak-status-rejected: #EF4444;
+  --ak-status-suspended: #6B7280;
+  --ak-status-owner: #EC4899;
+  --ak-status-admin: #8B5CF6;
+
+  /* Radii & Modern Youthful Shadows */
+  --ak-radius-sm: 8px;
+  --ak-radius-md: 14px;
+  --ak-radius-lg: 22px;
+  --ak-radius-pill: 9999px;
+  --ak-shadow-card: 0 4px 18px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03);
+  --ak-shadow-card-hover: 0 14px 32px -4px rgba(0, 194, 97, 0.16), 0 4px 10px rgba(0, 0, 0, 0.04);
+  --ak-shadow-glow: 0 0 20px var(--brand-primary-glow);
+  --ak-transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ===========================================================================
+     Z-INDEX HIERARCHY ARCHITECTURE (Stacking Order Priority System)
+     =========================================================================== */
+  --z-court-bg: 0;          /* Decorative court watermark & line grids */
+  --z-base: 1;              /* Base document flow, cards & page canvas */
+  --z-card-hover: 10;       /* Hovered interactive card elevation */
+  --z-sticky-header: 1020;  /* Sub-headers, court filters, table headers */
+  --z-navbar: 1030;         /* Sticky main top navigation bar */
+  --z-bottom-nav: 1040;     /* Fixed mobile bottom tab navigation */
+  --z-dropdown: 1050;       /* Dropdowns, selects, autocomplete & tooltips */
+  --z-backdrop: 1060;       /* Modal & bottom-sheet dimming backdrop overlays */
+  --z-bottom-sheet: 1070;   /* Sliding bottom sheet panel (LINE LIFF style) */
+  --z-modal: 1080;          /* Confirmation & alert modal dialog cards */
+  --z-toast: 1090;          /* Global floating toast notification stack */
+  --z-critical: 9999;       /* Full-screen crash overlay / critical loading */
+}
+
+// SCSS Variables for Preprocessor Mixins
+$brand-primary: #00C261;
+$brand-forest: #064E3B;
+$brand-accent: #A3E635;
+$brand-surface: #E8F8F0;
+
+$primary: #00C261;
+$secondary: #0284C7;
+$accent: #A3E635;
+$base-bg: #F5F8F6;
+$card-bg: #FFFFFF;

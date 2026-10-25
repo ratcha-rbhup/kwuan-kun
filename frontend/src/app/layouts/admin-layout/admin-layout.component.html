@@ -1,0 +1,62 @@
+<div class="ak-app-wrapper">
+  <!-- Top Bar -->
+  <header class="ak-navbar">
+    <div class="container-fluid px-4 d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center gap-2">
+        <a routerLink="/" class="ak-brand" title="KwuanKun">
+          <img src="assets/image/add-kwuan-logo.svg" alt="KwuanKun" class="brand-logo-img">
+        </a>
+        <span class="ak-badge ak-badge-admin">
+          <i class="fa-solid fa-shield-halved me-1"></i> Admin Panel
+        </span>
+      </div>
+
+      <div class="d-flex align-items-center gap-2">
+        <a routerLink="/kwuan-owner/dashboard" class="ak-btn-outline ak-btn-sm rounded-pill text-success">
+          <i class="fa-solid fa-crown me-1 text-warning"></i> หัวหน้าก๊วน
+        </a>
+        <a routerLink="/member/my-groups" class="ak-btn-outline ak-btn-sm rounded-pill">
+          <i class="fa-solid fa-user me-1"></i> โหมดสมาชิก
+        </a>
+        <a routerLink="/" class="ak-btn-ghost ak-btn-sm rounded-pill" title="กลับสู่หน้าหลัก">
+          <i class="fa-solid fa-house"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Admin Panel Shell -->
+  <div class="ak-admin-panel">
+    <aside class="admin-sidebar">
+      <div class="text-uppercase text-secondary fw-bold px-3 mb-2" style="font-size: 0.725rem; letter-spacing: 0.05em;">
+        การบริหารจัดการ
+      </div>
+      <a routerLink="/admin/requests" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-clipboard-check text-warning"></i>
+        <span>คำขอสร้างก๊วน</span>
+      </a>
+      <a routerLink="/admin/groups" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-layer-group text-success"></i>
+        <span>ก๊วนทั้งหมดในระบบ</span>
+      </a>
+      <a routerLink="/admin/reports" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-triangle-exclamation text-danger"></i>
+        <span>รายงานปัญหาและความปลอดภัย</span>
+      </a>
+      <div class="text-uppercase text-secondary fw-bold px-3 mt-4 mb-2" style="font-size: 0.725rem; letter-spacing: 0.05em;">
+        ระบบส่วนกลาง
+      </div>
+      <a routerLink="/admin/settings" routerLinkActive="active" class="sidebar-link">
+        <i class="fa-solid fa-sliders text-secondary"></i>
+        <span>ตั้งค่าแพลตฟอร์ม</span>
+      </a>
+    </aside>
+
+    <section class="admin-content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+
+  <!-- Global Central UI Feedback Host -->
+  <app-feedback-host></app-feedback-host>
+</div>

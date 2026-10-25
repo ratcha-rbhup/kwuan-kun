@@ -1,0 +1,327 @@
+/* =========================================================================
+   TBad Rules & Session Pill Cards (Matching Screenshot)
+   ========================================================================= */
+.tbad-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.tbad-rule-pill {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 14px;
+  border: 1px solid transparent;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+  }
+
+  .pill-icon-box {
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    flex-shrink: 0;
+  }
+
+  .pill-text-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+
+    .pill-label {
+      font-size: 0.75rem;
+      color: #6B7280;
+      font-weight: 500;
+      line-height: 1.2;
+      margin-bottom: 2px;
+    }
+
+    .pill-value {
+      font-size: 1.05rem;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+    }
+
+    .pill-subtext {
+      font-size: 0.675rem;
+      color: #9CA3AF;
+      margin-top: 1px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  /* Theme 1: Danger / Walk-in Pink (Exact match to screenshot) */
+  &.pill-walkin-danger {
+    background-color: #FFF1F2;
+    border-color: #FFE4E6;
+
+    .pill-icon-box {
+      background-color: #FEE2E2;
+      color: #E11D48;
+    }
+
+    .pill-value {
+      color: #E11D48;
+    }
+  }
+
+  /* Theme 2: Success / Points Mint Green (Exact match to screenshot) */
+  &.pill-points-success {
+    background-color: #F0FDF4;
+    border-color: #DCFCE7;
+
+    .pill-icon-box {
+      background-color: #DCFCE7;
+      color: #10B981;
+    }
+
+    .pill-value {
+      color: #111827;
+    }
+  }
+
+  /* Theme 3: Primary / Shuttlecock Blue */
+  &.pill-shuttle-primary {
+    background-color: #F0F9FF;
+    border-color: #E0F2FE;
+
+    .pill-icon-box {
+      background-color: #E0F2FE;
+      color: #0284C7;
+    }
+
+    .pill-value {
+      color: #111827;
+    }
+  }
+
+  /* Theme 4: Purple / Rotation System */
+  &.pill-rotation-purple {
+    background-color: #FAF5FF;
+    border-color: #F3E8FF;
+
+    .pill-icon-box {
+      background-color: #F3E8FF;
+      color: #9333EA;
+    }
+
+    .pill-value {
+      color: #111827;
+    }
+  }
+
+  /* Theme 5: Amber / Courts in Play */
+  &.pill-courts-amber {
+    background-color: #FFFBEB;
+    border-color: #FEF3C7;
+
+    .pill-icon-box {
+      background-color: #FEF3C7;
+      color: #D97706;
+    }
+
+    .pill-value {
+      color: #111827;
+    }
+  }
+}
+
+/* =========================================================================
+   Badminton Fee & Pricing Breakdown Card
+   ========================================================================= */
+.ak-pricing-card {
+  border-radius: var(--radius-lg, 16px);
+  background: #FFFFFF;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+  margin-bottom: 24px;
+
+  .pricing-header {
+    padding: 18px 20px;
+    background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);
+    border-bottom: 1px solid #E5E7EB;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+
+    .pricing-title-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .pricing-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
+        background: #10B981;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 17px;
+        box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+      }
+
+      h4 {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 700;
+        color: #111827;
+      }
+
+      .pricing-model-chip {
+        font-size: 0.75rem;
+        color: #047857;
+        font-weight: 600;
+      }
+    }
+
+    .estimated-total-pill {
+      background: #10B981;
+      color: #FFFFFF;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+  }
+
+  .pricing-body {
+    padding: 16px 20px;
+  }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+  }
+
+  .pricing-item-tile {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #F9FAFB;
+    border: 1px solid #F3F4F6;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+
+    &:hover {
+      background: #F0FDF4;
+      border-color: #DCFCE7;
+    }
+
+    .tile-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: #FFFFFF;
+      border: 1px solid #E5E7EB;
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .tile-content {
+      flex: 1;
+      min-width: 0;
+
+      .tile-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+        margin-bottom: 2px;
+
+        .tile-title {
+          font-size: 0.825rem;
+          font-weight: 600;
+          color: #374151;
+        }
+
+        .tile-badge {
+          font-size: 0.675rem;
+          padding: 2px 6px;
+          border-radius: 6px;
+          background: #ECFDF5;
+          color: #047857;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+      }
+
+      .tile-price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin-bottom: 2px;
+
+        .tile-price {
+          font-size: 1.05rem;
+          font-weight: 700;
+          color: #047857;
+        }
+
+        .tile-unit {
+          font-size: 0.725rem;
+          color: #6B7280;
+        }
+      }
+
+      .tile-desc {
+        font-size: 0.725rem;
+        color: #9CA3AF;
+        line-height: 1.35;
+        margin: 0;
+      }
+    }
+  }
+
+  .pricing-footer {
+    padding: 12px 20px;
+    background: #F9FAFB;
+    border-top: 1px solid #E5E7EB;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #4B5563;
+
+    .payment-tip {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+
+      i {
+        color: #10B981;
+      }
+    }
+  }
+}

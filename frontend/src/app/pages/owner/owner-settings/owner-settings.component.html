@@ -1,0 +1,440 @@
+<div class="ak-owner-settings-page">
+  <!-- Page Header Banner -->
+  <div class="settings-header-banner">
+    <div>
+      <div class="header-badge-row">
+        <span class="ak-badge ak-badge-owner">
+          <i class="fa-solid fa-crown me-1"></i> เจ้าของก๊วน (Owner Settings)
+        </span>
+      </div>
+      <h1 class="page-title">
+        โปรไฟล์ก๊วน กติกาการเล่น และช่องทางรับเงิน
+      </h1>
+      <p class="page-subtitle">
+        กำหนดค่าเริ่มต้นของก๊วน ซึ่งจะถูกนำไปใช้เป็นค่ามาตรฐานในทุกลิงก์และรอบตีอัตโนมัติ
+      </p>
+    </div>
+
+    <div>
+      <button (click)="saveSettings()" [disabled]="isSaving()" class="btn-save-settings">
+        <i class="fa-solid" [ngClass]="isSaving() ? 'fa-spinner fa-spin' : 'fa-floppy-disk'"></i>
+        <span>{{ isSaving() ? 'กำลังบันทึก...' : 'บันทึกการตั้งค่า' }}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Group Profile Info -->
+    <div class="col-lg-7">
+      <div class="settings-card">
+        <div class="card-header-row">
+          <div class="header-left">
+            <div class="icon-box">
+              <i class="fa-solid fa-id-card"></i>
+            </div>
+            <div>
+              <h2 class="card-title">ข้อมูลพื้นฐานของก๊วน</h2>
+              <p class="card-subtitle">ชื่อ รายละเอียด และข้อมูลสนามประจำของก๊วน</p>
+            </div>
+          </div>
+          <span class="ak-badge ak-badge-active">
+            <i class="fa-solid fa-circle-check me-1"></i> ก๊วนอนุมัติแล้ว
+          </span>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">
+            <i class="fa-solid fa-font text-success"></i> ชื่อก๊วนแบดมินตัน:
+          </label>
+          <input type="text" [(ngModel)]="group.name" class="settings-input" />
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">
+            <i class="fa-solid fa-align-left text-success"></i> คำอธิบายและแนะนำก๊วน:
+          </label>
+          <textarea rows="4" [(ngModel)]="group.description" class="settings-input"></textarea>
+        </div>
+
+        <div class="row g-4">
+          <div class="col-md-6">
+            <div class="field-item mb-0">
+              <label class="field-label">
+                <i class="fa-solid fa-map-location-dot text-success"></i> พื้นที่ / เขต:
+              </label>
+              <input type="text" [(ngModel)]="group.location" class="settings-input" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="field-item mb-0">
+              <label class="field-label">
+                <i class="fa-solid fa-building text-success"></i> สนามประจำ (Home Court):
+              </label>
+              <input type="text" [(ngModel)]="group.venueName" class="settings-input" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="field-item mb-0">
+              <label class="field-label">
+                <i class="fa-solid fa-calendar-days text-primary"></i> วันและเวลาที่เล่นประจำ:
+              </label>
+              <input type="text" [(ngModel)]="group.scheduleDays" class="settings-input" />
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="field-item mb-0">
+              <label class="field-label">
+                <i class="fa-solid fa-users text-info"></i> ความจุสมาชิกรองรับสูงสุด (คน):
+              </label>
+              <input type="number" [(ngModel)]="group.maxCapacity" class="settings-input" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Badminton Rules & PromptPay -->
+    <div class="col-lg-5">
+      <!-- Session Rules Card -->
+      <div class="settings-card mb-4">
+        <div class="card-header-row">
+          <div class="header-left">
+            <div class="icon-box icon-blue">
+              <i class="fa-solid fa-feather-pointed"></i>
+            </div>
+            <div>
+              <h2 class="card-title">กติกาการจัดก๊วนเริ่มต้น</h2>
+              <p class="card-subtitle">นโยบาย Walk-in คะแนน และลูกแบดที่ใช้</p>
+            </div>
+          </div>
+          <span class="ak-badge ak-badge-owner">
+            <i class="fa-solid fa-shield-halved me-1"></i> กติกากลาง
+          </span>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">
+            <i class="fa-solid fa-shoe-prints text-danger"></i> นโยบาย Walk-in:
+          </label>
+          <div class="settings-select-wrapper">
+            <select [(ngModel)]="group.walkInPolicy">
+              <option value="ไม่รับ Walk-in">ไม่รับ Walk-in (ต้องลงชื่อล่วงหน้าเท่านั้น)</option>
+              <option value="รับ Walk-in">รับ Walk-in (เปิดรับหน้าสนาม)</option>
+              <option value="รับเฉพาะกรณีมีผู้เล่นขาด">รับเฉพาะกรณีมีผู้เล่นขาด</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-chevron"></i>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">
+            <i class="fa-solid fa-bullseye text-success"></i> แต้มคะแนนต่อเซต:
+          </label>
+          <div class="settings-select-wrapper">
+            <select [(ngModel)]="group.pointsPerSet">
+              <option [ngValue]="21">21 แต้ม (มาตรฐานสากล BWF ดิวซ์ 30)</option>
+              <option [ngValue]="15">15 แต้ม (รอบด่วน กระชับ)</option>
+              <option [ngValue]="30">30 แต้มแต้มเดียวจบ (ไม่มีดิวส์)</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-chevron"></i>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">
+            <i class="fa-solid fa-feather-pointed text-primary"></i> ยี่ห้อลูกแบดมินตันประจำก๊วน:
+          </label>
+          <input type="text" [(ngModel)]="group.shuttlecockBrand" class="settings-input" placeholder="เช่น RSL Silver Speed 76" />
+        </div>
+
+        <div class="field-item mb-0">
+          <label class="field-label">
+            <i class="fa-solid fa-arrows-rotate text-info"></i> ระบบการจัดคู่:
+          </label>
+          <div class="settings-select-wrapper">
+            <select [(ngModel)]="group.rotationSystem">
+              <option value="สลับคู่เสมอภาค (กระดานคิว)">สลับคู่เสมอภาค (กระดานคิว)</option>
+              <option value="จับคู่วัดระดับมือ">จับคู่วัดระดับมือ (สูสี)</option>
+              <option value="จัดคิวแบบอิสระ">จัดคิวแบบอิสระ</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-chevron"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- PromptPay Setup Card -->
+      <div class="promptpay-card">
+        <div class="promptpay-header">
+          <div class="promptpay-icon">
+            <i class="fa-solid fa-qrcode"></i>
+          </div>
+          <div>
+            <h3 class="promptpay-title">บัญชีพร้อมเพย์รับเงินของหัวหน้าก๊วน</h3>
+            <p class="promptpay-sub">ใช้สร้าง QR Code รับเงินอัตโนมัติเมื่อคิดเงินจบรอบ</p>
+          </div>
+        </div>
+
+        <div class="field-item">
+          <label class="field-label">
+            <i class="fa-solid fa-mobile-screen-button text-success"></i> หมายเลขพร้อมเพย์ (เบอร์โทร / เลขบัตร):
+          </label>
+          <input type="text" [(ngModel)]="group.promptPayId" class="settings-input" placeholder="เช่น 0812345678" />
+        </div>
+
+        <div class="field-item mb-0">
+          <label class="field-label">
+            <i class="fa-solid fa-user-check text-success"></i> ชื่อ-นามสกุล บัญชีพร้อมเพย์:
+          </label>
+          <input type="text" [(ngModel)]="group.promptPayName" class="settings-input" placeholder="เช่น นายสมชาย หัวหน้าก๊วน" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-width Column: Fee Structure & Special Discounts -->
+    <div class="col-12">
+      <div class="settings-card">
+        <div class="card-header-row">
+          <div class="header-left">
+            <div class="icon-box icon-amber">
+              <i class="fa-solid fa-coins"></i>
+            </div>
+            <div>
+              <h2 class="card-title">โครงสร้างราคา ค่าบริการ และส่วนลดพิเศษ (Fee Structure & Discounts)</h2>
+              <p class="card-subtitle">
+                กำหนดอัตราค่าคอร์ต ค่าลูก และส่วนลดสำหรับสุภาพสตรีหรือมือใหม่ (สามารถตั้งเป็น 0 ฿ หากไม่ต้องการลดราคา)
+              </p>
+            </div>
+          </div>
+          <span class="ak-badge ak-badge-owner">
+            <i class="fa-solid fa-sliders me-1"></i> ปรับแต่งราคา
+          </span>
+        </div>
+
+        <!-- Base Fees -->
+        <div class="p-4 bg-light rounded-4 border mb-5">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <span class="field-label mb-0">
+              <i class="fa-solid fa-receipt text-success"></i> อัตราค่าบริการพื้นฐานต่อการมา (Base Fees):
+            </span>
+            <span class="text-secondary small">
+              พิมพ์ตัวเลข หรือคลิกปุ่มลัด
+            </span>
+          </div>
+
+          <div class="row g-3">
+            <!-- ค่าเหยียบสนาม -->
+            <div class="col-sm-6 col-lg-3">
+              <div class="fee-block">
+                <div class="fee-block-title">
+                  <i class="fa-solid fa-building text-success"></i> ค่าเหยียบสนาม
+                </div>
+                <div class="fee-input-wrap">
+                  <input type="text" [(ngModel)]="group.courtEntryFee" class="settings-input" />
+                  <span class="unit-text">฿</span>
+                </div>
+                <div class="fee-pills-row">
+                  <button type="button" class="fee-btn-pill" [class.active]="group.courtEntryFee === '80'" (click)="setCourtEntryFee('80')">80 ฿</button>
+                  <button type="button" class="fee-btn-pill" [class.active]="group.courtEntryFee === '100'" (click)="setCourtEntryFee('100')">100 ฿</button>
+                  <button type="button" class="fee-btn-pill" [class.active]="group.courtEntryFee === 'หารเท่า'" (click)="setCourtEntryFee('หารเท่า')">หารเท่า</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ค่าลูกแบด -->
+            <div class="col-sm-6 col-lg-3">
+              <div class="fee-block">
+                <div class="fee-block-title">
+                  <i class="fa-solid fa-feather-pointed text-primary"></i> ค่าลูกแบด
+                </div>
+                <div class="fee-input-wrap">
+                  <input type="text" [(ngModel)]="group.shuttlecockFee" class="settings-input" />
+                  <span class="unit-text">฿/ลูก</span>
+                </div>
+                <div class="fee-pills-row">
+                  <button type="button" class="fee-btn-pill" [class.active]="group.shuttlecockFee === '20'" (click)="setShuttlecockFee('20')">20 ฿</button>
+                  <button type="button" class="fee-btn-pill" [class.active]="group.shuttlecockFee === '25'" (click)="setShuttlecockFee('25')">25 ฿</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ค่าน็อค / วอร์ม -->
+            <div class="col-sm-6 col-lg-3">
+              <div class="fee-block">
+                <div class="fee-block-title">
+                  <i class="fa-solid fa-stopwatch text-warning"></i> ค่าน็อค / วอร์ม
+                </div>
+                <div class="fee-input-wrap">
+                  <input type="text" [(ngModel)]="group.knockFee" class="settings-input" />
+                  <span class="unit-text">฿</span>
+                </div>
+                <div class="fee-pills-row">
+                  <button type="button" class="fee-btn-pill" [class.active]="group.knockFee === '0' || group.knockFee === 'ฟรี'" (click)="setKnockFee('0')">ฟรี (0 ฿)</button>
+                  <button type="button" class="fee-btn-pill" [class.active]="group.knockFee === '20'" (click)="setKnockFee('20')">20 ฿</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- ค่าลงต่อเกม -->
+            <div class="col-sm-6 col-lg-3">
+              <div class="fee-block">
+                <div class="fee-block-title">
+                  <i class="fa-solid fa-gamepad text-info"></i> ค่าลงต่อเกม
+                </div>
+                <div class="fee-input-wrap">
+                  <input type="text" [(ngModel)]="group.gameFee" class="settings-input" />
+                  <span class="unit-text">฿</span>
+                </div>
+                <div class="fee-pills-row">
+                  <button type="button" class="fee-btn-pill" [class.active]="group.gameFee === '0' || group.gameFee === 'ฟรี'" (click)="setGameFee('0')">ฟรี (0 ฿)</button>
+                  <button type="button" class="fee-btn-pill" [class.active]="group.gameFee === '15'" (click)="setGameFee('15')">15 ฿</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Special Discounts (Ladies & Beginners) -->
+        <div class="row g-4 mb-5">
+          <!-- Female Discount -->
+          <div class="col-md-6">
+            <div class="discount-setting-card" [class.female-discount-active]="group.femaleDiscount && group.femaleDiscount !== '0'">
+              <div class="discount-card-header">
+                <div class="discount-title">
+                  <i class="fa-solid fa-person-dress text-danger fa-lg"></i> ส่วนลดสุภาพสตรี (ผู้หญิง / ผญ.)
+                </div>
+                <span *ngIf="group.femaleDiscount === '0' || !group.femaleDiscount; else ownerFemaleDisc" class="badge bg-light text-secondary border small">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (ปกติ)
+                </span>
+                <ng-template #ownerFemaleDisc>
+                  <span class="badge bg-danger text-white border border-danger small shadow-xs">
+                    <i class="fa-solid fa-tag me-1"></i> ลด {{ group.femaleDiscount }} ฿ สำหรับ ผญ.
+                  </span>
+                </ng-template>
+              </div>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-white border-end-0 text-danger">
+                  <i class="fa-solid fa-tag"></i>
+                </span>
+                <input 
+                  type="text" 
+                  [(ngModel)]="group.femaleDiscount" 
+                  class="settings-input rounded-0 border-start-0 border-end-0 fw-bold" 
+                  placeholder="เช่น 20 หรือ 0 หากไม่ลด" 
+                />
+                <span class="input-group-text bg-white border-start-0 text-secondary fw-semibold">฿</span>
+              </div>
+
+              <div class="d-flex flex-wrap align-items-center gap-2 mt-auto">
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.femaleDiscount === '0' || !group.femaleDiscount" 
+                  (click)="setFemaleDiscount('0')">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (0 ฿)
+                </button>
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.femaleDiscount === '10'" 
+                  (click)="setFemaleDiscount('10')">
+                  ลด 10 ฿
+                </button>
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.femaleDiscount === '20'" 
+                  (click)="setFemaleDiscount('20')">
+                  ลด 20 ฿
+                </button>
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.femaleDiscount === '30'" 
+                  (click)="setFemaleDiscount('30')">
+                  ลด 30 ฿
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Beginner Discount -->
+          <div class="col-md-6">
+            <div class="discount-setting-card" [class.beginner-discount-active]="group.beginnerDiscount && group.beginnerDiscount !== '0'">
+              <div class="discount-card-header">
+                <div class="discount-title">
+                  <i class="fa-solid fa-seedling text-success fa-lg"></i> ส่วนลดมือใหม่ / สมาชิกใหม่
+                </div>
+                <span *ngIf="group.beginnerDiscount === '0' || !group.beginnerDiscount; else ownerBeginnerDisc" class="badge bg-light text-secondary border small">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (ปกติ)
+                </span>
+                <ng-template #ownerBeginnerDisc>
+                  <span class="badge bg-success text-white border border-success small shadow-xs">
+                    <i class="fa-solid fa-gift me-1"></i> ลด {{ group.beginnerDiscount }} ฿ สมาชิกใหม่
+                  </span>
+                </ng-template>
+              </div>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-white border-end-0 text-success">
+                  <i class="fa-solid fa-gift"></i>
+                </span>
+                <input 
+                  type="text" 
+                  [(ngModel)]="group.beginnerDiscount" 
+                  class="settings-input rounded-0 border-start-0 border-end-0 fw-bold" 
+                  placeholder="เช่น 20 หรือ 0 หากไม่ลด" 
+                />
+                <span class="input-group-text bg-white border-start-0 text-secondary fw-semibold">฿</span>
+              </div>
+
+              <div class="d-flex flex-wrap align-items-center gap-2 mt-auto">
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.beginnerDiscount === '0' || !group.beginnerDiscount" 
+                  (click)="setBeginnerDiscount('0')">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (0 ฿)
+                </button>
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.beginnerDiscount === '10'" 
+                  (click)="setBeginnerDiscount('10')">
+                  ลด 10 ฿
+                </button>
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.beginnerDiscount === '20'" 
+                  (click)="setBeginnerDiscount('20')">
+                  ลด 20 ฿
+                </button>
+                <button type="button" class="fee-btn-pill" 
+                  [class.active]="group.beginnerDiscount === '30'" 
+                  (click)="setBeginnerDiscount('30')">
+                  ลด 30 ฿
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Extras & Notes -->
+        <div class="p-4 bg-light rounded-4 border">
+          <div class="row g-4">
+            <div class="col-md-4">
+              <label class="field-label mb-2">
+                <i class="fa-solid fa-bottle-water text-primary"></i> ค่าน้ำดื่ม / บริการส่วนกลาง:
+              </label>
+              <div class="fee-input-wrap mb-2">
+                <input type="text" [(ngModel)]="group.waterSnackFee" class="settings-input" />
+                <span class="unit-text">฿</span>
+              </div>
+              <div class="fee-pills-row">
+                <button type="button" class="fee-btn-pill" [class.active]="group.waterSnackFee === '0'" (click)="setWaterSnackFee('0')">ฟรี (0 ฿)</button>
+                <button type="button" class="fee-btn-pill" [class.active]="group.waterSnackFee === '10'" (click)="setWaterSnackFee('10')">10 ฿</button>
+              </div>
+            </div>
+
+            <div class="col-md-8">
+              <label class="field-label mb-2">
+                <i class="fa-solid fa-circle-info text-secondary"></i> เงื่อนไขและหมายเหตุราคา:
+              </label>
+              <input type="text" [(ngModel)]="group.pricingNotes" class="settings-input" placeholder="เช่น ชำระเงินหลังจบรอบผ่าน PromptPay" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

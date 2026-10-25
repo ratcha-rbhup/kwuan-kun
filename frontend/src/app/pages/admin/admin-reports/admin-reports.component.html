@@ -1,0 +1,81 @@
+<div class="ak-admin-reports-page">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        <i class="fa-solid fa-triangle-exclamation text-danger me-2"></i> รายงานปัญหาและความปลอดภัย (Trust & Safety)
+      </h1>
+      <p class="text-secondary small mb-0">ตรวจสอบเรื่องร้องเรียน สมาชิกเบี้ยวนัด หรือพฤติกรรมที่ไม่เหมาะสมในสนาม</p>
+    </div>
+  </div>
+
+  <!-- Reports Table Box -->
+  <div class="ak-card shadow-sm p-0 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 ak-data-table">
+        <thead>
+          <tr>
+            <th class="ps-4">ผู้ถูกรายงาน</th>
+            <th>ประเภทปัญหา</th>
+            <th>รายละเอียดเหตุการณ์</th>
+            <th>ผู้แจ้งรายงาน</th>
+            <th class="text-center">วันที่</th>
+            <th class="text-center">สถานะ</th>
+            <th class="pe-4 text-end">การดำเนินการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reports()">
+            <td class="ps-4">
+              <div class="fw-bold text-dark">{{ r.targetName }}</div>
+              <span class="badge" [ngClass]="r.targetType === 'USER' ? 'bg-secondary' : 'bg-primary'">
+                {{ r.targetType === 'USER' ? 'ผู้เล่น' : 'ก๊วน' }}
+              </span>
+            </td>
+            <td>
+              <span class="badge bg-danger bg-opacity-10 text-danger fw-bold">
+                {{ r.category }}
+              </span>
+            </td>
+            <td style="max-width: 320px;">
+              <div class="small text-dark">{{ r.details }}</div>
+            </td>
+            <td>
+              <div class="small text-secondary fw-semibold">{{ r.reporterName }}</div>
+            </td>
+            <td class="text-center text-muted small">{{ r.date }}</td>
+            <td class="text-center">
+              <span class="ak-badge" [ngClass]="{
+                'ak-badge-pending': r.status === 'PENDING',
+                'ak-badge-active': r.status === 'INVESTIGATING',
+                'ak-badge-verified': r.status === 'RESOLVED',
+                'ak-badge-rejected': r.status === 'DISMISSED'
+              }">
+                {{ r.status }}
+              </span>
+            </td>
+            <td class="pe-4 text-end">
+              <div class="d-inline-flex align-items-center gap-1.5" *ngIf="r.status === 'PENDING' || r.status === 'INVESTIGATING'">
+                <button (click)="warnUser(r)" class="btn btn-sm btn-outline-warning rounded-pill px-2.5 py-1" title="ส่งคำเตือน">
+                  <i class="fa-solid fa-bell me-1"></i> เตือน
+                </button>
+                <button (click)="banTarget(r)" class="btn btn-sm btn-danger rounded-pill px-2.5 py-1" title="ระงับบัญชี">
+                  <i class="fa-solid fa-ban me-1"></i> แบน
+                </button>
+                <button (click)="dismissReport(r)" class="btn btn-sm btn-outline-secondary rounded-pill px-2 py-1" title="ยกเลิก">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+              <span *ngIf="r.status === 'RESOLVED'" class="text-success small fw-semibold">
+                <i class="fa-solid fa-circle-check me-1"></i> จัดการแล้ว
+              </span>
+              <span *ngIf="r.status === 'DISMISSED'" class="text-secondary small">
+                ยกเลิกเคส
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

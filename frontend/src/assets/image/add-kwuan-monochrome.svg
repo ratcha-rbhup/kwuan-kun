@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" fill="none" width="100%" height="100%">
+  <!-- Monochrome Symbol -->
+  <g transform="translate(10, 8) scale(0.52)" fill="#111827">
+    <!-- Left Wing -->
+    <path d="M44 32 C34 46, 26 72, 32 108 C36 114, 46 116, 54 114 C62 102, 65 74, 60 52 C56 42, 50 35, 44 32 Z" />
+    <!-- Right Wing -->
+    <path d="M156 32 C166 46, 174 72, 168 108 C164 114, 154 116, 146 114 C138 102, 135 74, 140 52 C144 42, 150 35, 156 32 Z" />
+    <!-- Center 'A' -->
+    <path d="M100 18 L138 116 C138 116, 128 120, 118 118 L111 96 H89 L82 118 C72 120, 62 116, 62 116 L100 18 Z" />
+    <!-- Inner Cutouts -->
+    <path d="M100 44 L107 78 H93 L100 44 Z" fill="#FFFFFF" />
+    <path d="M91 88 H109 L114 118 H86 L91 88 Z" fill="#FFFFFF" />
+    <!-- Strings -->
+    <line x1="95" y1="88" x2="93" y2="118" stroke="#111827" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="100" y1="88" x2="100" y2="118" stroke="#111827" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="105" y1="88" x2="107" y2="118" stroke="#111827" stroke-width="2.5" stroke-linecap="round" />
+    <!-- Shaft Ribs -->
+    <line x1="72" y1="116" x2="75" y2="136" stroke="#111827" stroke-width="3" stroke-linecap="round" />
+    <line x1="86" y1="118" x2="87" y2="136" stroke="#111827" stroke-width="3" stroke-linecap="round" />
+    <line x1="100" y1="118" x2="100" y2="136" stroke="#111827" stroke-width="3" stroke-linecap="round" />
+    <line x1="114" y1="118" x2="113" y2="136" stroke="#111827" stroke-width="3" stroke-linecap="round" />
+    <line x1="128" y1="116" x2="125" y2="136" stroke="#111827" stroke-width="3" stroke-linecap="round" />
+    <!-- Ribbon Collar -->
+    <rect x="70" y="132" width="60" height="5" rx="2.5" fill="#111827" />
+    <!-- Cork Base -->
+    <path d="M72 138 C72 138, 70 162, 82 174 C90 182, 110 182, 118 174 C130 162, 128 138, 128 138 Z" fill="#111827" />
+  </g>
+
+  <!-- Monochrome Typography -->
+  <g transform="translate(125, 0)" fill="#111827">
+    <text x="0" y="78" font-family="'Prompt', 'Kanit', 'Outfit', sans-serif" font-weight="800" font-size="62" letter-spacing="-1">Add</text>
+    <text x="135" y="78" font-family="'Prompt', 'Kanit', sans-serif" font-weight="800" font-size="62" letter-spacing="-0.5">ก๊วน</text>
+    <text x="2" y="105" font-family="'Prompt', 'Kanit', sans-serif" font-weight="600" font-size="16" letter-spacing="3" opacity="0.8">BADMINTON COMMUNITY</text>
+  </g>
+</svg>

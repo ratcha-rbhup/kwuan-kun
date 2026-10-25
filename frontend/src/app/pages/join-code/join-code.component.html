@@ -1,0 +1,116 @@
+<div class="container py-4" style="max-width: 680px;">
+  <!-- Title -->
+  <div class="text-center mb-4">
+    <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-active mb-2">
+      <i class="fa-solid fa-ticket"></i> รหัสบัตรคำเชิญ
+    </div>
+    <h1 class="h3 fw-bold text-dark mb-1">
+      เข้าก๊วนแบดมินตันด้วยรหัสคำเชิญ
+    </h1>
+    <p class="text-secondary small mb-0">มีรหัสที่ได้รับจากหัวหน้าก๊วนหรือเพื่อน ก็เข้าร่วมก๊วนได้ทันที</p>
+  </div>
+
+  <!-- Search by Code Box -->
+  <div class="ak-card p-4 shadow-sm mb-4">
+    <div class="mb-3">
+      <label class="form-label text-dark fw-bold small">รหัสคำเชิญ (Invite Code)</label>
+      <div class="input-group">
+        <span class="input-group-text bg-white border-end-0">
+          <i class="fa-solid fa-ticket text-success"></i>
+        </span>
+        <input type="text" 
+               class="form-control ak-form-control border-start-0 text-uppercase fw-bold fs-5 tracking-wider" 
+               placeholder="เช่น SMASH88 หรือ BANGNA24"
+               [value]="inviteCode()"
+               (input)="inviteCode.set($any($event.target).value)"
+               (keyup.enter)="searchGroup()"
+               maxlength="12">
+        <button class="ak-btn-primary rounded-end px-4" (click)="searchGroup()" [disabled]="isSearching()">
+          <i class="fa-solid" [ngClass]="isSearching() ? 'fa-spinner fa-spin' : 'fa-magnifying-glass'"></i>
+          <span class="ms-1 d-none d-sm-inline">ค้นหาก๊วน</span>
+        </button>
+      </div>
+      <small class="text-muted mt-1 d-block">
+        <i class="fa-solid fa-circle-info me-1 text-success"></i> รหัสตัวอย่างสำหรับทดสอบ: <code>SMASH88</code> หรือ <code>BANGNA24</code>
+      </small>
+    </div>
+
+    <!-- Error Alert -->
+    <div *ngIf="errorMessage()" class="alert alert-danger py-2 px-3 small d-flex align-items-center gap-2">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <div>{{ errorMessage() }}</div>
+    </div>
+  </div>
+
+  <!-- Found Group Preview Card -->
+  <div *ngIf="foundGroup() as g" class="ak-card border-success shadow-sm p-4 mb-4" style="background: linear-gradient(180deg, #FFFFFF 0%, #F4FAF6 100%);">
+    <!-- Success Banner upon join -->
+    <div *ngIf="joinSuccess()" class="alert alert-success d-flex align-items-center gap-2 mb-3">
+      <i class="fa-solid fa-circle-check fs-4"></i>
+      <div>
+        <strong>เข้าร่วมก๊วนสำเร็จ!</strong> ยินดีต้อนรับสู่ก๊วน {{ g.name }}
+      </div>
+    </div>
+
+    <div class="d-flex align-items-start gap-3 mb-3">
+      <span class="ak-icon-box ak-icon-box-primary ak-icon-box-lg">
+        <i class="fa-solid fa-shuttlecock"></i>
+      </span>
+      <div>
+        <span class="ak-badge ak-badge-active mb-1">
+          <i class="fa-solid fa-circle-check"></i> พบข้อมูลก๊วนในระบบ
+        </span>
+        <h3 class="h5 fw-bold text-dark mb-1">{{ g.name }}</h3>
+        <div class="text-secondary small">
+          <i class="fa-solid fa-location-dot text-danger me-1"></i> {{ g.location }}
+        </div>
+      </div>
+    </div>
+
+    <div class="p-3 rounded-3 mb-3 bg-white border">
+      <div class="row g-2 small">
+        <div class="col-6">
+          <span class="text-muted">สนามหลัก:</span>
+          <div class="fw-bold text-dark">{{ g.venue }}</div>
+        </div>
+        <div class="col-6">
+          <span class="text-muted">เจ้าของก๊วน:</span>
+          <div class="fw-bold text-dark">{{ g.owner }}</div>
+        </div>
+        <div class="col-6">
+          <span class="text-muted">ระดับฝีมือ:</span>
+          <div class="fw-bold text-success">{{ g.skillLevel }}</div>
+        </div>
+        <div class="col-6">
+          <span class="text-muted">สมาชิกปัจจุบัน:</span>
+          <div class="fw-bold text-dark">{{ g.memberCount }} คน</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2">
+      <a [routerLink]="['/groups', g.slug]" class="text-secondary text-decoration-none small">
+        ดูข้อมูลก๊วนเพิ่มเติม <i class="fa-solid fa-arrow-right ms-1"></i>
+      </a>
+
+      <div class="w-100 w-sm-auto text-end">
+        <button *ngIf="!joinSuccess()" (click)="confirmJoin()" class="ak-btn-primary rounded-pill px-4 shadow-sm ak-btn-responsive">
+          <i class="fa-solid fa-arrow-right-to-bracket me-1"></i> ยืนยันเข้าร่วมก๊วนทันที
+        </button>
+        <a *ngIf="joinSuccess()" routerLink="/member/my-groups" class="ak-btn-primary rounded-pill px-4 ak-btn-responsive">
+          <i class="fa-solid fa-users me-1"></i> ดูก๊วนของฉัน
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINE QR Scan Helper -->
+  <div class="ak-card p-3 text-center border-0" style="background: var(--brand-surface);">
+    <div class="d-inline-flex align-items-center gap-2 text-dark small fw-semibold mb-1">
+      <i class="fa-solid fa-qrcode text-success"></i> สแกน QR Code จาก LINE สะดวกทันใจ
+    </div>
+    <p class="text-secondary small mb-0">
+      เปิดกล้อง LINE สแกน QR Code เพื่อเปิดลิงก์และยืนยันเข้าร่วมก๊วนได้โดยตรง ไม่ต้องพิมพ์รหัส
+    </p>
+  </div>
+</div>

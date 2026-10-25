@@ -1,0 +1,528 @@
+<!-- ============================================================================= -->
+<!-- Add Kuan (แอดก๊วน) - Youthful White & Green (ขาว-เขียว) Home UI Template    -->
+<!-- Inspired by TBad App (tbadapp.com/th) & FontAwesome Icons Integration        -->
+<!-- ============================================================================= -->
+
+<div class="py-3 py-md-4">
+  <div class="container ak-container-narrow">
+
+    <!-- 1. Top Friendly Greeting Bar (TBad App Style) -->
+    <div class="d-flex flex-wrap align-items-center justify-content-between mb-3 px-1">
+      <div>
+        <div class="d-flex align-items-center gap-2">
+          <h2 class="h4 fw-bold text-dark mb-0">{{ greeting() }}</h2>
+          <span
+            class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 rounded-pill px-2 py-1 small">
+            <i class="fa-solid fa-signal text-success me-1"></i> ออนไลน์ 450+ คน
+          </span>
+        </div>
+        <p class="text-secondary small mb-0 mt-1">วันนี้คุณตีแบดแล้วรึยัง? หาเพื่อนตีแบดได้ง่ายๆ ภายใน 1 นาที</p>
+      </div>
+
+      <!-- Quick Location Selector -->
+      <div class="d-flex align-items-center gap-2 mt-2 mt-sm-0">
+        <div
+          class="d-inline-flex align-items-center gap-1 px-3 py-1 bg-white rounded-pill border shadow-sm small text-dark fw-semibold">
+          <i class="fa-solid fa-location-dot text-success"></i>
+          <span>กรุงเทพฯ & ปริมณฑล</span>
+          <i class="fa-solid fa-chevron-down text-muted ms-1" style="font-size: 0.75rem;"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. Iconic Green Gradient Announcement Banner (TBad App Style) -->
+    <div class="ak-tbad-banner mb-4">
+      <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+        <span class="banner-badge">
+          <i class="fa-solid fa-shuttlecock"></i> แพลตฟอร์มก๊วนแบด
+        </span>
+        <span class="banner-pill-pop">
+          <i class="fa-solid fa-bolt text-danger"></i> ไม่ง้อคนขี้เท!
+        </span>
+      </div>
+
+      <h1 class="banner-title">
+        หาเพื่อนตีแบด เข้าร่วมก๊วนใกล้บ้านคุณ
+      </h1>
+      <p class="banner-desc">
+        เช็กระดับฝีมือ (N, S, P, B, A) ก่อนลงสนาม จองคอร์ตนัดตีก๊วนร่วมกัน บริหารง่ายไม่ต้องกลัวคนเบี้ยว
+      </p>
+
+      <div class="ak-btn-group-responsive">
+        <a routerLink="/groups" class="btn btn-light fw-bold text-success rounded-pill px-4 shadow-sm">
+          <i class="fa-solid fa-magnifying-glass me-1"></i> ค้นหาก๊วนใกล้ฉัน
+        </a>
+        <a routerLink="/member/create-group" class="btn btn-outline-light rounded-pill px-3">
+          <i class="fa-solid fa-plus me-1"></i> ขอเปิดก๊วนใหม่
+        </a>
+      </div>
+    </div>
+
+    <!-- 3. Quick Search Bar -->
+    <div class="ak-search-bar mb-4">
+      <i class="fa-solid fa-magnifying-glass text-success ms-1"></i>
+      <input type="text" placeholder="ค้นหาชื่อก๊วน, สนามแบด, ย่าน/เขต, หรือระดับฝีมือ..." class="flex-grow-1"
+        [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" (keyup.enter)="searchQuery() ? null : null">
+      <a routerLink="/groups" class="ak-btn-primary ak-btn-sm px-3 px-sm-4 rounded-pill flex-shrink-0">
+        ค้นหา
+      </a>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 4. "คุณอยากทำอะไร?" (What do you want to do?) - FontAwesome Icons Grid     -->
+    <!-- ========================================================================= -->
+    <div class="mb-5">
+      <div class="d-flex align-items-center justify-content-between mb-3 px-1">
+        <div class="d-flex align-items-center gap-2">
+          <span class="ak-icon-box ak-icon-box-primary ak-icon-box-sm">
+            <i class="fa-solid fa-bolt"></i>
+          </span>
+          <h2 class="h5 fw-bold text-dark mb-0">คุณอยากทำอะไร?</h2>
+        </div>
+        <span class="text-muted small">เมนูด่วน 6 บริการหลัก</span>
+      </div>
+
+      <!-- 6-Tile Grid (Powered strictly by FontAwesome Icons) -->
+      <div class="ak-rich-grid">
+
+        <!-- Card 1: ค้นหาก๊วน (Highlight Mint Card) -->
+        <a routerLink="/groups" class="ak-rich-card ak-rich-card-highlight">
+          <div class="ak-rich-icon icon-box-search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </div>
+          <div class="ak-rich-title">ค้นหาก๊วน</div>
+          <div class="ak-rich-subtitle">หาใกล้คุณ</div>
+        </a>
+
+        <!-- Card 2: ก๊วนของฉัน -->
+        <a routerLink="/member/my-groups" class="ak-rich-card ak-rich-card-white">
+          <div class="ak-rich-icon icon-box-groups">
+            <i class="fa-solid fa-users"></i>
+          </div>
+          <div class="ak-rich-title">ก๊วนของฉัน</div>
+          <div class="ak-rich-subtitle">ก๊วนที่เข้าร่วม</div>
+        </a>
+
+        <!-- Card 3: ขอเปิดก๊วนใหม่ -->
+        <a routerLink="/member/create-group" class="ak-rich-card ak-rich-card-white">
+          <div class="ak-rich-icon icon-box-create">
+            <i class="fa-solid fa-square-plus"></i>
+          </div>
+          <div class="ak-rich-title">ขอเปิดก๊วนใหม่</div>
+          <div class="ak-rich-subtitle">สร้างคอมมูนิตี้ของคุณ</div>
+        </a>
+
+        <!-- Card 4: เข้าก๊วนด้วยรหัส -->
+        <a routerLink="/member/join-code" class="ak-rich-card ak-rich-card-white">
+          <div class="ak-rich-icon icon-box-join">
+            <i class="fa-solid fa-ticket"></i>
+          </div>
+          <div class="ak-rich-title">เข้าก๊วนด้วยรหัส</div>
+          <div class="ak-rich-subtitle">มีรหัสก็เข้าร่วมได้</div>
+        </a>
+
+        <!-- Card 5: กิจกรรม -->
+        <a routerLink="/member/activities" class="ak-rich-card ak-rich-card-white">
+          <div class="ak-rich-icon icon-box-activities">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+          <div class="ak-rich-title">กิจกรรม</div>
+          <div class="ak-rich-subtitle">นัดตีแบดครั้งต่อไป</div>
+        </a>
+
+        <!-- Card 6: โปรไฟล์ -->
+        <a routerLink="/member/profile" class="ak-rich-card ak-rich-card-white">
+          <div class="ak-rich-icon icon-box-profile">
+            <i class="fa-solid fa-circle-user"></i>
+          </div>
+          <div class="ak-rich-title">โปรไฟล์</div>
+          <div class="ak-rich-subtitle">ข้อมูลส่วนตัว</div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 5. "กิจกรรมที่กำลังจะมาถึงเร็วๆ นี้" (Upcoming Activities - TBad Style)      -->
+    <!-- ========================================================================= -->
+    <div class="mb-5">
+      <div class="d-flex flex-wrap align-items-center justify-content-between mb-3 px-1">
+        <div>
+          <span class="text-uppercase text-success fw-bold small">
+            <i class="fa-solid fa-calendar-check me-1"></i> ตารางนัดตีก๊วน
+          </span>
+          <h2 class="h5 fw-bold text-dark mt-1 mb-0">กิจกรรมที่กำลังจะมาถึงเร็วๆ นี้</h2>
+        </div>
+        <a routerLink="/member/activities" class="ak-btn-outline ak-btn-sm rounded-pill mt-2 mt-sm-0">
+          ดูกิจกรรมทั้งหมด (14) <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+
+      <div class="d-flex flex-column gap-3">
+        <!-- Session Card -->
+        <div class="ak-session-card" *ngFor="let s of upcomingSessions()">
+          <!-- Real Photo Thumbnail with Distance & Date Overlays -->
+          <div class="session-thumb-frame">
+            <img [src]="s.image" [alt]="s.venue" class="session-thumb-img">
+            <span class="distance-badge">
+              <i class="fa-solid fa-location-arrow me-1"></i> {{ s.distance }}
+            </span>
+            <span class="date-badge" *ngIf="s.dateBadge">
+              <i class="fa-regular fa-clock me-1"></i> {{ s.dateBadge }}
+            </span>
+          </div>
+
+          <!-- Session Details -->
+          <div class="session-content">
+            <div class="d-flex flex-wrap align-items-start justify-content-between gap-2 mb-2">
+              <div>
+                <h5 class="fw-bold text-dark mb-1 fs-6">{{ s.title }}</h5>
+                <div class="d-flex align-items-center gap-1.5 text-secondary small">
+                  <img *ngIf="s.groupLogo" [src]="s.groupLogo" [alt]="s.groupName"
+                    class="rounded-circle" style="width: 18px; height: 18px; object-fit: cover;">
+                  <i *ngIf="!s.groupLogo" class="fa-solid fa-building text-success"></i>
+                  <strong>{{ s.venue }}</strong>
+                  <span class="mx-1">•</span>
+                  <span>{{ s.groupName }}</span>
+                </div>
+              </div>
+
+              <!-- Available Slots Pill -->
+              <span class="ak-badge ak-badge-active fw-bold">
+                <i class="fa-solid fa-users"></i> {{ s.slotsAvailable }}/{{ s.totalSlots }} คน
+              </span>
+            </div>
+
+            <!-- Date, Time, Level -->
+            <div class="d-flex flex-wrap gap-2 align-items-center small mb-3">
+              <span class="text-dark fw-semibold">
+                <i class="fa-regular fa-calendar me-1 text-success"></i> {{ s.date }}
+              </span>
+              <span class="text-muted">|</span>
+              <span class="text-dark fw-semibold">
+                <i class="fa-regular fa-clock me-1 text-muted"></i> {{ s.time }}
+              </span>
+              <span class="ak-badge ak-badge-skill ms-auto">
+                <i class="fa-solid fa-trophy me-1"></i> {{ s.skillLevel }}
+              </span>
+            </div>
+
+            <!-- Facilities Pills (TBad Style) -->
+            <div
+              class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2 border-top border-light mt-auto">
+              <div class="d-flex flex-wrap gap-1">
+                <span class="facility-pill" *ngFor="let f of s.facilities">
+                  <i [class]="f.icon + ' text-success'"></i> {{ f.name }}
+                </span>
+              </div>
+
+              <div
+                class="d-flex align-items-center justify-content-between justify-content-sm-end gap-2 w-100 w-sm-auto mt-2 mt-sm-0">
+                <span class="fw-bold text-success small">{{ s.price }}</span>
+                <a [routerLink]="['/member/activities']" class="ak-btn-primary ak-btn-sm rounded-pill px-3 shadow-xs">
+                  ขอเข้าร่วม
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 6. "คอร์ตแบดใกล้ฉัน & สนามยอดนิยม" (Courts Near Me & Popular Venues)        -->
+    <!-- ========================================================================= -->
+    <div class="mb-5">
+      <!-- Main Highlight Banner -->
+      <div class="ak-card p-4 mb-4 border-success border-opacity-25"
+        style="background: linear-gradient(180deg, #FFFFFF 0%, #F4FAF6 100%);">
+        <div class="row g-4 align-items-center">
+          <div class="col-md-7">
+            <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-active mb-2">
+              <i class="fa-solid fa-map-location-dot"></i> พิกัดสนามทั่วไทย
+            </div>
+            <h3 class="fw-bold text-dark mb-2">62 คอร์ทแบดใกล้ฉันในกรุงเทพฯ และปริมณฑล</h3>
+            <p class="text-secondary small mb-3">
+              ค้นหาสนามแบดมินตันที่มีก๊วนเปิดตีประจำ มีสิ่งอำนวยความสะดวกครบ ทั้งที่จอดรถ ห้องอาบน้ำ และแอร์เย็นสบาย
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="ak-badge ak-badge-active">
+                <i class="fa-solid fa-square-parking"></i> มีที่จอดรถ 54 สนาม
+              </span>
+              <span class="ak-badge ak-badge-skill">
+                <i class="fa-solid fa-shower"></i> มีห้องอาบน้ำ 48 สนาม
+              </span>
+              <span class="ak-badge ak-badge-verified">
+                <i class="fa-solid fa-snowflake"></i> สนามติดแอร์ 12 สนาม
+              </span>
+            </div>
+          </div>
+          <div class="col-md-5 text-center text-md-end">
+            <a routerLink="/groups" class="ak-btn-primary rounded-pill px-4 shadow-sm">
+              <i class="fa-solid fa-location-arrow me-1"></i> เปิดแผนที่ค้นหาคอร์ต
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Popular Badminton Courts Grid -->
+      <div class="row g-3 g-md-4">
+        <div class="col-md-4" *ngFor="let c of popularCourts()">
+          <div class="ak-court-card" routerLink="/groups">
+            <!-- Banner Image with Overlays -->
+            <div class="court-card-banner">
+              <img [src]="c.coverImage" [alt]="c.name">
+              <span class="court-overlay-distance">
+                <i class="fa-solid fa-location-arrow me-1"></i> ~{{ c.distanceKm }}
+              </span>
+              <span class="court-overlay-count">
+                <i class="fa-solid fa-table-tennis-paddle-ball me-1 text-success"></i> {{ c.courtCount }} คอร์ต
+              </span>
+            </div>
+
+            <!-- Court Card Body -->
+            <div class="court-card-body">
+              <h5 class="court-name">{{ c.name }}</h5>
+              <div class="court-location">
+                <i class="fa-solid fa-location-dot text-danger me-1"></i> {{ c.district }}, {{ c.province }}
+              </div>
+
+              <!-- Court Type -->
+              <div class="small text-muted mb-2">
+                <i class="fa-solid fa-layer-group text-success me-1"></i> {{ c.courtType }}
+              </div>
+
+              <!-- Amenities -->
+              <div class="d-flex flex-wrap gap-1 mt-auto">
+                <span class="badge bg-light text-dark border small fw-normal py-1 px-2" *ngFor="let am of c.amenities">
+                  <i [class]="am.icon + ' text-success me-1'"></i> {{ am.name }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Card Footer -->
+            <div class="court-card-footer">
+              <span class="fw-bold text-success small">
+                <i class="fa-solid fa-users me-1"></i> {{ c.activeGroups }} ก๊วนเปิดตีประจำ
+              </span>
+              <span class="ak-btn-outline ak-btn-xs rounded-pill px-2.5 py-1">
+                ดูก๊วนที่นี่ <i class="fa-solid fa-chevron-right ms-1" style="font-size: 0.65rem;"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 7. Featured Groups Showcase (ก๊วนแบดมินตันยอดนิยม)                         -->
+    <!-- ========================================================================= -->
+    <div class="mb-5">
+      <div class="d-flex flex-wrap align-items-center justify-content-between mb-4 px-1">
+        <div>
+          <span class="text-uppercase text-success fw-bold small">
+            <i class="fa-solid fa-fire me-1"></i> ก๊วนแนะนำประจำสัปดาห์
+          </span>
+          <h2 class="h5 fw-bold text-dark mt-1 mb-0">ก๊วนแบดมินตันยอดนิยม</h2>
+        </div>
+        <a routerLink="/groups" class="ak-btn-outline ak-btn-sm rounded-pill">
+          ดูก๊วนทั้งหมด (14) <i class="fa-solid fa-arrow-right ms-1"></i>
+        </a>
+      </div>
+
+      <div class="row g-3 g-md-4">
+        <div class="col-md-6 col-lg-4" *ngFor="let g of sampleGroups()">
+          <div class="ak-home-group-card" [routerLink]="['/groups', g.slug]">
+            <!-- Header Row with Club Logo & Name -->
+            <div class="group-header-row">
+              <img [src]="g.logo" [alt]="g.name" class="group-avatar">
+              <div class="min-w-0">
+                <div class="d-flex align-items-center gap-1.5">
+                  <h5 class="group-title-clamp mb-0 text-truncate">{{ g.name }}</h5>
+                  <i *ngIf="g.verified" class="fa-solid fa-circle-check text-success flex-shrink-0" title="ผ่านการยืนยันแล้ว"></i>
+                </div>
+                <div class="text-secondary small text-truncate">
+                  <i class="fa-solid fa-location-dot me-1 text-danger"></i> {{ g.location }}
+                </div>
+              </div>
+            </div>
+
+            <!-- Schedule Strip -->
+            <div class="schedule-strip" *ngIf="g.schedule">
+              <i class="fa-regular fa-clock"></i>
+              <span class="text-truncate">{{ g.schedule }}</span>
+            </div>
+
+            <!-- Description -->
+            <p class="group-desc-clamp">
+              {{ g.description }}
+            </p>
+
+            <!-- Skill & Join Policy Badges -->
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="ak-badge ak-badge-skill">
+                <i class="fa-solid fa-trophy"></i> {{ g.skillRange }}
+              </span>
+              <span class="ak-badge ak-badge-active" *ngIf="g.joinPolicy === 'APPROVAL_REQUIRED'">
+                <i class="fa-solid fa-user-check"></i> รออนุมัติ
+              </span>
+              <span class="ak-badge ak-badge-verified" *ngIf="g.joinPolicy === 'OPEN'">
+                <i class="fa-solid fa-door-open"></i> เข้าได้ทันที
+              </span>
+            </div>
+
+            <!-- Card Footer: Venue, Member Count & Action Button -->
+            <div class="group-card-footer">
+              <span class="text-truncate me-2" style="max-width: 140px;" [title]="g.venue">
+                <i class="fa-solid fa-building me-1 text-muted"></i> {{ g.venue }}
+              </span>
+              <span class="ak-btn-primary ak-btn-xs rounded-pill px-3 shadow-xs">
+                ดูก๊วนนี้ <i class="fa-solid fa-arrow-right ms-1"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 8. "ทำไมต้องเล่นกับ KwuanKun?" (Why KwuanKun Highlights)                     -->
+    <!-- ========================================================================= -->
+    <div class="mb-5">
+      <div class="text-center mb-4">
+        <span class="text-uppercase text-success fw-bold small">
+          <i class="fa-solid fa-shield-heart me-1"></i> มาตรฐานคอมมูนิตี้
+        </span>
+        <h2 class="h4 fw-bold text-dark mt-1 mb-1">ทำไมคนรักแบดมินตันถึงเลือก KwuanKun</h2>
+        <p class="text-secondary small mb-0">ระบบที่ออกแบบโดยนักแบดมินตัน เพื่อแก้ปัญหาของคนตีก๊วนอย่างแท้จริง</p>
+      </div>
+
+      <div class="row g-3 g-md-4">
+        <div class="col-md-6 col-lg-3" *ngFor="let f of platformFeatures">
+          <div class="ak-feature-card">
+            <div class="feature-icon-box" [style.background-color]="f.bg" [style.color]="f.color">
+              <i [class]="f.icon"></i>
+            </div>
+            <h5 class="feature-title">{{ f.title }}</h5>
+            <p class="feature-desc">{{ f.description }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 9. Community Fun Numbers & Stats Ribbon                                    -->
+    <!-- ========================================================================= -->
+    <div class="mb-5">
+      <div class="ak-stats-strip">
+        <div class="row g-3 g-md-0 align-items-center">
+          <div class="col-6 col-md-3" *ngFor="let st of platformStats; let last = last">
+            <div class="stat-item" [class.border-end]="!last" style="border-color: rgba(0, 194, 97, 0.2) !important;">
+              <div class="stat-number">{{ st.number }}</div>
+              <div class="stat-label">{{ st.label }}</div>
+              <div class="stat-subtext">{{ st.subtext }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================================================= -->
+    <!-- 10. Community Call-To-Action (CTA Banner)                                 -->
+    <!-- ========================================================================= -->
+    <div class="ak-community-cta mb-5">
+      <div class="row align-items-center">
+        <div class="col-lg-8">
+          <span class="cta-badge">
+            <i class="fa-solid fa-shuttlecock"></i> ร่วมเป็นส่วนหนึ่งของคอมมูนิตี้
+          </span>
+          <h2 class="cta-title">พร้อมลงสนามแล้วหรือยัง?</h2>
+          <p class="cta-desc">
+            ค้นหาก๊วนแบดใกล้บ้านคุณ หรือเปิดก๊วนใหม่เพื่อสร้างสังคมนักตบที่คุณเป็นผู้กำหนดกติกาได้เอง ใช้งานฟรี สะดวก รวดเร็ว
+          </p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <div class="d-flex flex-column flex-sm-row flex-lg-column gap-2 justify-content-lg-end">
+            <a routerLink="/groups" class="btn btn-light fw-bold text-success rounded-pill px-4 py-2.5 shadow-sm">
+              <i class="fa-solid fa-magnifying-glass me-1.5"></i> ค้นหาก๊วนใกล้ฉัน
+            </a>
+            <a routerLink="/member/create-group" class="btn btn-outline-light rounded-pill px-4 py-2.5">
+              <i class="fa-solid fa-plus me-1.5"></i> ขอเปิดก๊วนใหม่
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ============================================================================= -->
+<!-- Interactive Modal: เข้าก๊วนด้วยรหัส (Join Group with Invite Code)               -->
+<!-- ============================================================================= -->
+<div *ngIf="showJoinModal()" class="modal fade show d-block" tabindex="-1"
+  style="background: rgba(6, 78, 59, 0.45); backdrop-filter: blur(8px);">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg" style="border-radius: var(--ak-radius-lg); overflow: hidden;">
+      <!-- Modal Header -->
+      <div class="modal-header border-0 pb-0" style="background: var(--brand-surface);">
+        <div class="d-flex align-items-center gap-2">
+          <span class="ak-icon-box ak-icon-box-primary">
+            <i class="fa-solid fa-ticket fa-lg"></i>
+          </span>
+          <div>
+            <h5 class="modal-title fw-bold text-dark mb-0">เข้าก๊วนด้วยรหัสคำเชิญ</h5>
+            <small class="text-secondary">กรอกรหัส 6 หลัก หรือเปิดผ่าน LINE เพื่อเข้าร่วม</small>
+          </div>
+        </div>
+        <button type="button" class="btn-close" (click)="closeJoinModal()"></button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="modal-body p-4">
+        <!-- Notification Message -->
+        <div *ngIf="joinMessage() as msg" class="alert mb-3"
+          [ngClass]="msg.type === 'success' ? 'alert-success' : 'alert-danger'">
+          <i class="fa-solid"
+            [ngClass]="msg.type === 'success' ? 'fa-circle-check me-2' : 'fa-circle-exclamation me-2'"></i>
+          {{ msg.text }}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-bold text-dark small">รหัสคำเชิญเข้าร่วมก๊วน (Invite Code)</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0">
+              <i class="fa-solid fa-ticket text-success"></i>
+            </span>
+            <input type="text"
+              class="form-control ak-form-control border-start-0 text-uppercase fw-bold fs-5 tracking-wider"
+              placeholder="เช่น SMASH88" [value]="joinCodeInput()"
+              (input)="joinCodeInput.set($any($event.target).value)" (keyup.enter)="submitJoinCode()" maxlength="12">
+          </div>
+          <small class="text-muted mt-1 d-block">
+            <i class="fa-solid fa-circle-info me-1"></i> รับรหัสได้จากหัวหน้าก๊วนหรือผู้ดูแลกิจกรรม
+          </small>
+        </div>
+
+        <div class="p-3 rounded-3" style="background: var(--brand-surface);">
+          <div class="d-flex align-items-center gap-2 text-dark small fw-semibold mb-1">
+            <i class="fa-solid fa-qrcode text-success"></i> หรือสแกน QR Code ผ่านแอป LINE
+          </div>
+          <p class="text-secondary small mb-0">
+            ระบบรองรับการเปิดลิงก์คำเชิญโดยตรงผ่าน LINE Official Account สะดวก รวดเร็ว
+          </p>
+        </div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer border-0 pt-0 px-4 pb-4">
+        <button type="button" class="ak-btn-outline ak-btn-sm rounded-pill" (click)="closeJoinModal()">
+          ยกเลิก
+        </button>
+        <button type="button" class="ak-btn-primary ak-btn-sm rounded-pill px-4" (click)="submitJoinCode()">
+          <i class="fa-solid fa-arrow-right-to-bracket me-1"></i> ตรวจสอบรหัส
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,706 @@
+<div class="ak-create-group-page">
+  <!-- Title & Banner Card -->
+  <div class="create-header-card">
+    <a routerLink="/groups" class="back-link">
+      <i class="fa-solid fa-arrow-left"></i> ย้อนกลับไปหน้ารายการก๊วน
+    </a>
+    <div class="d-flex align-items-center gap-3 mt-1">
+      <div class="header-icon-badge">
+        <i class="fa-solid fa-plus"></i>
+      </div>
+      <div>
+        <h1 class="page-title">
+          ยื่นคำขอเปิดก๊วนแบดมินตันใหม่
+        </h1>
+        <p class="page-subtitle">
+          กรอกรายละเอียดก๊วนของคุณเพื่อส่งให้ Platform Admin ตรวจสอบและอนุมัติ เมื่อผ่านการอนุมัติ คุณจะได้รับสิทธิ์เป็นเจ้าของก๊วน (OWNER) โดยอัตโนมัติ
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <form (ngSubmit)="submitRequest()">
+    <!-- Card 1: Basic Info & Branding -->
+    <div class="form-section-card">
+      <div class="section-header">
+        <div class="header-left">
+          <div class="section-icon-box">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div>
+            <h2 class="section-title">ข้อมูลพื้นฐานของก๊วน (Basic Information)</h2>
+            <p class="section-subtitle">ระบุชื่อก๊วน รูปภาพโลโก้/ภาพปก และรายละเอียดวัตถุประสงค์ของก๊วน</p>
+          </div>
+        </div>
+        <span class="ak-badge ak-badge-active">
+          <i class="fa-solid fa-star me-1"></i> ข้อมูลหลัก
+        </span>
+      </div>
+
+      <!-- Sport Category -->
+      <div class="form-group-item">
+        <label class="field-label">
+          <i class="fa-solid fa-medal text-success"></i> ประเภทกีฬา
+        </label>
+        <div class="ak-select-wrapper">
+          <select [(ngModel)]="form.sportCategory" name="sportCategory">
+            <option value="badminton">แบดมินตัน (Badminton)</option>
+          </select>
+          <i class="fa-solid fa-chevron-down select-chevron"></i>
+        </div>
+      </div>
+
+      <!-- Group Name -->
+      <div class="form-group-item">
+        <label class="field-label">
+          <i class="fa-solid fa-font text-success"></i> ชื่อก๊วนที่เสนอ <span class="required-mark">*</span>
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="form.proposedName" 
+          name="proposedName" 
+          class="ak-form-input" 
+          placeholder="เช่น ก๊วนแบดมินตัน จตุจักร สแมชเชอร์" 
+          required 
+        />
+        <div class="field-helper">
+          <i class="fa-solid fa-circle-info text-primary"></i> ตั้งชื่อก๊วนให้กระชับ ชัดเจน และจดจำได้ง่าย
+        </div>
+      </div>
+
+      <!-- Group Profile Image & Background Cover Section -->
+      <div class="media-upload-container">
+        <label class="field-label mb-3">
+          <i class="fa-solid fa-image text-success"></i> รูปภาพประจำก๊วน (Profile Logo & Background Cover)
+        </label>
+
+        <div class="row g-4">
+          <!-- Profile Logo -->
+          <div class="col-md-5">
+            <div class="upload-box h-100">
+              <div *ngIf="form.profileImage; else noLogoPlaceholder" class="preview-wrapper logo-preview">
+                <img [src]="form.profileImage" alt="Group Logo">
+                <button type="button" class="btn-remove-media" (click)="removeProfileImage()" title="ลบรูปโลโก้">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <ng-template #noLogoPlaceholder>
+                <div class="empty-preview-placeholder logo-preview" (click)="profileImgInput.click()" title="คลิกเพื่อเลือกรูป">
+                  <i class="fa-solid fa-camera"></i>
+                  <span>ไม่มีรูปโลโก้</span>
+                </div>
+              </ng-template>
+
+              <div class="flex-grow-1">
+                <div class="fw-bold text-dark small mb-1">รูปโปรไฟล์ / โลโก้</div>
+                <div class="text-secondary" style="font-size: 0.78rem; margin-bottom: 0.65rem;">ขนาดที่แนะนำ: 1:1 (PNG, JPG ไม่เกิน 5MB)</div>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1" (click)="profileImgInput.click()">
+                  <i class="fa-solid" [ngClass]="form.profileImage ? 'fa-pen-to-square' : 'fa-plus'" class="me-1"></i>
+                  {{ form.profileImage ? 'เปลี่ยนรูปโลโก้' : 'เลือกรูปโลโก้' }}
+                </button>
+                <input type="file" #profileImgInput (change)="onProfileSelected($event)" accept="image/*" class="d-none">
+              </div>
+            </div>
+          </div>
+
+          <!-- Cover Background -->
+          <div class="col-md-7">
+            <div class="upload-box h-100">
+              <div *ngIf="form.coverImage; else noCoverPlaceholder" class="preview-wrapper cover-preview">
+                <img [src]="form.coverImage" alt="Group Cover">
+                <button type="button" class="btn-remove-media" (click)="removeCoverImage()" title="ลบภาพปก">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+
+              <ng-template #noCoverPlaceholder>
+                <div class="empty-preview-placeholder cover-preview" (click)="coverImgInput.click()" title="คลิกเพื่อเลือกรูป">
+                  <i class="fa-solid fa-panorama"></i>
+                  <span>ไม่มีภาพปก</span>
+                </div>
+              </ng-template>
+
+              <div class="flex-grow-1">
+                <div class="fw-bold text-dark small mb-1">ภาพหน้าปก Background ก๊วน</div>
+                <div class="text-secondary" style="font-size: 0.78rem; margin-bottom: 0.65rem;">ขนาดที่แนะนำ: แนวนอน 16:9 (PNG, JPG ไม่เกิน 5MB)</div>
+                <button type="button" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1" (click)="coverImgInput.click()">
+                  <i class="fa-solid" [ngClass]="form.coverImage ? 'fa-pen-to-square' : 'fa-plus'" class="me-1"></i>
+                  {{ form.coverImage ? 'เปลี่ยนภาพปก' : 'เลือกภาพปก' }}
+                </button>
+                <input type="file" #coverImgInput (change)="onCoverSelected($event)" accept="image/*" class="d-none">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Group Description -->
+      <div class="form-group-item mb-0">
+        <label class="field-label">
+          <i class="fa-solid fa-align-left text-success"></i> รายละเอียดและรูปแบบการเล่น <span class="required-mark">*</span>
+        </label>
+        <textarea 
+          [(ngModel)]="form.proposedDescription" 
+          name="proposedDescription" 
+          class="ak-form-input" 
+          rows="4" 
+          placeholder="ระบุวันเวลาที่นัดตีประจำ วัตถุประสงค์ สไตล์การจัดคู่ และสิ่งที่สมาชิกควรทราบ" 
+          required>
+        </textarea>
+      </div>
+    </div>
+
+    <!-- Card 2: Location, Court & Interactive GPS Map -->
+    <div class="form-section-card">
+      <div class="section-header">
+        <div class="header-left">
+          <div class="section-icon-box">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </div>
+          <div>
+            <h2 class="section-title">สนามประจำและปักหมุดแผนที่ (Home Court & Interactive Pin)</h2>
+            <p class="section-subtitle">เลือกสนามประจำ หรือเลื่อนหมุดพิกัด GPS เพื่อให้ผู้เล่นใช้แอปแผนที่นำทางมาสนามได้แม่นยำ</p>
+          </div>
+        </div>
+        <span class="ak-badge ak-badge-active flex-shrink-0">
+          <i class="fa-solid fa-satellite-dish me-1"></i> OpenStreetMap Free
+        </span>
+      </div>
+
+      <!-- Location Row (Province & District) -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-location-dot text-danger"></i> จังหวัด <span class="required-mark">*</span>
+            </label>
+            <div class="ak-select-wrapper">
+              <select [(ngModel)]="form.province" name="province" required>
+                <option value="">-- เลือกจังหวัด --</option>
+                <option value="1">กรุงเทพมหานคร</option>
+                <option value="2">นนทบุรี</option>
+                <option value="3">เชียงใหม่</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-map text-success"></i> อำเภอ / เขต <span class="required-mark">*</span>
+            </label>
+            <div class="ak-select-wrapper">
+              <select [(ngModel)]="form.district" name="district" required>
+                <option value="">-- เลือกอำเภอ/เขต --</option>
+                <option value="1">เขตจตุจักร</option>
+                <option value="2">เขตบางนา</option>
+                <option value="3">เขตปทุมวัน</option>
+                <option value="4">อำเภอเมืองนนทบุรี</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preset Venue Select -->
+      <div class="form-group-item mb-4">
+        <label class="field-label">
+          <i class="fa-solid fa-building text-success"></i> เลือกสนามหลักที่เล่นประจำ (หรือเลือกพิกัดเอง):
+        </label>
+        <div class="ak-select-wrapper">
+          <select [(ngModel)]="form.venue" name="venue" (ngModelChange)="onVenueChange($event)">
+            <option value="1">สนามแบดมินตัน วินเนอร์ สปอร์ต คลับ (Winner Sport Club) จตุจักร</option>
+            <option value="2">สนามแบดมินตัน Bangna Arena Court บางนา</option>
+            <option value="3">สนามแบดมินตัน SCG Academy สาทร</option>
+            <option value="4">Tobacco Badminton Court สนามแบดมินตันโรงงานยาสูบ คลองเตย</option>
+          </select>
+          <i class="fa-solid fa-chevron-down select-chevron"></i>
+        </div>
+      </div>
+
+      <!-- Embedded Interactive Leaflet Map Pin Picker -->
+      <div class="form-group-item mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <label class="field-label mb-0">
+            <i class="fa-solid fa-hand-pointer text-success"></i> เลื่อนแผนที่เพื่อปักหมุดตำแหน่งสนาม หรือกดปุ่ม GPS:
+          </label>
+          <span class="text-secondary small">
+            <i class="fa-solid fa-arrows-up-down-left-right me-1 text-muted"></i> ลากเลื่อนหมุดตรงทางเข้าสนาม
+          </span>
+        </div>
+        <div class="map-embed-wrapper">
+          <app-court-map-picker 
+            [lat]="form.courtLat" 
+            [lng]="form.courtLng" 
+            [courtName]="form.venueNameCustom"
+            [address]="form.courtAddress"
+            mode="picker"
+            height="260px"
+            (coordinatesChange)="onCourtLocationChange($event)">
+          </app-court-map-picker>
+        </div>
+      </div>
+
+      <!-- Court Address & Landmark -->
+      <div class="form-group-item mb-4">
+        <label class="field-label">
+          <i class="fa-solid fa-location-dot text-danger"></i> ที่อยู่สนาม / จุดสังเกตชัดเจน:
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="form.courtAddress" 
+          name="courtAddress" 
+          class="ak-form-input" 
+          placeholder="ระบุเลขที่ ซอย ถนน แขวง เขต และจุดสังเกต เพื่อให้สมาชิกและผู้เล่น Walk-in ค้นหาได้ง่าย" 
+        />
+        <div class="field-helper">
+          <i class="fa-solid fa-circle-info text-primary"></i> ที่อยู่นี้จะแสดงในหน้ารายละเอียดก๊วนให้สมาชิกและผู้เล่น Walk-in ใช้สังเกตเมื่อเดินทางมาถึง
+        </div>
+      </div>
+
+      <!-- Auto-synced Navigation Route Info Banner -->
+      <div class="map-sync-route-banner">
+        <div class="d-flex align-items-center gap-3">
+          <div class="sync-icon-circle">
+            <i class="fa-solid fa-route"></i>
+          </div>
+          <div>
+            <div class="fw-bold text-dark small">ระบบเชื่อมโยงพิกัด GPS อัตโนมัติ</div>
+            <div class="text-secondary" style="font-size: 0.8rem;">พิกัดจะถูกผูกเข้ากับลิงก์แอป Google Maps นำทางตรงถึงทางเข้าสนาม</div>
+          </div>
+        </div>
+        <a [href]="form.courtMapUrl" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-4 py-1.5 fw-semibold text-decoration-none">
+          <i class="fa-solid fa-location-arrow me-1.5"></i> ทดสอบเปิดแผนที่นำทาง
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Session Rules & Membership Policies -->
+    <div class="form-section-card">
+      <div class="section-header">
+        <div class="header-left">
+          <div class="section-icon-box icon-blue">
+            <i class="fa-solid fa-feather-pointed"></i>
+          </div>
+          <div>
+            <h2 class="section-title">กติกาการจัดก๊วน & นโยบายสมาชิก (Rules & Policies)</h2>
+            <p class="section-subtitle">กำหนดระดับฝีมือ นโยบายการรับสมาชิก Walk-in และกติกาการนับคะแนน</p>
+          </div>
+        </div>
+        <span class="ak-badge ak-badge-owner">
+          <i class="fa-solid fa-shield-halved me-1"></i> กติกากลาง
+        </span>
+      </div>
+
+      <!-- Skill Level & Join Policy -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-chart-simple text-success"></i> ระดับฝีมือเป้าหมาย:
+            </label>
+            <input 
+              type="text" 
+              [(ngModel)]="form.targetSkillLevels" 
+              name="targetSkillLevels" 
+              class="ak-form-input" 
+              placeholder="เช่น S, P-, P, P+" 
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-user-shield text-success"></i> นโยบายการรับสมาชิก:
+            </label>
+            <div class="ak-select-wrapper">
+              <select [(ngModel)]="form.joinPolicy" name="joinPolicy">
+                <option value="APPROVAL_REQUIRED">ต้องรอการอนุมัติจากเจ้าของก๊วน</option>
+                <option value="OPEN">เปิดรับอิสระ (เข้าร่วมได้ทันที)</option>
+                <option value="INVITE_ONLY">เฉพาะผู้มีรหัสเชิญเท่านั้น</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Walk-in & Points per set -->
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-shoe-prints text-danger"></i> นโยบายการรับ Walk-in:
+            </label>
+            <div class="ak-select-wrapper">
+              <select [(ngModel)]="form.walkInPolicy" name="walkInPolicy">
+                <option value="NOT_ALLOWED">ไม่รับ Walk-in (ต้องลงชื่อจองล่วงหน้า)</option>
+                <option value="ALLOWED">รับ Walk-in (ยินดีต้อนรับหน้างาน)</option>
+                <option value="ALLOWED_IF_VACANT">รับ Walk-in ถ้ามีคอร์ต/ที่ว่างเหลือ</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-bullseye text-success"></i> กติกาคะแนนต่อเซต:
+            </label>
+            <div class="ak-select-wrapper">
+              <select [(ngModel)]="form.pointsPerSet" name="pointsPerSet">
+                <option [ngValue]="21">21 คะแนน (มาตรฐาน BWF ดิวซ์ 30 แต้ม)</option>
+                <option [ngValue]="15">15 คะแนน (เกมไว / เล่น 3 เซต)</option>
+                <option [ngValue]="30">30 คะแนน (สปีดเกม แต้มเดียวจบ)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shuttlecock Brand & Fee Model -->
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-feather-pointed text-primary"></i> ยี่ห้อ/รุ่นลูกแบดที่ใช้ประจำ:
+            </label>
+            <input 
+              type="text" 
+              [(ngModel)]="form.shuttlecockBrand" 
+              name="shuttlecockBrand" 
+              class="ak-form-input" 
+              placeholder="เช่น RSL Silver Speed 76, Victor Champion" 
+            />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="form-group-item mb-0">
+            <label class="field-label">
+              <i class="fa-solid fa-calculator text-success"></i> รูปแบบการคิดราคาหลัก:
+            </label>
+            <div class="ak-select-wrapper">
+              <select [(ngModel)]="form.feeModel" name="feeModel">
+                <option value="DIVIDED_EQUAL">หารค่าสนามและลูกตามจริง (Divided Equal)</option>
+                <option value="FLAT_RATE">เหมาจ่ายรายหัว (Flat Rate รวมทุกอย่าง)</option>
+                <option value="SPLIT_COURT_SHUTTLE">แยกค่าสนามและค่าลูก (Split Fee)</option>
+                <option value="PER_GAME">คิดตามจำนวนเกมที่ลงเล่น (Per-Game)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-chevron"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4: Fee Structure & Special Discounts -->
+    <div class="form-section-card">
+      <div class="section-header">
+        <div class="header-left">
+          <div class="section-icon-box icon-amber">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <div>
+            <h2 class="section-title">โครงสร้างราคา ค่าบริการ และส่วนลดพิเศษ (Fee Structure & Discounts)</h2>
+            <p class="section-subtitle">กำหนดค่าใช้จ่ายต่อการมาและส่วนลดสำหรับสมาชิกให้ชัดเจน โปร่งใส ปรับเปลี่ยนได้</p>
+          </div>
+        </div>
+        <span class="ak-badge ak-badge-owner flex-shrink-0">
+          <i class="fa-solid fa-tag me-1"></i> โครงสร้างราคา
+        </span>
+      </div>
+
+      <!-- 1. รายการค่าใช้จ่ายย่อยต่อการมา (Base Fees) -->
+      <div class="mb-5">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <label class="field-label mb-0">
+            <i class="fa-solid fa-receipt text-success"></i> รายการค่าใช้จ่ายย่อยต่อการมา (Base Fees):
+          </label>
+          <span class="text-secondary small">
+            พิมพ์ตัวเลข หรือคลิกปุ่มลัด
+          </span>
+        </div>
+
+        <div class="row g-3">
+          <!-- ค่าเหยียบสนาม -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="fee-card">
+              <div class="fee-label">
+                <i class="fa-solid fa-building text-success"></i> ค่าเหยียบสนาม
+              </div>
+              <div class="fee-input-group">
+                <input type="text" [(ngModel)]="form.courtEntryFee" name="courtEntryFee" class="ak-form-input" placeholder="80" />
+                <span class="unit-addon">฿</span>
+              </div>
+              <div class="preset-pills-row">
+                <button type="button" class="fee-pill-btn" [class.active]="form.courtEntryFee === '80'" (click)="setCourtEntryFee('80')">80 ฿</button>
+                <button type="button" class="fee-pill-btn" [class.active]="form.courtEntryFee === '100'" (click)="setCourtEntryFee('100')">100 ฿</button>
+                <button type="button" class="fee-pill-btn" [class.active]="form.courtEntryFee === 'หารเท่า'" (click)="setCourtEntryFee('หารเท่า')">หารเท่า</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ค่าลูกแบด -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="fee-card">
+              <div class="fee-label">
+                <i class="fa-solid fa-feather-pointed text-primary"></i> ค่าลูกแบด
+              </div>
+              <div class="fee-input-group">
+                <input type="text" [(ngModel)]="form.shuttlecockFee" name="shuttlecockFee" class="ak-form-input" placeholder="20" />
+                <span class="unit-addon">฿/ลูก</span>
+              </div>
+              <div class="preset-pills-row">
+                <button type="button" class="fee-pill-btn" [class.active]="form.shuttlecockFee === '20'" (click)="setShuttlecockFee('20')">20 ฿</button>
+                <button type="button" class="fee-pill-btn" [class.active]="form.shuttlecockFee === '25'" (click)="setShuttlecockFee('25')">25 ฿</button>
+                <button type="button" class="fee-pill-btn" [class.active]="form.shuttlecockFee === 'หารตามจริง'" (click)="setShuttlecockFee('หารตามจริง')">หารจริง</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ค่าน็อค / วอร์ม -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="fee-card">
+              <div class="fee-label">
+                <i class="fa-solid fa-stopwatch text-warning"></i> ค่าน็อค/วอร์ม
+              </div>
+              <div class="fee-input-group">
+                <input type="text" [(ngModel)]="form.knockFee" name="knockFee" class="ak-form-input" placeholder="0" />
+                <span class="unit-addon">฿</span>
+              </div>
+              <div class="preset-pills-row">
+                <button type="button" class="fee-pill-btn" [class.active]="form.knockFee === '0' || form.knockFee === 'ฟรี'" (click)="setKnockFee('0')">ฟรี (0 ฿)</button>
+                <button type="button" class="fee-pill-btn" [class.active]="form.knockFee === '20'" (click)="setKnockFee('20')">20 ฿</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ค่าลงต่อเกม -->
+          <div class="col-sm-6 col-lg-3">
+            <div class="fee-card">
+              <div class="fee-label">
+                <i class="fa-solid fa-gamepad text-info"></i> ค่าลงต่อเกม
+              </div>
+              <div class="fee-input-group">
+                <input type="text" [(ngModel)]="form.gameFee" name="gameFee" class="ak-form-input" placeholder="0" />
+                <span class="unit-addon">฿</span>
+              </div>
+              <div class="preset-pills-row">
+                <button type="button" class="fee-pill-btn" [class.active]="form.gameFee === '0' || form.gameFee === 'ฟรี'" (click)="setGameFee('0')">ฟรี (0 ฿)</button>
+                <button type="button" class="fee-pill-btn" [class.active]="form.gameFee === '15'" (click)="setGameFee('15')">15 ฿</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. ส่วนลดพิเศษ & โปรโมชั่น (Special Discounts - Ladies & Beginners) -->
+      <div class="mb-5">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+          <label class="field-label mb-0">
+            <i class="fa-solid fa-gift text-danger"></i> ส่วนลดพิเศษ & โปรโมชั่น (Special Discounts & Incentives):
+          </label>
+          <span class="badge bg-light text-secondary border px-3 py-1.5 rounded-pill">
+            <i class="fa-solid fa-circle-info me-1 text-primary"></i> เลือกลด หรือระบุ 0 ฿ หากคิดราคาปกติ
+          </span>
+        </div>
+
+        <div class="row g-4">
+          <!-- Female Discount (ส่วนลดสุภาพสตรี / ผู้หญิง) -->
+          <div class="col-md-6">
+            <div class="discount-promo-card" [class.female-discount-active]="form.femaleDiscount && form.femaleDiscount !== '0'">
+              <div class="discount-card-header">
+                <div class="discount-title">
+                  <i class="fa-solid fa-person-dress text-danger fa-lg"></i> ส่วนลดสุภาพสตรี (ผู้หญิง / ผญ.)
+                </div>
+                <!-- Dynamic Status Badge -->
+                <span *ngIf="form.femaleDiscount === '0' || !form.femaleDiscount; else hasFemaleDiscBadge" 
+                  class="badge bg-light text-secondary border small">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (ปกติ)
+                </span>
+                <ng-template #hasFemaleDiscBadge>
+                  <span class="badge bg-danger text-white border border-danger small shadow-xs">
+                    <i class="fa-solid fa-tag me-1"></i> ลด {{ form.femaleDiscount }} ฿ สำหรับ ผญ.
+                  </span>
+                </ng-template>
+              </div>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-white border-end-0 text-danger">
+                  <i class="fa-solid fa-tag"></i>
+                </span>
+                <input 
+                  type="text" 
+                  [(ngModel)]="form.femaleDiscount" 
+                  name="femaleDiscount" 
+                  class="ak-form-input rounded-0 border-start-0 border-end-0 fw-bold" 
+                  placeholder="เช่น 20 หรือ 0 หากไม่ลด" 
+                />
+                <span class="input-group-text bg-white border-start-0 text-secondary fw-semibold">฿</span>
+              </div>
+
+              <!-- Quick Selection Chips / Buttons -->
+              <div class="d-flex flex-wrap align-items-center gap-2 mt-auto">
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.femaleDiscount === '0' || !form.femaleDiscount" 
+                  (click)="setFemaleDiscount('0')">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (0 ฿)
+                </button>
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.femaleDiscount === '10'" 
+                  (click)="setFemaleDiscount('10')">
+                  ลด 10 ฿
+                </button>
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.femaleDiscount === '20'" 
+                  (click)="setFemaleDiscount('20')">
+                  ลด 20 ฿
+                </button>
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.femaleDiscount === '30'" 
+                  (click)="setFemaleDiscount('30')">
+                  ลด 30 ฿
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Beginner Discount (ส่วนลดมือใหม่ / ผู้เล่นใหม่) -->
+          <div class="col-md-6">
+            <div class="discount-promo-card" [class.beginner-discount-active]="form.beginnerDiscount && form.beginnerDiscount !== '0'">
+              <div class="discount-card-header">
+                <div class="discount-title">
+                  <i class="fa-solid fa-seedling text-success fa-lg"></i> ส่วนลดมือใหม่ / สมาชิกใหม่
+                </div>
+                <!-- Dynamic Status Badge -->
+                <span *ngIf="form.beginnerDiscount === '0' || !form.beginnerDiscount; else hasBeginnerDiscBadge" 
+                  class="badge bg-light text-secondary border small">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (ปกติ)
+                </span>
+                <ng-template #hasBeginnerDiscBadge>
+                  <span class="badge bg-success text-white border border-success small shadow-xs">
+                    <i class="fa-solid fa-gift me-1"></i> ลด {{ form.beginnerDiscount }} ฿ สมาชิกใหม่
+                  </span>
+                </ng-template>
+              </div>
+
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-white border-end-0 text-success">
+                  <i class="fa-solid fa-gift"></i>
+                </span>
+                <input 
+                  type="text" 
+                  [(ngModel)]="form.beginnerDiscount" 
+                  name="beginnerDiscount" 
+                  class="ak-form-input rounded-0 border-start-0 border-end-0 fw-bold" 
+                  placeholder="เช่น 20 หรือ 0 หากไม่ลด" 
+                />
+                <span class="input-group-text bg-white border-start-0 text-secondary fw-semibold">฿</span>
+              </div>
+
+              <!-- Quick Selection Chips / Buttons -->
+              <div class="d-flex flex-wrap align-items-center gap-2 mt-auto">
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.beginnerDiscount === '0' || !form.beginnerDiscount" 
+                  (click)="setBeginnerDiscount('0')">
+                  <i class="fa-solid fa-ban me-1"></i> ไม่ลดราคา (0 ฿)
+                </button>
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.beginnerDiscount === '10'" 
+                  (click)="setBeginnerDiscount('10')">
+                  ลด 10 ฿
+                </button>
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.beginnerDiscount === '20'" 
+                  (click)="setBeginnerDiscount('20')">
+                  ลด 20 ฿
+                </button>
+                <button type="button" class="fee-pill-btn" 
+                  [class.active]="form.beginnerDiscount === '30'" 
+                  (click)="setBeginnerDiscount('30')">
+                  ลด 30 ฿
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. บริการเสริม & ช่องทางชำระเงิน (Extras & Payment Details) -->
+      <div class="p-4 bg-light rounded-4 border">
+        <div class="row g-4">
+          <!-- ค่าน้ำดื่ม / บริการส่วนกลาง -->
+          <div class="col-md-4">
+            <label class="field-label mb-2">
+              <i class="fa-solid fa-bottle-water text-primary"></i> ค่าน้ำดื่ม / บริการส่วนกลาง:
+            </label>
+            <div class="fee-input-group mb-2">
+              <input type="text" [(ngModel)]="form.waterSnackFee" name="waterSnackFee" class="ak-form-input" placeholder="0" />
+              <span class="unit-addon">฿</span>
+            </div>
+            <div class="preset-pills-row">
+              <button type="button" class="fee-pill-btn" [class.active]="form.waterSnackFee === '0'" (click)="setWaterSnackFee('0')">ฟรี (0 ฿)</button>
+              <button type="button" class="fee-pill-btn" [class.active]="form.waterSnackFee === '10'" (click)="setWaterSnackFee('10')">10 ฿</button>
+              <button type="button" class="fee-pill-btn" [class.active]="form.waterSnackFee === '20'" (click)="setWaterSnackFee('20')">20 ฿</button>
+            </div>
+          </div>
+
+          <!-- ช่องทางการชำระเงิน -->
+          <div class="col-md-8">
+            <label class="field-label mb-2">
+              <i class="fa-solid fa-qrcode text-warning"></i> ช่องทางการชำระเงินเมื่อจบคอร์ท:
+            </label>
+            <input 
+              type="text" 
+              [(ngModel)]="form.paymentMethods" 
+              name="paymentMethods" 
+              class="ak-form-input" 
+              placeholder="เช่น PromptPay QR Code / เงินสดเมื่อจบคอร์ท" 
+            />
+            <div class="field-helper">
+              <i class="fa-solid fa-circle-info text-primary"></i> เช่น รองรับการสแกน QR Code พร้อมเพย์ หรือชำระเงินสดแก่ผู้จัดก๊วน
+            </div>
+          </div>
+
+          <!-- หมายเหตุราคาเพิ่มเติม -->
+          <div class="col-12">
+            <label class="field-label mb-2">
+              <i class="fa-solid fa-circle-info text-secondary"></i> เงื่อนไขราคาและหมายเหตุเพิ่มเติม:
+            </label>
+            <input 
+              type="text" 
+              [(ngModel)]="form.pricingNotes" 
+              name="pricingNotes" 
+              class="ak-form-input" 
+              placeholder="เช่น ไม่มีค่าแรกเข้า ชำระตามที่เล่นจริงเมื่อจบรอบ" 
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Action Card -->
+    <div class="form-action-bar">
+      <div class="reassurance-note">
+        <i class="fa-solid fa-shield-heart"></i>
+        <span>ข้อมูลของคุณจะถูกส่งให้ Platform Admin ตรวจสอบและอนุมัติโดยเร็วที่สุด</span>
+      </div>
+      <div class="actions-group">
+        <a routerLink="/groups" class="ak-btn-outline rounded-pill px-4 py-2">
+          ยกเลิก
+        </a>
+        <button type="submit" class="ak-btn-primary rounded-pill px-4 py-2 shadow-sm">
+          <i class="fa-solid fa-paper-plane me-1.5"></i> ส่งคำขอเพื่อพิจารณาอนุมัติ
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,465 @@
+// =============================================================================
+// Owner Settings Component Styles (KwuanKun Theme)
+// Modern, Spacious Card Design with Generous Padding, Gaps & Subtle Accents
+// =============================================================================
+
+.ak-owner-settings-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0.5rem 0.5rem 4rem;
+
+  @media (min-width: 768px) {
+    padding: 0.75rem 1rem 5rem;
+  }
+
+  @media (max-width: 575.98px) {
+    padding: 0.25rem 0.25rem 3.5rem;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Header Banner Card
+// -----------------------------------------------------------------------------
+.settings-header-banner {
+  background: #FFFFFF;
+  border-radius: 22px;
+  border: 1px solid rgba(0, 194, 97, 0.22);
+  padding: 1.75rem 2.25rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 24px -4px rgba(0, 194, 97, 0.08), 0 2px 6px rgba(15, 23, 42, 0.03);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #00C261 0%, #10B981 50%, #3B82F6 100%);
+  }
+
+  @media (max-width: 767.98px) {
+    padding: 1.35rem 1.25rem;
+    border-radius: 18px;
+    margin-bottom: 1.5rem;
+  }
+
+  .header-badge-row {
+    margin-bottom: 0.65rem;
+  }
+
+  .page-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0;
+    letter-spacing: -0.02em;
+
+    @media (max-width: 767.98px) {
+      font-size: 1.2rem;
+    }
+  }
+
+  .page-subtitle {
+    color: #64748B;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    margin: 0.4rem 0 0;
+    max-width: 680px;
+  }
+
+  .btn-save-settings {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    padding: 0.8rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #00C261 0%, #059669 100%);
+    color: #FFFFFF;
+    border: none;
+    box-shadow: 0 4px 14px rgba(0, 194, 97, 0.3);
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 194, 97, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Settings Cards
+// -----------------------------------------------------------------------------
+.settings-card {
+  background: #FFFFFF;
+  border-radius: 22px;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  padding: 2.25rem;
+  margin-bottom: 1.75rem;
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  height: calc(100% - 1.75rem);
+
+  @media (max-width: 767.98px) {
+    padding: 1.5rem 1.25rem;
+    border-radius: 18px;
+    margin-bottom: 1.25rem;
+    height: auto;
+  }
+
+  &:hover {
+    border-color: rgba(0, 194, 97, 0.3);
+    box-shadow: 0 10px 28px -4px rgba(0, 194, 97, 0.07);
+  }
+
+  .card-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+    border-bottom: 1px solid #F1F5F9;
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      background: var(--brand-surface);
+      color: var(--brand-primary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+
+      &.icon-blue {
+        background: #EFF6FF;
+        color: #3B82F6;
+      }
+
+      &.icon-amber {
+        background: #FEF3C7;
+        color: #D97706;
+      }
+
+      &.icon-emerald {
+        background: #F0FDF4;
+        color: #00C261;
+      }
+    }
+
+    .card-title {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0;
+    }
+
+    .card-subtitle {
+      font-size: 0.825rem;
+      color: #64748B;
+      margin: 0.2rem 0 0;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Form Fields & Labels
+// -----------------------------------------------------------------------------
+.field-item {
+  margin-bottom: 1.5rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  .field-label {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 0.55rem;
+
+    i {
+      font-size: 0.9rem;
+    }
+  }
+
+  .field-hint {
+    font-size: 0.8rem;
+    color: #64748B;
+    margin-top: 0.4rem;
+  }
+}
+
+.settings-input {
+  width: 100%;
+  padding: 0.75rem 1.1rem;
+  font-size: 0.925rem;
+  line-height: 1.5;
+  color: #1E293B;
+  background-color: #FFFFFF;
+  border: 1.5px solid #E2E8F0;
+  border-radius: 14px;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+
+  &::placeholder {
+    color: #94A3B8;
+  }
+
+  &:hover {
+    border-color: #CBD5E1;
+  }
+
+  &:focus {
+    border-color: #00C261;
+    outline: none;
+    box-shadow: 0 0 0 3.5px rgba(0, 194, 97, 0.15);
+  }
+}
+
+textarea.settings-input {
+  resize: vertical;
+  min-height: 105px;
+}
+
+.settings-select-wrapper {
+  position: relative;
+
+  select {
+    width: 100%;
+    padding: 0.75rem 2.5rem 0.75rem 1.1rem;
+    font-size: 0.925rem;
+    color: #1E293B;
+    background-color: #FFFFFF;
+    border: 1.5px solid #E2E8F0;
+    border-radius: 14px;
+    appearance: none;
+    -webkit-appearance: none;
+    cursor: pointer;
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+
+    &:focus {
+      border-color: #00C261;
+      outline: none;
+      box-shadow: 0 0 0 3.5px rgba(0, 194, 97, 0.15);
+    }
+  }
+
+  .select-chevron {
+    position: absolute;
+    right: 1.1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: #64748B;
+    font-size: 0.85rem;
+  }
+}
+
+// -----------------------------------------------------------------------------
+// PromptPay Dedicated Financial Card
+// -----------------------------------------------------------------------------
+.promptpay-card {
+  background: linear-gradient(135deg, #F0FDF4 0%, #FFFFFF 100%);
+  border: 1.5px solid rgba(0, 194, 97, 0.25);
+  border-radius: 20px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 194, 97, 0.05);
+
+  .promptpay-header {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed rgba(0, 194, 97, 0.3);
+
+    .promptpay-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: #00C261;
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.25rem;
+      box-shadow: 0 4px 12px rgba(0, 194, 97, 0.3);
+      flex-shrink: 0;
+    }
+
+    .promptpay-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #0F172A;
+      margin: 0;
+    }
+
+    .promptpay-sub {
+      font-size: 0.8rem;
+      color: #64748B;
+      margin: 0.15rem 0 0;
+    }
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Fee Structure Mini Cards & Pills
+// -----------------------------------------------------------------------------
+.fee-block {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 16px;
+  padding: 1.25rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+
+  &:hover {
+    border-color: rgba(0, 194, 97, 0.3);
+    background: #FFFFFF;
+    box-shadow: 0 6px 18px rgba(0, 194, 97, 0.06);
+  }
+
+  .fee-block-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #334155;
+    margin-bottom: 0.65rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .fee-input-wrap {
+    display: flex;
+    margin-bottom: 0.75rem;
+
+    input {
+      border-radius: 10px 0 0 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-align: center;
+      color: #0F172A;
+      padding: 0.5rem 0.65rem;
+    }
+
+    .unit-text {
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-left: none;
+      border-radius: 0 10px 10px 0;
+      padding: 0 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #64748B;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .fee-pills-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: auto;
+  }
+}
+
+.fee-btn-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid #CBD5E1;
+  background: #FFFFFF;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.15s ease;
+
+  &:hover {
+    border-color: #00C261;
+    color: #00C261;
+    background: #F0FDF4;
+  }
+
+  &.active {
+    background: #00C261;
+    border-color: #00C261;
+    color: #FFFFFF;
+    font-weight: 700;
+    box-shadow: 0 2px 6px rgba(0, 194, 97, 0.25);
+  }
+}
+
+// -----------------------------------------------------------------------------
+// Discount Cards (Female & Beginner)
+// -----------------------------------------------------------------------------
+.discount-setting-card {
+  border-radius: 18px;
+  border: 1.5px solid #E2E8F0;
+  padding: 1.5rem;
+  background: #F8FAFC;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s ease;
+
+  &.female-discount-active {
+    border-color: #F43F5E;
+    background: linear-gradient(145deg, #FFF1F2 0%, #FFFFFF 100%);
+    box-shadow: 0 6px 20px rgba(244, 63, 94, 0.08);
+  }
+
+  &.beginner-discount-active {
+    border-color: #10B981;
+    background: linear-gradient(145deg, #F0FDF4 0%, #FFFFFF 100%);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.08);
+  }
+
+  .discount-card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.85rem;
+  }
+
+  .discount-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}

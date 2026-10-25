@@ -1,0 +1,489 @@
+<div class="container py-3 py-md-4">
+  <!-- Breadcrumb -->
+  <nav class="mb-3">
+    <a routerLink="/groups" class="text-secondary text-decoration-none small d-inline-flex align-items-center gap-1">
+      <i class="fa-solid fa-arrow-left"></i> กลับไปค้นหาก๊วน/ปาร์ตี้ตีแบด
+    </a>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- 1. TBad Court Photo Hero with Floating Player Counter (Screenshot 1)      -->
+  <!-- ========================================================================= -->
+  <div class="ak-tbad-detail-hero mb-3 position-relative">
+    <img [src]="group().coverImage" [alt]="group().name">
+    
+    <!-- Floating Player Counter Badge in Top-Right Corner (Matching Screenshot 1) -->
+    <div class="hero-player-counter">
+      <i class="fa-solid fa-users"></i> {{ group().memberCount }}/{{ group().maxMembers }}
+    </div>
+
+    <!-- Cover Image Upload Button for Owner -->
+    <button type="button" class="hero-change-cover-btn" (click)="coverFileInput.click()" title="เปลี่ยนรูปภาพปกก๊วน">
+      <i class="fa-solid fa-camera me-1"></i> เปลี่ยนรูปภาพ
+    </button>
+    <input type="file" #coverFileInput (change)="onCoverFileSelected($event)" accept="image/*" class="d-none">
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. Clean TBad Tabs Header (รายละเอียด & ผู้เข้าร่วม) (Screenshot 1)         -->
+  <!-- ========================================================================= -->
+  <div class="ak-tbad-tabs-header">
+    <button 
+      type="button" 
+      class="tbad-tab-btn" 
+      [class.active]="activeTab() === 'info'" 
+      (click)="activeTab.set('info')">
+      รายละเอียด
+    </button>
+    <button 
+      type="button" 
+      class="tbad-tab-btn" 
+      [class.active]="activeTab() === 'members'" 
+      (click)="activeTab.set('members')">
+      ผู้เข้าร่วม 
+      <span class="tab-counter-badge">{{ group().memberCount }}</span>
+    </button>
+    <button 
+      type="button" 
+      class="tbad-tab-btn" 
+      [class.active]="activeTab() === 'courts'" 
+      (click)="activeTab.set('courts')">
+      <i class="fa-solid fa-map-location-dot me-1"></i> สนามประจำ & แผนที่
+    </button>
+    <button 
+      type="button" 
+      class="tbad-tab-btn d-none d-md-inline-flex" 
+      [class.active]="activeTab() === 'announcements'" 
+      (click)="activeTab.set('announcements')">
+      <i class="fa-solid fa-gavel me-1"></i> กฎ & ข่าวสาร
+    </button>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 1: รายละเอียด (Details View - Matching Screenshot 1)                  -->
+  <!-- ========================================================================= -->
+  <div *ngIf="activeTab() === 'info'">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <!-- TBad Session Info Card (Date, Time, Court with Pin) -->
+        <div class="ak-tbad-info-card mb-4 shadow-xs">
+          <!-- Date Row -->
+          <div class="info-row">
+            <span class="row-icon"><i class="fa-regular fa-calendar-days"></i></span>
+            <span class="today-tag">วันนี้</span>
+            <span>{{ group().sessionDate }}</span>
+          </div>
+
+          <!-- Time Row -->
+          <div class="info-row">
+            <span class="row-icon"><i class="fa-regular fa-clock"></i></span>
+            <span>{{ group().sessionTime }}</span>
+          </div>
+
+          <!-- Location & Court Link Row -->
+          <div class="info-row">
+            <span class="row-icon text-success"><i class="fa-solid fa-location-dot"></i></span>
+            <span 
+              class="clickable-court-link" 
+              (click)="openRoute(group().frequentCourts[0])" 
+              title="กดเพื่อเปิดแผนที่และเส้นทางนำทาง">
+              {{ group().frequentCourts[0].name }}
+            </span>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- Session Rules & Policy Pill Cards (Walk-in, คะแนนต่อเซต, etc.)           -->
+        <!-- ========================================================================= -->
+        <div class="tbad-rules-grid mb-4">
+          <div 
+            class="tbad-rule-pill" 
+            *ngFor="let rule of group().sessionRules" 
+            [ngClass]="rule.colorClass">
+            <div class="pill-icon-box">
+              <ng-container *ngIf="rule.id === 'shuttlecock'; else normalPillIcon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M9.5 15.2C9.5 18 10.6 20.2 12 20.2C13.4 20.2 14.5 18 14.5 15.2C14.5 14.2 13.4 13.8 12 13.8C10.6 13.8 9.5 14.2 9.5 15.2Z" fill="#0284C7"/>
+                  <path d="M5.8 4L9.5 14.2M18.2 4L14.5 14.2M12 3.8V14.2M8.8 4.2L10.5 14.2M15.2 4.2L13.5 14.2" stroke="#0284C7" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M5.8 4C8 2.8 16 2.8 18.2 4" stroke="#0284C7" stroke-width="1.8" stroke-linecap="round"/>
+                  <path d="M7.2 7.6C8.8 8.3 15.2 8.3 16.8 7.6" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round"/>
+                  <path d="M8.2 11.2C9.6 11.8 14.4 11.8 15.8 11.2" stroke="#0284C7" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+              </ng-container>
+              <ng-template #normalPillIcon>
+                <i [class]="rule.icon"></i>
+              </ng-template>
+            </div>
+            <div class="pill-text-content">
+              <span class="pill-label">{{ rule.label }}</span>
+              <span class="pill-value">{{ rule.value }}</span>
+              <span class="pill-subtext">{{ rule.subtext }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========================================================================= -->
+        <!-- Badminton Fee Breakdown Card (ค่าใช้จ่ายและราคาต่อการมา)                 -->
+        <!-- ========================================================================= -->
+        <div class="ak-pricing-card mb-4">
+          <!-- Pricing Header -->
+          <div class="pricing-header">
+            <div class="pricing-title-box">
+              <div class="pricing-icon">
+                <i class="fa-solid fa-coins"></i>
+              </div>
+              <div>
+                <h4>ค่าใช้จ่ายและราคาต่อการมา</h4>
+                <span class="pricing-model-chip">
+                  <i class="fa-solid fa-circle-check me-1"></i> {{ group().pricing.modelTitle }}
+                </span>
+              </div>
+            </div>
+            <div class="estimated-total-pill">
+              <i class="fa-solid fa-receipt"></i>
+              <span>เฉลี่ย {{ group().pricing.estimatedTotal }}</span>
+            </div>
+          </div>
+
+          <!-- Pricing Items Grid -->
+          <div class="pricing-body">
+            <div class="pricing-grid">
+              <div class="pricing-item-tile" *ngFor="let item of group().pricing.items">
+                <div class="tile-icon">
+                  <ng-container *ngIf="item.title.includes('ลูกแบด'); else normalTileIcon">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M9.5 15.2C9.5 18 10.6 20.2 12 20.2C13.4 20.2 14.5 18 14.5 15.2C14.5 14.2 13.4 13.8 12 13.8C10.6 13.8 9.5 14.2 9.5 15.2Z" fill="#10B981"/>
+                      <path d="M5.8 4L9.5 14.2M18.2 4L14.5 14.2M12 3.8V14.2M8.8 4.2L10.5 14.2M15.2 4.2L13.5 14.2" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+                      <path d="M5.8 4C8 2.8 16 2.8 18.2 4" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+                      <path d="M7.2 7.6C8.8 8.3 15.2 8.3 16.8 7.6" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
+                      <path d="M8.2 11.2C9.6 11.8 14.4 11.8 15.8 11.2" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                  </ng-container>
+                  <ng-template #normalTileIcon>
+                    <i [class]="item.icon"></i>
+                  </ng-template>
+                </div>
+                <div class="tile-content">
+                  <div class="tile-header-row">
+                    <span class="tile-title">{{ item.title }}</span>
+                    <span class="tile-badge">{{ item.badge }}</span>
+                  </div>
+                  <div class="tile-price-row">
+                    <span class="tile-price">{{ item.price }}</span>
+                    <span class="tile-unit">/ {{ item.unit }}</span>
+                  </div>
+                  <p class="tile-desc">{{ item.description }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing Footer Note -->
+          <div class="pricing-footer">
+            <div class="payment-tip">
+              <i class="fa-solid fa-qrcode"></i>
+              <span>{{ group().pricing.paymentMethod }}</span>
+            </div>
+            <span class="text-success small fw-semibold">
+              <i class="fa-solid fa-shield-heart me-1"></i> ไม่มีค่าแรกเข้า • ชำระตามที่เล่นจริง
+            </span>
+          </div>
+        </div>
+
+        <!-- Participants Avatar Stack Section (Matching Screenshot 1) -->
+        <div class="ak-participants-box mb-4">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <h3 class="participants-title mb-0">ผู้เข้าร่วม</h3>
+            <button (click)="activeTab.set('members')" class="btn btn-sm btn-link text-success fw-bold text-decoration-none p-0">
+              ดูรายชื่อทั้งหมด ({{ group().memberCount }}) <i class="fa-solid fa-chevron-right ms-1"></i>
+            </button>
+          </div>
+
+          <!-- Overlapping Circular Avatars + "+1" Pill Badge -->
+          <div class="avatar-stack-row">
+            <img 
+              *ngFor="let p of participants()" 
+              [src]="p.avatar" 
+              [alt]="p.name" 
+              [title]="p.name" 
+              class="stacked-avatar">
+            <div class="stacked-more-pill" title="และอีก 1 ท่าน">
+              +1
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick About The Club & Host Info -->
+        <div class="ak-card mb-4 shadow-sm">
+          <div class="d-flex align-items-start gap-3 mb-3">
+            <div class="group-logo-frame flex-shrink-0" style="width: 60px; height: 60px; border-radius: 16px; overflow: hidden; border: 2px solid #E5E7EB;">
+              <img [src]="group().profileImage" [alt]="group().name" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            <div>
+              <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
+                <span class="ak-badge ak-badge-active"><i class="fa-solid fa-circle-check"></i> ก๊วนเปิดรับสมัคร</span>
+                <span class="ak-badge ak-badge-skill">{{ group().skillLevel }}</span>
+              </div>
+              <h2 class="h5 fw-bold text-dark mb-0">{{ group().name }}</h2>
+              <span class="text-secondary small">โดย {{ group().ownerName }} • {{ group().district }} {{ group().province }}</span>
+            </div>
+          </div>
+
+          <p class="text-secondary small leading-relaxed mb-0">
+            {{ group().description }}
+          </p>
+        </div>
+
+        <!-- Home Court Highlight Box & Direct Navigation -->
+        <div class="ak-card mb-4 shadow-sm border-success border-opacity-25" style="background: linear-gradient(135deg, #FFFFFF 0%, #F4FAF6 100%);">
+          <div class="d-flex align-items-center justify-content-between mb-3">
+            <h4 class="h6 fw-bold text-dark mb-0">
+              <i class="fa-solid fa-building text-success me-2"></i> สนามหลักประจำก๊วน (Home Court)
+            </h4>
+            <span class="text-success small fw-bold">
+              <i class="fa-solid fa-location-arrow me-1"></i> {{ group().frequentCourts[0].distance }}
+            </span>
+          </div>
+
+          <div class="p-3 bg-white rounded-3 border mb-3">
+            <h5 class="fw-bold text-dark fs-6 mb-1">{{ group().frequentCourts[0].name }}</h5>
+            <p class="text-secondary small mb-3">
+              <i class="fa-solid fa-location-dot text-danger me-1"></i> {{ group().frequentCourts[0].address }}
+              <br>
+              <span class="text-muted"><i class="fa-solid fa-landmark text-primary me-1"></i> {{ group().frequentCourts[0].landmark }}</span>
+            </p>
+
+            <!-- One-Click Route Navigation Buttons -->
+            <div class="d-flex flex-wrap gap-2">
+              <button (click)="openRoute(group().frequentCourts[0])" class="ak-btn-primary ak-btn-sm rounded-pill px-3 shadow-xs">
+                <i class="fa-solid fa-route me-1"></i> เปิดนำทาง (Google Maps)
+              </button>
+              <button (click)="openAppleMaps(group().frequentCourts[0])" class="ak-btn-outline ak-btn-sm rounded-pill px-3">
+                <i class="fa-brands fa-apple me-1"></i> Apple Maps
+              </button>
+              <button (click)="copyAddress(group().frequentCourts[0])" class="ak-btn-ghost ak-btn-sm rounded-pill px-2.5" title="คัดลอกที่อยู่สนาม">
+                <i class="fa-solid fa-copy me-1"></i> คัดลอกที่อยู่
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Sidebar (Desktop) -->
+      <div class="col-lg-4">
+        <!-- Host Card -->
+        <div class="ak-card shadow-sm text-center p-4 mb-4">
+          <img [src]="group().ownerAvatar" alt="Host Avatar" class="rounded-circle shadow-sm mb-2" style="width: 72px; height: 72px; object-fit: cover;">
+          <h5 class="fw-bold text-dark mb-0">{{ group().ownerName }}</h5>
+          <span class="ak-badge ak-badge-owner mt-1 mb-2">เจ้าของก๊วน / Host</span>
+          <p class="text-secondary small mb-3">ตอบกลับคำขอภายใน 1-2 ชั่วโมง ยินดีต้อนรับเพื่อนใหม่ทุกคนครับ</p>
+          <button (click)="applyToJoin()" class="ak-btn-primary ak-btn-sm w-100 justify-content-center rounded-pill">
+            <i class="fa-solid fa-user-plus me-1"></i> สมัครเข้าร่วมก๊วน
+          </button>
+        </div>
+
+        <!-- Venue Summary Box -->
+        <div class="ak-card shadow-sm p-3 mb-4">
+          <h6 class="fw-bold text-dark mb-2">
+            <i class="fa-solid fa-circle-info text-success me-1"></i> ข้อมูลการเล่นประจำ
+          </h6>
+          <ul class="list-unstyled small text-secondary mb-0 d-flex flex-column gap-2">
+            <li><i class="fa-solid fa-calendar-check text-success me-2"></i> {{ group().frequentCourts[0].regularSchedule }}</li>
+            <li><i class="fa-solid fa-layer-group text-primary me-2"></i> {{ group().frequentCourts[0].courtsCount }}</li>
+            <li><i class="fa-solid fa-shield-halved text-warning me-2"></i> {{ group().frequentCourts[0].floorType }}</li>
+            <li><i class="fa-solid fa-car text-info me-2"></i> ที่จอดรถสะดวกสบาย</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 2: ผู้เข้าร่วม (Participants Full Roster)                             -->
+  <!-- ========================================================================= -->
+  <div *ngIf="activeTab() === 'members'">
+    <div class="ak-card shadow-sm p-0 overflow-hidden mb-4">
+      <div class="p-3 bg-light border-bottom d-flex align-items-center justify-content-between">
+        <h5 class="fw-bold text-dark mb-0 fs-6">
+          <i class="fa-solid fa-users text-success me-2"></i> รายชื่อผู้เข้าร่วมทั้งหมด ({{ group().memberCount }} คน)
+        </h5>
+        <span class="ak-badge ak-badge-active">
+          เหลือที่ว่าง {{ group().maxMembers - group().memberCount }} ที่
+        </span>
+      </div>
+
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 ak-data-table">
+          <thead>
+            <tr>
+              <th class="ps-3 ps-md-4">ผู้เล่น</th>
+              <th>บทบาท</th>
+              <th>ระดับฝีมือ</th>
+              <th class="pe-3 pe-md-4 text-end">สถานะการยืนยัน</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="ps-3 ps-md-4">
+                <div class="d-flex align-items-center gap-2">
+                  <img [src]="group().ownerAvatar" [alt]="group().ownerName" class="rounded-circle shadow-xs" style="width: 36px; height: 36px; object-fit: cover;">
+                  <span class="fw-bold text-dark">{{ group().ownerName }}</span>
+                </div>
+              </td>
+              <td><span class="ak-badge ak-badge-owner"><i class="fa-solid fa-crown"></i> ผู้จัด / HOST</span></td>
+              <td><span class="ak-badge ak-badge-skill">P+</span></td>
+              <td class="pe-3 pe-md-4 text-end"><span class="ak-badge ak-badge-active"><i class="fa-solid fa-check"></i> ยืนยันแล้ว</span></td>
+            </tr>
+            <tr *ngFor="let m of participants()">
+              <td class="ps-3 ps-md-4">
+                <div class="d-flex align-items-center gap-2">
+                  <img [src]="m.avatar" [alt]="m.name" class="rounded-circle shadow-xs" style="width: 36px; height: 36px; object-fit: cover;">
+                  <span class="fw-bold text-dark">{{ m.name }}</span>
+                </div>
+              </td>
+              <td><span class="ak-badge ak-badge-member"><i class="fa-solid fa-user"></i> สมาชิก</span></td>
+              <td><span class="ak-badge ak-badge-skill">S / P</span></td>
+              <td class="pe-3 pe-md-4 text-end"><span class="ak-badge ak-badge-active"><i class="fa-solid fa-check"></i> ยืนยันแล้ว</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 3: สรุปสนามประจำ & แผนที่ (Frequent Courts & Map Routing)            -->
+  <!-- ========================================================================= -->
+  <div *ngIf="activeTab() === 'courts'">
+    <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+      <div>
+        <h3 class="h4 fw-bold text-dark mb-1">
+          <i class="fa-solid fa-map-location-dot text-success me-2"></i> สรุปสนามที่มักเล่น (Frequent & Home Courts)
+        </h3>
+        <p class="text-secondary small mb-0">ปักหมุดคอร์ทแบดมินตันประจำก๊วน พร้อมเปิดระบบนำทางตรงไปยังแอปแผนที่ (Google Maps / Apple Maps)</p>
+      </div>
+      <span class="ak-badge ak-badge-active">
+        <i class="fa-solid fa-building-circle-check me-1"></i> ประจำ {{ group().frequentCourts.length }} สนาม
+      </span>
+    </div>
+
+    <div class="row g-4">
+      <div class="col-lg-6" *ngFor="let court of group().frequentCourts">
+        <div class="ak-card h-100 shadow-sm p-4 d-flex flex-column" [class.border-success]="court.isPrimary" [class.border-2]="court.isPrimary">
+          <!-- Court Header -->
+          <div class="d-flex align-items-start justify-content-between gap-2 mb-3">
+            <div>
+              <span class="ak-badge mb-2" [ngClass]="court.isPrimary ? 'ak-badge-verified' : 'ak-badge-member'">
+                <i class="fa-solid" [ngClass]="court.isPrimary ? 'fa-crown text-warning' : 'fa-building'"></i>
+                {{ court.isPrimary ? 'สนามหลักประจำก๊วน' : 'สนามรอง / นัดพิเศษ' }}
+              </span>
+              <h4 class="h5 fw-bold text-dark mb-1">{{ court.name }}</h4>
+              <span class="text-muted small">
+                <i class="fa-solid fa-location-arrow text-success me-1"></i> {{ court.distance }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Real Free Leaflet OpenStreetMap Court Pin -->
+          <div class="mb-3">
+            <app-court-map-picker 
+              [lat]="court.lat" 
+              [lng]="court.lng" 
+              [courtName]="court.name" 
+              [address]="court.address" 
+              mode="view" 
+              height="190px">
+            </app-court-map-picker>
+          </div>
+
+          <!-- Court Address & Landmark -->
+          <div class="mb-3">
+            <div class="text-dark small fw-semibold mb-1">
+              <i class="fa-solid fa-location-dot text-danger me-1"></i> ที่อยู่สนาม:
+            </div>
+            <p class="text-secondary small mb-2 ps-3 border-start border-2 border-success">
+              {{ court.address }}
+              <br>
+              <span class="text-muted"><i class="fa-solid fa-landmark text-primary me-1"></i> {{ court.landmark }}</span>
+            </p>
+          </div>
+
+          <!-- Schedule & Court Specs -->
+          <div class="row g-2 mb-3 small">
+            <div class="col-sm-6">
+              <div class="p-2 rounded-2 bg-light border">
+                <span class="text-muted d-block" style="font-size: 0.725rem;">วัน-เวลาที่เล่นประจำ</span>
+                <span class="fw-bold text-dark">{{ court.regularSchedule }}</span>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="p-2 rounded-2 bg-light border">
+                <span class="text-muted d-block" style="font-size: 0.725rem;">ขนาดและประเภทพื้นคอร์ต</span>
+                <span class="fw-bold text-dark">{{ court.courtsCount }} ({{ court.floorType }})</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Facilities Badges -->
+          <div class="mb-4">
+            <div class="text-dark small fw-semibold mb-2">สิ่งอำนวยความสะดวก:</div>
+            <div class="d-flex flex-wrap gap-1.5">
+              <span class="ak-facility-pill" *ngFor="let f of court.facilities">
+                <i class="fa-solid fa-circle-check text-success"></i> {{ f }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Route Actions -->
+          <div class="mt-auto pt-3 border-top border-light">
+            <div class="d-flex flex-wrap align-items-center gap-2">
+              <button (click)="openRoute(court)" class="ak-btn-primary ak-btn-md rounded-pill flex-fill justify-content-center shadow-xs">
+                <i class="fa-solid fa-route me-1"></i> เปิดนำทาง (Google Maps)
+              </button>
+              <button (click)="openAppleMaps(court)" class="ak-btn-outline ak-btn-md rounded-pill px-3" title="เปิดใน Apple Maps">
+                <i class="fa-brands fa-apple"></i>
+              </button>
+              <button (click)="copyAddress(court)" class="ak-btn-ghost ak-btn-md rounded-pill px-3" title="คัดลอกที่อยู่สนาม">
+                <i class="fa-solid fa-copy"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- TAB 4: กฎระเบียบ & ประกาศ (Rules & Announcements)                         -->
+  <!-- ========================================================================= -->
+  <div *ngIf="activeTab() === 'announcements'">
+    <div class="ak-card shadow-sm mb-4">
+      <h4 class="h5 fw-bold text-dark mb-3">
+        <i class="fa-solid fa-gavel text-warning me-2"></i> กฎระเบียบและข้อตกลงของก๊วน
+      </h4>
+      <div class="d-flex flex-column gap-3">
+        <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background: var(--brand-surface);">
+          <span class="ak-icon-box ak-icon-box-primary" style="width: 32px; height: 32px; font-size: 0.9rem;">
+            <i class="fa-solid fa-clock"></i>
+          </span>
+          <div>
+            <h6 class="text-dark fw-bold mb-1">ตรงต่อเวลาและมารยาทในสนาม</h6>
+            <p class="text-secondary small mb-0">กรุณามาถึงสนามก่อนเวลาเริ่ม 10 นาที เคารพเพื่อนร่วมก๊วน เล่นอย่างมีน้ำใจนักกีฬา</p>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-start gap-3 p-3 rounded-3" style="background: var(--brand-surface);">
+          <span class="ak-icon-box ak-icon-box-primary" style="width: 32px; height: 32px; font-size: 0.9rem;">
+            <i class="fa-solid fa-ban text-danger"></i>
+          </span>
+          <div>
+            <h6 class="text-dark fw-bold mb-1">การยกเลิกการลงชื่อกิจกรรม (ไม่ง้อคนขี้เท)</h6>
+            <p class="text-secondary small mb-0">หากลงชื่อแล้วไม่สามารถมาได้ กรุณากดยกเลิกล่วงหน้าอย่างน้อย 4 ชั่วโมง เพื่อให้สิทธิ์ผู้เล่นรายชื่อสำรอง</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

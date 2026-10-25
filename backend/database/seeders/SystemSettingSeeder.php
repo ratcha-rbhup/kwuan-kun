@@ -15,7 +15,7 @@ class SystemSettingSeeder extends Seeder
         $settings = [
             [
                 'setting_key' => 'app.platform_name',
-                'setting_value' => 'Add ก๊วน (Add Kuan)',
+                'setting_value' => 'KwuanKun',
                 'data_type' => 'STRING',
                 'description' => 'ชื่อระบบทางการของแพลตฟอร์ม',
                 'is_public' => true,
@@ -36,7 +36,7 @@ class SystemSettingSeeder extends Seeder
             ],
             [
                 'setting_key' => 'app.support_email',
-                'setting_value' => 'support@addkuan.app',
+                'setting_value' => 'support@kwuankun.app',
                 'data_type' => 'STRING',
                 'description' => 'อีเมลสำหรับติดต่อทีมงานและแจ้งปัญหา',
                 'is_public' => true,

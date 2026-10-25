@@ -1,0 +1,118 @@
+<!-- ============================================================================= -->
+<!-- Global Central UI Feedback Host (Toast, Confirmation Dialog, Bottom Sheet)    -->
+<!-- Styled for iOS, Android, Tablet, iPad & Desktop (White & Green Theme)        -->
+<!-- ============================================================================= -->
+
+<!-- 1. FLOATING TOAST NOTIFICATION STACK -->
+<div class="ak-toast-container" *ngIf="feedback.toasts().length > 0">
+  <div *ngFor="let t of feedback.toasts()" 
+       class="ak-toast" 
+       [ngClass]="'ak-toast-' + t.type">
+    <!-- Icon -->
+    <span class="ak-toast-icon">
+      <i [class]="t.icon"></i>
+    </span>
+
+    <!-- Message Content -->
+    <div class="ak-toast-body">
+      <div *ngIf="t.title" class="ak-toast-title">{{ t.title }}</div>
+      <div class="ak-toast-message">{{ t.message }}</div>
+    </div>
+
+    <!-- Dismiss Button -->
+    <button type="button" class="ak-toast-close" (click)="feedback.dismissToast(t.id)" title="ปิด">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+</div>
+
+<!-- 2. CONFIRMATION DIALOG (Modal) -->
+<div *ngIf="feedback.activeConfirm() as confirmDialog" 
+     class="ak-dialog-backdrop"
+     (click)="onConfirm(false)">
+  <div class="ak-dialog-card" (click)="$event.stopPropagation()">
+    <!-- Dialog Icon Box -->
+    <div class="ak-dialog-icon-box" [ngClass]="'ak-dialog-icon-' + (confirmDialog.options.type || 'primary')">
+      <i [class]="confirmDialog.options.icon || 'fa-solid fa-circle-question'"></i>
+    </div>
+
+    <!-- Title & Content -->
+    <h3 class="ak-dialog-title">{{ confirmDialog.options.title }}</h3>
+    <p class="ak-dialog-message">{{ confirmDialog.options.message }}</p>
+
+    <!-- Action Buttons -->
+    <div class="ak-dialog-actions">
+      <button type="button" 
+              class="ak-btn-outline ak-btn-md rounded-pill flex-fill" 
+              (click)="onConfirm(false)">
+        {{ confirmDialog.options.cancelText || 'ยกเลิก' }}
+      </button>
+
+      <button type="button" 
+              class="ak-btn-md rounded-pill flex-fill" 
+              [ngClass]="confirmDialog.options.type === 'danger' ? 'ak-btn-danger' : 'ak-btn-primary'"
+              (click)="onConfirm(true)">
+        {{ confirmDialog.options.confirmText || 'ยืนยัน' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 3. ALERT DIALOG (Modal) -->
+<div *ngIf="feedback.activeAlert() as alertDialog" 
+     class="ak-dialog-backdrop"
+     (click)="onAlertClose()">
+  <div class="ak-dialog-card" (click)="$event.stopPropagation()">
+    <div class="ak-dialog-icon-box" [ngClass]="'ak-dialog-icon-' + (alertDialog.options.type || 'primary')">
+      <i [class]="alertDialog.options.icon || 'fa-solid fa-circle-info'"></i>
+    </div>
+
+    <h3 class="ak-dialog-title">{{ alertDialog.options.title }}</h3>
+    <p class="ak-dialog-message">{{ alertDialog.options.message }}</p>
+
+    <div class="ak-dialog-actions">
+      <button type="button" 
+              class="ak-btn-primary ak-btn-md rounded-pill w-100" 
+              (click)="onAlertClose()">
+        {{ alertDialog.options.buttonText || 'ตกลง' }}
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- 4. BOTTOM SHEET DRAWER (LINE LIFF Signature Action Drawer) -->
+<div *ngIf="feedback.activeBottomSheet() as sheet" 
+     class="ak-bottom-sheet-backdrop"
+     (click)="onCloseBottomSheet()">
+  <div class="ak-bottom-sheet" (click)="$event.stopPropagation()">
+    <!-- Pull Bar Indicator -->
+    <div class="ak-bottom-sheet-handle"></div>
+
+    <!-- Header -->
+    <div class="ak-bottom-sheet-header">
+      <h4 class="ak-bottom-sheet-title">{{ sheet.options.title }}</h4>
+      <p *ngIf="sheet.options.subtitle" class="ak-bottom-sheet-subtitle">{{ sheet.options.subtitle }}</p>
+    </div>
+
+    <!-- Options List -->
+    <div class="ak-bottom-sheet-options">
+      <button *ngFor="let opt of sheet.options.options" 
+              type="button" 
+              class="ak-bottom-sheet-item"
+              (click)="onSelectBottomSheetOption(opt.id)">
+        <span *ngIf="opt.icon" class="ak-bottom-sheet-item-icon">
+          <i [class]="opt.icon"></i>
+        </span>
+        <span class="ak-bottom-sheet-item-label">{{ opt.label }}</span>
+        <span *ngIf="opt.badge" class="ak-badge ak-badge-active ms-auto">{{ opt.badge }}</span>
+      </button>
+    </div>
+
+    <!-- Cancel / Dismiss -->
+    <div class="p-3 pt-0">
+      <button type="button" class="ak-btn-outline w-100 rounded-pill" (click)="onCloseBottomSheet()">
+        ยกเลิก
+      </button>
+    </div>
+  </div>
+</div>

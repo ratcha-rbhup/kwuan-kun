@@ -1,0 +1,163 @@
+<div class="ak-sessions-page">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-owner mb-2">
+        <i class="fa-solid fa-calendar-days"></i> จัดการรอบตีแบดมินตัน
+      </div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        ตารางรอบตี & นัดซ้อมประจำสัปดาห์
+      </h1>
+      <p class="text-secondary small mb-0">
+        {{ groupName() }} • เปิดรับสมาชิกลงชื่อ กำหนดจำนวนคน และจัดการสถานะคอร์ต
+      </p>
+    </div>
+
+    <div>
+      <button (click)="openCreateModal()" class="ak-btn-primary rounded-pill px-3 shadow-sm">
+        <i class="fa-solid fa-plus-circle me-1.5"></i> เปิดรอบตีใหม่ (New Session)
+      </button>
+    </div>
+  </div>
+
+  <!-- Sessions List -->
+  <div class="row g-4">
+    <div class="col-12" *ngFor="let s of sessions()">
+      <div class="ak-card p-4 shadow-sm border" [class.border-success]="s.status === 'OPEN'" [class.opacity-75]="s.status === 'CANCELLED'">
+        <div class="d-flex flex-wrap align-items-start justify-content-between gap-3 mb-3">
+          <div>
+            <div class="d-flex align-items-center gap-2 mb-1.5">
+              <span class="ak-badge" [ngClass]="{
+                'ak-badge-active': s.status === 'OPEN',
+                'ak-badge-pending': s.status === 'FULL',
+                'ak-badge-rejected': s.status === 'CANCELLED',
+                'ak-badge-verified': s.status === 'COMPLETED'
+              }">
+                <i class="fa-solid" [ngClass]="{
+                  'fa-circle-dot': s.status === 'OPEN',
+                  'fa-users-slash': s.status === 'FULL',
+                  'fa-ban': s.status === 'CANCELLED',
+                  'fa-flag-checkered': s.status === 'COMPLETED'
+                }"></i>
+                {{ s.status === 'OPEN' ? 'กำลังเปิดรับสมัคร' : (s.status === 'FULL' ? 'คอร์ตเต็ม (FULL)' : (s.status === 'CANCELLED' ? 'ยกเลิกแล้ว' : 'แข่งขันเสร็จสิ้น')) }}
+              </span>
+              <span class="text-secondary small fw-semibold">
+                <i class="fa-solid fa-calendar-day text-success me-1"></i> {{ s.date }}
+              </span>
+            </div>
+            <h2 class="h5 fw-bold text-dark mb-1">{{ s.title }}</h2>
+            <div class="text-secondary small d-flex flex-wrap gap-3">
+              <span><i class="fa-solid fa-clock text-primary me-1"></i> {{ s.time }}</span>
+              <span><i class="fa-solid fa-location-dot text-danger me-1"></i> {{ s.courtVenue }} ({{ s.courtNumbers }})</span>
+              <span><i class="fa-solid fa-feather-pointed text-warning me-1"></i> {{ s.shuttlecockBrand }}</span>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <button *ngIf="s.status !== 'CANCELLED' && s.status !== 'COMPLETED'" 
+              (click)="toggleSessionStatus(s)" 
+              class="ak-btn-outline ak-btn-sm rounded-pill">
+              <i class="fa-solid fa-repeat me-1"></i> {{ s.status === 'OPEN' ? 'ปิดรับ (เต็ม)' : 'เปิดรับเพิ่ม' }}
+            </button>
+            <button *ngIf="s.status !== 'CANCELLED' && s.status !== 'COMPLETED'" 
+              (click)="cancelSession(s)" 
+              class="ak-btn-ghost text-danger ak-btn-sm rounded-pill">
+              <i class="fa-solid fa-trash-can me-1"></i> ยกเลิก
+            </button>
+          </div>
+        </div>
+
+        <!-- Session Progress & Players Info -->
+        <div class="p-3 rounded-3 bg-light border mb-3">
+          <div class="d-flex align-items-center justify-content-between mb-1.5">
+            <span class="small fw-bold text-dark">
+              <i class="fa-solid fa-user-group text-success me-1"></i> สมาชิกลงชื่อแล้ว: {{ s.registeredCount }} / {{ s.maxPlayers }} คน
+            </span>
+            <span class="small text-success fw-bold">
+              ~{{ s.priceEstimate }} ฿ / คน
+            </span>
+          </div>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar bg-success" role="progressbar" 
+              [style.width.%]="(s.registeredCount / s.maxPlayers) * 100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Players Chip List -->
+        <div *ngIf="s.players && s.players.length > 0">
+          <span class="text-secondary small fw-semibold d-block mb-2">รายชื่อผู้ลงเล่นในรอบนี้:</span>
+          <div class="d-flex flex-wrap gap-2">
+            <span *ngFor="let p of s.players" class="badge bg-white text-dark border px-2.5 py-1.5 rounded-pill shadow-xs d-inline-flex align-items-center gap-1.5">
+              <i class="fa-solid fa-circle-user text-secondary"></i>
+              <span class="fw-semibold">{{ p.name }}</span>
+              <span class="badge bg-success bg-opacity-10 text-success ms-1" style="font-size: 0.7rem;">{{ p.level }}</span>
+              <i class="fa-solid ms-1" [ngClass]="p.isPaid ? 'fa-check text-success' : 'fa-hourglass text-warning'" [title]="p.isPaid ? 'ชำระเงินแล้ว' : 'ยังไม่ชำระ'"></i>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create Session Modal Backdrop -->
+  <div *ngIf="isCreateModalOpen()" class="modal-backdrop fade show"></div>
+  <div *ngIf="isCreateModalOpen()" class="modal fade show d-block" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content rounded-4 border-0 shadow">
+        <div class="modal-header border-bottom px-4 py-3">
+          <h5 class="modal-title fw-bold text-dark">
+            <i class="fa-solid fa-calendar-plus text-success me-2"></i> เปิดรอบตีก๊วนใหม่ (Create Session)
+          </h5>
+          <button type="button" class="btn-close" (click)="closeCreateModal()"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label small fw-bold text-dark">ชื่องาน / รอบนัดตี:</label>
+              <input type="text" [(ngModel)]="newSession.title" class="ak-form-control" placeholder="เช่น นัดตีกระชับมิตรวันอังคาร" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold text-dark">วันที่นัดตี:</label>
+              <input type="date" [(ngModel)]="newSession.date" class="ak-form-control" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small fw-bold text-dark">เวลาเริ่ม:</label>
+              <input type="time" [(ngModel)]="newSession.startTime" class="ak-form-control" />
+            </div>
+            <div class="col-md-3">
+              <label class="form-label small fw-bold text-dark">เวลาสิ้นสุด:</label>
+              <input type="time" [(ngModel)]="newSession.endTime" class="ak-form-control" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold text-dark">สนามแบดมินตัน:</label>
+              <input type="text" [(ngModel)]="newSession.courtVenue" class="ak-form-control" />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold text-dark">หมายเลขคอร์ต:</label>
+              <input type="text" [(ngModel)]="newSession.courtNumbers" class="ak-form-control" placeholder="เช่น คอร์ต 3, 4" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-dark">ลูกแบดที่ใช้:</label>
+              <input type="text" [(ngModel)]="newSession.shuttlecockBrand" class="ak-form-control" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-dark">จำนวนคนสูงสุด:</label>
+              <input type="number" [(ngModel)]="newSession.maxPlayers" class="ak-form-control" />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label small fw-bold text-dark">ราคาประมาณการ (฿/คน):</label>
+              <input type="number" [(ngModel)]="newSession.priceEstimate" class="ak-form-control" />
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer border-top px-4 py-3">
+          <button type="button" class="ak-btn-outline rounded-pill px-3" (click)="closeCreateModal()">ยกเลิก</button>
+          <button type="button" class="ak-btn-primary rounded-pill px-4" (click)="saveNewSession()">
+            <i class="fa-solid fa-check me-1"></i> บันทึกและเปิดรับสมัคร
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

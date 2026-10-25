@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" fill="none" width="100%" height="100%">
+  <defs>
+    <!-- Feather Gradient: Fresh Emerald to Rich Mint -->
+    <linearGradient id="logoFeatherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="60%" stop-color="#059669" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+
+    <linearGradient id="logoWingHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#34D399" />
+      <stop offset="100%" stop-color="#10B981" />
+    </linearGradient>
+
+    <linearGradient id="logoCorkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#047857" />
+      <stop offset="100%" stop-color="#064E3B" />
+    </linearGradient>
+
+    <linearGradient id="textAddGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10B981" />
+      <stop offset="100%" stop-color="#059669" />
+    </linearGradient>
+  </defs>
+
+  <!-- Brand Symbol (Stylized Badminton Shuttlecock 'A') -->
+  <g id="brand-symbol" transform="translate(10, 8) scale(0.52)">
+    <!-- Left Wing -->
+    <path d="M44 32 C34 46, 26 72, 32 108 C36 114, 46 116, 54 114 C62 102, 65 74, 60 52 C56 42, 50 35, 44 32 Z" 
+          fill="url(#logoWingHighlight)" />
+
+    <!-- Right Wing -->
+    <path d="M156 32 C166 46, 174 72, 168 108 C164 114, 154 116, 146 114 C138 102, 135 74, 140 52 C144 42, 150 35, 156 32 Z" 
+          fill="url(#logoFeatherGrad)" />
+
+    <!-- Center 'A' Apex and Body -->
+    <path d="M100 18 L138 116 C138 116, 128 120, 118 118 L111 96 H89 L82 118 C72 120, 62 116, 62 116 L100 18 Z" 
+          fill="url(#logoFeatherGrad)" />
+
+    <!-- 'A' Inner Cutout -->
+    <path d="M100 44 L107 78 H93 L100 44 Z" fill="#FFFFFF" />
+    <path d="M91 88 H109 L114 118 H86 L91 88 Z" fill="#FFFFFF" />
+
+    <!-- Strings -->
+    <line x1="95" y1="88" x2="93" y2="118" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="100" y1="88" x2="100" y2="118" stroke="#34D399" stroke-width="2.5" stroke-linecap="round" />
+    <line x1="105" y1="88" x2="107" y2="118" stroke="#10B981" stroke-width="2.5" stroke-linecap="round" />
+
+    <!-- Shaft Ribs -->
+    <line x1="72" y1="116" x2="75" y2="136" stroke="#059669" stroke-width="3" stroke-linecap="round" />
+    <line x1="86" y1="118" x2="87" y2="136" stroke="#10B981" stroke-width="3" stroke-linecap="round" />
+    <line x1="100" y1="118" x2="100" y2="136" stroke="#34D399" stroke-width="3" stroke-linecap="round" />
+    <line x1="114" y1="118" x2="113" y2="136" stroke="#10B981" stroke-width="3" stroke-linecap="round" />
+    <line x1="128" y1="116" x2="125" y2="136" stroke="#059669" stroke-width="3" stroke-linecap="round" />
+
+    <!-- Ribbon Collar -->
+    <rect x="70" y="132" width="60" height="5" rx="2.5" fill="#A3E635" />
+
+    <!-- Cork Base -->
+    <path d="M72 138 C72 138, 70 162, 82 174 C90 182, 110 182, 118 174 C130 162, 128 138, 128 138 Z" 
+          fill="url(#logoCorkGrad)" />
+    <path d="M84 168 C92 176, 108 176, 116 168" stroke="#A3E635" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.9" />
+  </g>
+
+  <!-- Wordmark: "KwuanKun" (Designed for White & Green modern theme) -->
+  <g id="brand-text" transform="translate(125, 0)">
+    <!-- "Kwuan" in Gradient and "Kun" in Deep Modern Charcoal/Forest -->
+    <text x="0" y="78" font-family="'Prompt', 'Kanit', 'Outfit', system-ui, sans-serif" font-weight="800" font-size="58" letter-spacing="-1">
+      <tspan fill="url(#textAddGrad)">Kwuan</tspan><tspan fill="#111827">Kun</tspan>
+    </text>
+    
+    <!-- Subtitle / Tagline -->
+    <text x="2" y="105" font-family="'Prompt', 'Kanit', system-ui, sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="#059669">BADMINTON COMMUNITY</text>
+  </g>
+</svg>

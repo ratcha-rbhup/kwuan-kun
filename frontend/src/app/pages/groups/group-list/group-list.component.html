@@ -1,0 +1,221 @@
+<div class="container py-4">
+  <!-- Top Title & Create Kwuan Action -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+    <div>
+      <h1 class="h3 fw-bold text-dark mb-0">
+        ค้นหาก๊วนตีแบด
+      </h1>
+      <p class="text-secondary small mb-0">ค้นหาตารางนัดตีแบดมินตันและก๊วนประจำรอบตัวคุณ</p>
+    </div>
+    <a routerLink="/member/create-group" class="ak-btn-primary ak-btn-sm rounded-pill px-3 shadow-xs">
+      <i class="fa-solid fa-plus-circle me-1"></i> ยื่นขอเปิดก๊วนใหม่
+    </a>
+  </div>
+
+  <!-- Horizontal Date Strip (Matching TBad Screenshot 2) -->
+  <div class="ak-date-strip mb-3">
+    <div *ngFor="let item of dates" class="date-card" [class.active]="selectedDateIso() === item.isoDate"
+      (click)="selectDate(item.isoDate)" role="button" [attr.aria-label]="item.day + ' ' + item.date">
+      <span class="day-name">{{ item.day }}</span>
+      <span class="day-number">{{ item.date }}</span>
+    </div>
+  </div>
+
+  <!-- Search & Distance Sort Bar -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+    <!-- Search Bar with Clear Button -->
+    <div class="ak-search-bar flex-grow-1" style="max-width: 480px; height: 42px;">
+      <i class="fa-solid fa-magnifying-glass text-muted"></i>
+      <input type="text" [(ngModel)]="searchQuery" placeholder="ค้นหาชื่อก๊วน สนาม หรือผู้จัด..." style="font-size: 0.9rem;" />
+      <button *ngIf="searchQuery" type="button" class="btn btn-link text-muted p-0 me-2" (click)="searchQuery = ''" title="ล้างคำค้นหา">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </div>
+
+    <!-- Nearest / Distance Sort Toggle Button -->
+    <div class="d-flex align-items-center gap-2 ms-auto">
+      <span class="text-secondary small d-none d-sm-inline">
+        พบทั้งหมด <strong class="text-dark">{{ filteredParties().length }}</strong> ก๊วน
+      </span>
+      <button type="button" class="sort-toggle-btn" [class.active]="sortBy() === 'NEAREST'" (click)="toggleSort()"
+        [title]="sortBy() === 'NEAREST' ? 'กำลังเรียงตามระยะทางใกล้ที่สุด (คลิกเพื่อเรียงตามความนิยม)' : 'กำลังเรียงตามก๊วนยอดนิยม (คลิกเพื่อเรียงตามระยะทางใกล้สุด)'">
+        <i class="fa-solid" [ngClass]="{
+          'fa-location-crosshairs text-success': sortBy() === 'NEAREST' && !isGpsLocating(),
+          'fa-spinner fa-spin text-success': isGpsLocating(),
+          'fa-fire text-warning': sortBy() === 'POPULAR'
+        }"></i>
+        <span>{{ sortBy() === 'NEAREST' ? 'ใกล้ที่สุด' : 'ยอดนิยม' }}</span>
+        <span *ngIf="isGpsActive()" class="badge bg-success p-1 rounded-circle ms-1" style="width: 7px; height: 7px;"
+          title="อิงจาก GPS ปัจจุบัน"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter Bar: จังหวัด (Province), เขต/อำเภอ (District), ระดับฝีมือ (Skill Level) -->
+  <div class="ak-filter-card mb-4 shadow-xs">
+    <div class="row g-2.5 align-items-end">
+      <!-- 1. Province Dropdown -->
+      <div class="col-6 col-md-3">
+        <div class="ak-filter-select-group">
+          <label class="ak-filter-label">
+            <i class="fa-solid fa-map-location-dot text-success me-1"></i> จังหวัด
+          </label>
+          <div class="ak-select-pill">
+            <select [(ngModel)]="selectedProvince" (change)="onProvinceChange()">
+              <option value="">ทุกจังหวัด</option>
+              <option *ngFor="let prov of provinces" [value]="prov">{{ prov }}</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-arrow"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. District Dropdown -->
+      <div class="col-6 col-md-3">
+        <div class="ak-filter-select-group">
+          <label class="ak-filter-label">
+            <i class="fa-solid fa-city text-primary me-1"></i> เขต / อำเภอ
+          </label>
+          <div class="ak-select-pill" [class.disabled]="!selectedProvince">
+            <select [(ngModel)]="selectedDistrict" [disabled]="!selectedProvince">
+              <option value="">{{ selectedProvince ? 'ทุกเขต / อำเภอ' : 'เลือกจังหวัดก่อน' }}</option>
+              <option *ngFor="let dist of availableDistricts()" [value]="dist">{{ dist }}</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-arrow"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Skill Level Dropdown -->
+      <div class="col-8 col-md-4">
+        <div class="ak-filter-select-group">
+          <label class="ak-filter-label">
+            <i class="fa-solid fa-trophy text-warning me-1"></i> ระดับฝีมือ (Level)
+          </label>
+          <div class="ak-select-pill">
+            <select [(ngModel)]="selectedLevel">
+              <option value="">ทุกระดับฝีมือ (All Levels)</option>
+              <option value="หน้าบ้าน">หน้าบ้าน (สนุกสนาน / กิจกรรมครอบครัว)</option>
+              <option value="BG">BG (Beginner / เริ่มต้นหัดเล่น)</option>
+              <option value="N">N (Novice / มือใหม่ ตีโต้ได้)</option>
+              <option value="S">S / S- (Standard / เล่นประจำ มีพื้นฐาน)</option>
+              <option value="P">P / P+ (Proficient / แม่นยำ วิ่งคอร์ตเหนียว)</option>
+              <option value="B">B (Battle / กึ่งแข่ง-แข่งขันจริง)</option>
+            </select>
+            <i class="fa-solid fa-chevron-down select-arrow"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Reset Button -->
+      <div class="col-4 col-md-2">
+        <button type="button" class="ak-btn-outline ak-btn-sm w-100 rounded-pill justify-content-center"
+          style="min-height: 42px;" [disabled]="!hasActiveFilters()" (click)="clearAllFilters()" title="ล้างตัวกรอง">
+          <i class="fa-solid fa-rotate-left me-1"></i> ล้างตัวกรอง
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Filter Chips Bar (Shown when any filter is active) -->
+    <div class="d-flex flex-wrap align-items-center gap-1.5 mt-2.5 pt-2 border-top border-light"
+      *ngIf="hasActiveFilters()">
+      <span class="text-muted small me-1" style="font-size: 0.775rem;">
+        <i class="fa-solid fa-filter text-success me-1"></i>กำลังกรอง:
+      </span>
+      <span class="ak-active-filter-chip" *ngIf="selectedDateLabel()" (click)="selectDate('')">
+        วันที่: {{ selectedDateLabel() }} <i class="fa-solid fa-xmark ms-1"></i>
+      </span>
+      <span class="ak-active-filter-chip" *ngIf="selectedProvince" (click)="selectedProvince = ''; onProvinceChange()">
+        จังหวัด: {{ selectedProvince }} <i class="fa-solid fa-xmark ms-1"></i>
+      </span>
+      <span class="ak-active-filter-chip" *ngIf="selectedDistrict" (click)="selectedDistrict = ''">
+        เขต: {{ selectedDistrict }} <i class="fa-solid fa-xmark ms-1"></i>
+      </span>
+      <span class="ak-active-filter-chip" *ngIf="selectedLevel" (click)="selectedLevel = ''">
+        ระดับ: {{ selectedLevel }} <i class="fa-solid fa-xmark ms-1"></i>
+      </span>
+      <span class="ak-active-filter-chip" *ngIf="searchQuery" (click)="searchQuery = ''">
+        ค้นหา: "{{ searchQuery }}" <i class="fa-solid fa-xmark ms-1"></i>
+      </span>
+      <span class="ak-active-filter-chip" *ngIf="sortBy() === 'NEAREST'" (click)="toggleSort()">
+        ใกล้ที่สุด (~กม.) <i class="fa-solid fa-xmark ms-1"></i>
+      </span>
+      <button type="button" class="btn btn-link text-danger p-0 ms-auto small text-decoration-none"
+        style="font-size: 0.75rem;" (click)="clearAllFilters()">
+        ล้างทั้งหมด
+      </button>
+    </div>
+  </div>
+
+  <!-- TBad Party Cards Grid (Matching Screenshot 2) -->
+  <div class="row g-4">
+    <div class="col-md-6 col-lg-4" *ngFor="let p of filteredParties()">
+      <div class="ak-tbad-party-card" [routerLink]="['/groups', p.slug]">
+        <!-- Banner Image with Rounded Top & Floating Player Counter -->
+        <div class="party-banner-frame">
+          <img [src]="p.bannerImage" [alt]="p.title" class="party-banner-img">
+          <span class="party-count-badge" [class.badge-full]="p.isFull">
+            <i class="fa-solid fa-users"></i> {{ p.currentPlayers }}/{{ p.maxPlayers }}
+          </span>
+        </div>
+
+        <!-- Card Body -->
+        <div class="party-body">
+          <div class="d-flex align-items-center justify-content-between mb-1">
+            <span class="court-pin-location text-truncate"
+              [title]="p.venueName + ' • ' + p.district + ', ' + p.province">
+              <i class="fa-solid fa-location-dot text-danger me-1"></i> {{ p.venueName }}
+              <span class="text-muted ms-1" style="font-size: 0.72rem;">({{ p.district }})</span>
+            </span>
+            <span class="badge bg-success bg-opacity-10 text-success fw-bold text-nowrap ms-1"
+              style="font-size: 0.72rem;">
+              <i class="fa-solid fa-location-arrow me-1"></i>~{{ p.distanceKm }} กม.
+            </span>
+          </div>
+
+          <div class="date-time-strip">
+            <span class="today-pill">{{ p.dateBadge }}</span>
+            <span class="time-text">{{ p.dateTimeDisplay }}</span>
+          </div>
+
+          <h3 class="party-title">{{ p.title }}</h3>
+          <p class="party-subtitle text-truncate">{{ p.subtitle }}</p>
+
+          <!-- Required Skill Badges (e.g. หน้าบ้าน, BG, N, S, P) -->
+          <div class="skills-requirement" *ngIf="p.targetSkills && p.targetSkills.length">
+            <span class="skill-label">ระดับที่ต้องการ:</span>
+            <span *ngFor="let s of p.targetSkills" class="skill-pill" [ngClass]="s.cssClass">
+              {{ s.label }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Card Footer: Host Info & Player Count -->
+        <div class="party-footer">
+          <div class="host-block">
+            <img [src]="p.hostAvatar" [alt]="p.hostName" class="host-avatar">
+            <span class="host-name">{{ p.hostName }}</span>
+            <span class="host-badge">{{ p.hostRole }}</span>
+          </div>
+          <div class="player-count-block">
+            <i class="fa-solid fa-users"></i>
+            <span>{{ p.currentPlayers }}/{{ p.maxPlayers }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty Search Results State -->
+  <div class="text-center py-5" *ngIf="filteredParties().length === 0">
+    <div class="ak-icon-box ak-icon-box-surface mx-auto mb-3" style="width: 64px; height: 64px; font-size: 1.5rem;">
+      <i class="fa-solid fa-shuttlecock text-muted"></i>
+    </div>
+    <h5 class="fw-bold text-dark mb-1">ไม่พบรายการที่ตรงกับเงื่อนไขการค้นหา</h5>
+    <p class="text-secondary small mb-3">ลองปรับเปลี่ยนจังหวัด เขต หรือระดับฝีมือดูใหม่อีกครั้งครับ</p>
+    <button type="button" class="ak-btn-outline ak-btn-sm rounded-pill"
+      (click)="clearAllFilters()">
+      ล้างตัวกรองทั้งหมด
+    </button>
+  </div>
+</div>

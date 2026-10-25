@@ -1,0 +1,204 @@
+<div>
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-owner mb-2">
+        <i class="fa-solid fa-crown"></i> แผงควบคุมเจ้าของก๊วน
+      </div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        {{ groupName() }}
+      </h1>
+      <p class="text-secondary small mb-0">
+        <i class="fa-solid fa-building text-success me-1"></i> {{ venueName() }}
+      </p>
+    </div>
+
+    <!-- Quick Action Toolbar -->
+    <div class="ak-btn-group-responsive">
+      <button (click)="createNewSession()" class="ak-btn-primary ak-btn-sm rounded-pill px-3 shadow-sm">
+        <i class="fa-solid fa-calendar-plus me-1"></i> เปิดรอบตีใหม่
+      </button>
+      <button (click)="openMatchMaker()" class="ak-btn-outline ak-btn-sm rounded-pill px-3">
+        <i class="fa-solid fa-shuffle me-1"></i> จัดคู่ลงคอร์ท
+      </button>
+      <button (click)="openExpenseQr()" class="ak-btn-outline ak-btn-sm rounded-pill px-3">
+        <i class="fa-solid fa-qrcode me-1 text-success"></i> QR เก็บเงิน
+      </button>
+    </div>
+  </div>
+
+  <!-- 4-Card Host KPI Metric Grid -->
+  <div class="row g-3 mb-4">
+    <!-- Metric 1: สมาชิกปัจจุบัน -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="ak-card p-3 shadow-sm h-100">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="text-secondary small fw-semibold">สมาชิกในก๊วน</span>
+          <span class="ak-icon-box ak-icon-box-primary ak-icon-box-sm">
+            <i class="fa-solid fa-users"></i>
+          </span>
+        </div>
+        <div class="h4 fw-bold text-dark mb-0">{{ stats().totalMembers }} / {{ stats().maxMembers }}</div>
+        <div class="text-muted small mt-1">
+          <i class="fa-solid fa-circle-check text-success me-1"></i> พร้อมรับอีก {{ stats().maxMembers - stats().totalMembers }} คน
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric 2: รอบตีสัปดาห์นี้ -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="ak-card p-3 shadow-sm h-100">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="text-secondary small fw-semibold">รอบตีสัปดาห์นี้</span>
+          <span class="ak-icon-box ak-icon-box-primary ak-icon-box-sm">
+            <i class="fa-solid fa-calendar-check"></i>
+          </span>
+        </div>
+        <div class="h4 fw-bold text-dark mb-0">{{ stats().upcomingSessions }} รอบ</div>
+        <div class="text-muted small mt-1">
+          <i class="fa-solid fa-user-check text-success me-1"></i> ลงชื่อแล้ว {{ stats().confirmedPlayers }} คน
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric 3: คำขอสมัครใหม่ -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="ak-card p-3 shadow-sm h-100 border-warning border-opacity-50">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="text-secondary small fw-semibold">คำขอรอพิจารณา</span>
+          <span class="ak-icon-box ak-icon-box-coral ak-icon-box-sm">
+            <i class="fa-solid fa-user-clock"></i>
+          </span>
+        </div>
+        <div class="h4 fw-bold text-warning mb-0">{{ stats().pendingJoinRequests }} คำขอ</div>
+        <div class="text-secondary small mt-1">
+          รอการตรวจสอบระดับมือ
+        </div>
+      </div>
+    </div>
+
+    <!-- Metric 4: ยอดเงินค่าคอร์ท -->
+    <div class="col-sm-6 col-lg-3">
+      <div class="ak-card p-3 shadow-sm h-100 border-success border-opacity-30">
+        <div class="d-flex align-items-center justify-content-between mb-2">
+          <span class="text-secondary small fw-semibold">ยอดจัดเก็บรอบนี้</span>
+          <span class="ak-icon-box ak-icon-box-primary ak-icon-box-sm">
+            <i class="fa-solid fa-baht-sign"></i>
+          </span>
+        </div>
+        <div class="h4 fw-bold text-success mb-0">{{ stats().uncollectedAmount }} ฿</div>
+        <div class="text-muted small mt-1">
+          เฉลี่ย {{ activeSession().pricePerPerson }} บาท/คน
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Active Session Manager -->
+    <div class="col-lg-7">
+      <div class="ak-card p-4 shadow-sm mb-4">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+          <div>
+            <span class="ak-badge ak-badge-active mb-1">
+              <i class="fa-solid fa-shuttlecock"></i> รอบตีนัดถัดไป
+            </span>
+            <h5 class="fw-bold text-dark mb-0">{{ activeSession().title }}</h5>
+          </div>
+          <button (click)="openMatchMaker()" class="ak-btn-primary ak-btn-sm rounded-pill px-3">
+            <i class="fa-solid fa-shuffle me-1"></i> จัดคู่แข่งขัน
+          </button>
+        </div>
+
+        <div class="p-3 rounded-3 mb-3" style="background: var(--brand-surface);">
+          <div class="row g-2 small">
+            <div class="col-6 col-sm-3">
+              <span class="text-muted">วันนัดตี:</span>
+              <div class="fw-bold text-dark">{{ activeSession().date }}</div>
+            </div>
+            <div class="col-6 col-sm-3">
+              <span class="text-muted">เวลา:</span>
+              <div class="fw-bold text-dark">{{ activeSession().time }}</div>
+            </div>
+            <div class="col-6 col-sm-3">
+              <span class="text-muted">คอร์ท:</span>
+              <div class="fw-bold text-success">{{ activeSession().courtNumbers }}</div>
+            </div>
+            <div class="col-6 col-sm-3">
+              <span class="text-muted">ลูกแบด:</span>
+              <div class="fw-bold text-dark">{{ activeSession().shuttlecockBrand }}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registered Players Progress Bar -->
+        <div class="mb-3">
+          <div class="d-flex align-items-center justify-content-between small fw-bold mb-1">
+            <span class="text-secondary">ผู้เล่นลงชื่อแล้ว:</span>
+            <span class="text-success">{{ activeSession().registeredCount }} / {{ activeSession().maxPlayers }} คน</span>
+          </div>
+          <div class="progress" style="height: 8px; border-radius: var(--ak-radius-pill);">
+            <div class="progress-bar bg-success" role="progressbar" 
+                 [style.width.%]="(activeSession().registeredCount / activeSession().maxPlayers) * 100">
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 pt-2 border-top border-light">
+          <span class="small text-secondary">
+            <i class="fa-brands fa-line text-success me-1"></i> แจ้งเตือนสมาชิกล่วงหน้า 2 ชม.
+          </span>
+          <button (click)="openExpenseQr()" class="ak-btn-outline ak-btn-sm rounded-pill px-3">
+            <i class="fa-solid fa-qrcode me-1"></i> เปิด QR จ่ายเงิน
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending Members Approval List -->
+    <div class="col-lg-5">
+      <div class="ak-card p-4 shadow-sm mb-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="fw-bold text-dark mb-0 fs-6">
+            <i class="fa-solid fa-user-clock text-warning me-1"></i> คำขอเข้าร่วมก๊วนใหม่
+          </h5>
+          <span class="ak-badge ak-badge-pending">
+            {{ pendingMembers().length }} คำขอ
+          </span>
+        </div>
+
+        <div *ngIf="pendingMembers().length > 0; else noPendingMembers" class="d-flex flex-column gap-3">
+          <div *ngFor="let m of pendingMembers()" class="p-3 rounded-3 border" style="background: #FFFFFF;">
+            <div class="d-flex align-items-start justify-content-between gap-2 mb-2">
+              <div>
+                <h6 class="fw-bold text-dark mb-0">{{ m.name }}</h6>
+                <span class="text-secondary small">LINE ID: {{ m.lineId }} • ยื่นเมื่อ {{ m.appliedDate }}</span>
+              </div>
+              <span class="ak-badge ak-badge-skill">{{ m.skillLevel }}</span>
+            </div>
+
+            <p class="text-secondary small mb-3 p-2 rounded-2" style="background: var(--brand-surface-soft);">
+              <i class="fa-solid fa-quote-left text-success me-1"></i> {{ m.message }}
+            </p>
+
+            <div class="d-flex align-items-center justify-content-end gap-2">
+              <button (click)="rejectMember(m)" class="ak-btn-danger ak-btn-sm rounded-pill px-3">
+                <i class="fa-solid fa-xmark"></i> ปฏิเสธ
+              </button>
+              <button (click)="approveMember(m)" class="ak-btn-primary ak-btn-sm rounded-pill px-3">
+                <i class="fa-solid fa-check"></i> รับเข้าก๊วน
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noPendingMembers>
+          <div class="text-center py-4 text-muted">
+            <i class="fa-solid fa-circle-check text-success fa-2x mb-2"></i>
+            <div class="small">ไม่มีคำขอค้างอยู่ สมาชิกทุกคนได้รับการอนุมัติแล้ว</div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

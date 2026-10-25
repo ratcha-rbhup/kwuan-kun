@@ -1,0 +1,103 @@
+<div class="ak-admin-groups-page">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        <i class="fa-solid fa-layer-group text-success me-2"></i> ก๊วนแบดมินตันทั้งหมดในแพลตฟอร์ม
+      </h1>
+      <p class="text-secondary small mb-0">ตรวจสอบสถานะการเปิดรับ กิจกรรม และความเคลื่อนไหวของทุกก๊วนในระบบ</p>
+    </div>
+  </div>
+
+  <!-- Filter & Search Bar -->
+  <div class="ak-card p-3 shadow-sm mb-4">
+    <div class="row g-2 align-items-center">
+      <div class="col-md-7">
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0 text-secondary">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+          <input 
+            type="text" 
+            class="form-control border-start-0 ps-0" 
+            placeholder="ค้นหาชื่อก๊วน, หัวหน้าก๊วน หรือจังหวัด/เขต..." 
+            [ngModel]="searchQuery()"
+            (ngModelChange)="searchQuery.set($event)" />
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="d-flex align-items-center gap-2">
+          <span class="small text-secondary fw-semibold text-nowrap">สถานะ:</span>
+          <select 
+            class="form-select form-select-sm" 
+            [ngModel]="filterStatus()" 
+            (ngModelChange)="filterStatus.set($event)">
+            <option value="ALL">สถานะทั้งหมด</option>
+            <option value="ACTIVE">เปิดใช้งานปกติ (Active)</option>
+            <option value="SUSPENDED">ถูกระงับการใช้งาน (Suspended)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Groups Table Box -->
+  <div class="ak-card shadow-sm p-0 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 ak-data-table">
+        <thead>
+          <tr>
+            <th class="ps-4">ชื่อก๊วน</th>
+            <th>หัวหน้าก๊วน (Owner)</th>
+            <th>พื้นที่ / สนามหลัก</th>
+            <th class="text-center">สมาชิก</th>
+            <th class="text-center">รอบที่จัด</th>
+            <th class="text-center">สถานะ</th>
+            <th class="pe-4 text-end">การจัดการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let g of filteredGroups()">
+            <td class="ps-4">
+              <div class="fw-bold text-dark">{{ g.name }}</div>
+              <div class="text-muted small">สร้างเมื่อ {{ g.createdAt }}</div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-2">
+                <span class="ak-icon-box ak-icon-box-primary" style="width: 28px; height: 28px; font-size: 0.8rem;">
+                  <i class="fa-solid fa-crown text-warning"></i>
+                </span>
+                <span class="small text-dark fw-semibold">{{ g.ownerName }}</span>
+              </div>
+            </td>
+            <td>
+              <div class="small text-dark fw-semibold">{{ g.location }}</div>
+              <div class="text-muted small">{{ g.venueName }}</div>
+            </td>
+            <td class="text-center fw-bold text-success">{{ g.memberCount }} คน</td>
+            <td class="text-center fw-bold text-primary">{{ g.sessionsCount }} รอบ</td>
+            <td class="text-center">
+              <span class="ak-badge" [ngClass]="g.status === 'ACTIVE' ? 'ak-badge-active' : 'ak-badge-rejected'">
+                <i class="fa-solid" [ngClass]="g.status === 'ACTIVE' ? 'fa-circle-check' : 'fa-ban'"></i>
+                {{ g.status === 'ACTIVE' ? 'ACTIVE' : 'SUSPENDED' }}
+              </span>
+            </td>
+            <td class="pe-4 text-end">
+              <div class="d-inline-flex align-items-center gap-1.5">
+                <a [routerLink]="['/groups', g.slug]" target="_blank" class="ak-btn-outline ak-btn-sm rounded-pill px-2.5 py-1" title="ดูหน้าก๊วน">
+                  <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                </a>
+                <button (click)="toggleSuspend(g)" class="btn btn-sm rounded-pill px-2.5 py-1" 
+                  [class.btn-outline-danger]="g.status === 'ACTIVE'" 
+                  [class.btn-outline-success]="g.status === 'SUSPENDED'">
+                  <i class="fa-solid me-1" [ngClass]="g.status === 'ACTIVE' ? 'fa-ban' : 'fa-rotate-left'"></i>
+                  {{ g.status === 'ACTIVE' ? 'ระงับ' : 'ปลดระงับ' }}
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

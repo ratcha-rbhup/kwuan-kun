@@ -1,0 +1,81 @@
+<div>
+  <!-- Page Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        <i class="fa-solid fa-clipboard-check text-warning me-2"></i> คำขอเปิดก๊วนแบดมินตันที่รอการพิจารณา
+      </h1>
+      <p class="text-secondary small mb-0">ตรวจสอบความถูกต้อง ข้อมูลสนาม และเป้าหมายของก๊วนก่อนอนุมัติ</p>
+    </div>
+  </div>
+
+  <!-- Requests Table Box -->
+  <div class="ak-card shadow-sm p-0 overflow-hidden">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0 ak-data-table">
+        <thead>
+          <tr>
+            <th class="ps-3 ps-md-4 text-nowrap">ชื่อก๊วนที่เสนอ</th>
+            <th class="text-nowrap">ผู้ยื่นคำขอ</th>
+            <th class="text-nowrap">พื้นที่ / สนามหลัก</th>
+            <th class="text-nowrap text-center">ระดับฝีมือ</th>
+            <th class="text-nowrap text-center">วันที่ส่ง</th>
+            <th class="text-nowrap text-center">สถานะ</th>
+            <th class="pe-3 pe-md-4 text-end text-nowrap" style="min-width: 175px;">การดำเนินการ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of requests()">
+            <td class="ps-3 ps-md-4">
+              <div class="fw-bold text-dark text-nowrap">{{ r.proposedName }}</div>
+              <div class="text-secondary small text-truncate" style="max-width: 220px;" [title]="r.description">{{ r.description }}</div>
+            </td>
+            <td class="text-nowrap">
+              <div class="d-flex align-items-center gap-2">
+                <span class="ak-icon-box ak-icon-box-primary" style="width: 28px; height: 28px; font-size: 0.8rem; flex-shrink: 0;">
+                  <i class="fa-solid fa-user"></i>
+                </span>
+                <span class="small text-dark fw-semibold">{{ r.requesterName }}</span>
+              </div>
+            </td>
+            <td class="text-nowrap">
+              <div class="small text-dark fw-semibold">{{ r.location }}</div>
+              <div class="text-muted small">{{ r.venue }}</div>
+            </td>
+            <td class="text-center text-nowrap">
+              <span class="ak-badge ak-badge-skill">{{ r.skillLevel }}</span>
+            </td>
+            <td class="text-muted small text-center text-nowrap">{{ r.date }}</td>
+            <td class="text-center text-nowrap">
+              <span class="ak-badge ak-badge-pending" *ngIf="r.status === 'PENDING'">
+                <i class="fa-solid fa-clock"></i> PENDING
+              </span>
+              <span class="ak-badge ak-badge-active" *ngIf="r.status === 'APPROVED'">
+                <i class="fa-solid fa-check"></i> APPROVED
+              </span>
+              <span class="ak-badge ak-badge-rejected" *ngIf="r.status === 'REJECTED'">
+                <i class="fa-solid fa-xmark"></i> REJECTED
+              </span>
+            </td>
+            <td class="pe-3 pe-md-4 text-end text-nowrap">
+              <div class="d-inline-flex align-items-center justify-content-end gap-1.5" *ngIf="r.status === 'PENDING'">
+                <button (click)="approve(r)" class="ak-btn-primary ak-btn-sm rounded-pill px-2.5 px-md-3 py-1 text-nowrap" title="อนุมัติคำขอนี้">
+                  <i class="fa-solid fa-check me-1"></i> อนุมัติ
+                </button>
+                <button (click)="reject(r)" class="ak-btn-danger ak-btn-sm rounded-pill px-2.5 px-md-3 py-1 text-nowrap" title="ไม่อนุมัติคำขอนี้">
+                  <i class="fa-solid fa-xmark me-1"></i> ไม่อนุมัติ
+                </button>
+              </div>
+              <span class="ak-badge ak-badge-active" *ngIf="r.status === 'APPROVED'">
+                <i class="fa-solid fa-circle-check me-1"></i> อนุมัติแล้ว
+              </span>
+              <span class="ak-badge ak-badge-rejected" *ngIf="r.status === 'REJECTED'">
+                <i class="fa-solid fa-circle-xmark me-1"></i> ปฏิเสธแล้ว
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

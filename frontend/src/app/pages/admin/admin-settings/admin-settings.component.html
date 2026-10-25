@@ -1,0 +1,116 @@
+<div class="ak-admin-settings-page">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        <i class="fa-solid fa-sliders text-secondary me-2"></i> ตั้งค่าแพลตฟอร์ม & ระบบส่วนกลาง
+      </h1>
+      <p class="text-secondary small mb-0">กำหนดค่าการเชื่อมต่อ LINE Official, นโยบายความปลอดภัย และข้อความประกาศระบบ</p>
+    </div>
+
+    <div>
+      <button (click)="saveSettings()" [disabled]="isSaving()" class="ak-btn-primary rounded-pill px-4 shadow-sm">
+        <i class="fa-solid" [ngClass]="isSaving() ? 'fa-spinner fa-spin' : 'fa-floppy-disk'" class="me-1.5"></i>
+        บันทึกการตั้งค่าระบบ
+      </button>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: LINE Config & Platform Core -->
+    <div class="col-lg-7">
+      <!-- LINE Integration Box -->
+      <div class="ak-card p-4 shadow-sm mb-4">
+        <h2 class="h6 fw-bold text-dark mb-3">
+          <i class="fa-brands fa-line text-success me-2 fa-lg"></i> การตั้งค่า LINE Developers & Messaging API
+        </h2>
+
+        <div class="row g-3">
+          <div class="col-12">
+            <label class="form-label small fw-bold text-dark">ชื่อแพลตฟอร์ม:</label>
+            <input type="text" [(ngModel)]="settings.platformName" class="ak-form-control" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label small fw-bold text-dark">LINE Channel ID:</label>
+            <input type="text" [(ngModel)]="settings.lineChannelId" class="ak-form-control font-monospace" />
+          </div>
+
+          <div class="col-md-6">
+            <label class="form-label small fw-bold text-dark">LINE Channel Secret:</label>
+            <input type="password" [(ngModel)]="settings.lineChannelSecret" class="ak-form-control font-monospace" />
+          </div>
+
+          <div class="col-12">
+            <label class="form-label small fw-bold text-dark">LINE Webhook URL:</label>
+            <input type="text" [(ngModel)]="settings.lineWebhookUrl" readonly class="ak-form-control bg-light font-monospace" />
+            <div class="form-text text-muted small">นำ URL นี้ไปกรอกใน LINE Developers Console เพื่อรับ Event การส่งข้อความและ Join กลุ่ม</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Maintenance & Toggles -->
+      <div class="ak-card p-4 shadow-sm">
+        <h2 class="h6 fw-bold text-dark mb-3">
+          <i class="fa-solid fa-power-off text-danger me-2"></i> การควบคุมสถานะระบบ
+        </h2>
+
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" id="publicRegSwitch" [(ngModel)]="settings.allowPublicRegistration">
+          <label class="form-check-label fw-bold text-dark small" for="publicRegSwitch">
+            เปิดให้ผู้ใช้ทั่วไปยื่นคำขอสร้างก๊วนใหม่ได้ (Allow Group Creation)
+          </label>
+        </div>
+
+        <div class="form-check form-switch mb-2">
+          <input class="form-check-input" type="checkbox" id="maintenanceSwitch" [(ngModel)]="settings.maintenanceMode">
+          <label class="form-check-label fw-bold text-danger small" for="maintenanceSwitch">
+            เปิดโหมดปรับปรุงระบบชั่วคราว (Maintenance Mode)
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Broadcast & Limits -->
+    <div class="col-lg-5">
+      <!-- System Broadcast Banner -->
+      <div class="ak-card p-4 shadow-sm mb-4">
+        <h2 class="h6 fw-bold text-dark mb-3">
+          <i class="fa-solid fa-bullhorn text-warning me-2"></i> ข้อความประกาศส่วนกลาง (Announcement Banner)
+        </h2>
+
+        <div class="form-check form-switch mb-3">
+          <input class="form-check-input" type="checkbox" id="bannerSwitch" [(ngModel)]="settings.systemBannerEnabled">
+          <label class="form-check-label fw-semibold text-dark small" for="bannerSwitch">
+            แสดงแถบประกาศบนหัวเว็บ
+          </label>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold text-dark">ข้อความประกาศ:</label>
+          <textarea rows="3" [(ngModel)]="settings.systemBannerMessage" class="ak-form-control"></textarea>
+        </div>
+      </div>
+
+      <!-- Fees & Limits -->
+      <div class="ak-card p-4 shadow-sm">
+        <h2 class="h6 fw-bold text-dark mb-3">
+          <i class="fa-solid fa-hand-holding-dollar text-success me-2"></i> นโยบายค่าบริการ & โควต้า
+        </h2>
+
+        <div class="mb-3">
+          <label class="form-label small fw-bold text-dark">ค่าธรรมเนียมแพลตฟอร์ม (%):</label>
+          <div class="input-group input-group-sm">
+            <input type="number" [(ngModel)]="settings.platformFeePercent" class="form-control fw-bold text-center" />
+            <span class="input-group-text bg-light">% (0% = ฟรี 100%)</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label small fw-bold text-dark">โควต้าสร้างก๊วนสูงสุดต่อผู้ใช้ (ก๊วน):</label>
+          <input type="number" [(ngModel)]="settings.maxGroupsPerUser" class="ak-form-control" />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,354 @@
+// =============================================================================
+// Central UI Feedback Design System (Toast, Confirmation Dialog, Bottom Sheet)
+// Inspired by LINE LIFF Ordering Platforms & Mobile App Design Standards
+// =============================================================================
+
+// --- 1. TOAST NOTIFICATIONS STACK ---
+.ak-toast-container {
+  position: fixed;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  right: 1.25rem;
+  z-index: var(--z-toast, 1090);
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  max-width: 420px;
+  width: 100%;
+  pointer-events: none;
+
+  @media (max-width: 576px) {
+    left: 1rem;
+    right: 1rem;
+    width: auto;
+    max-width: none;
+    top: calc(0.75rem + env(safe-area-inset-top, 0px));
+  }
+}
+
+.ak-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  background: #FFFFFF;
+  border-radius: var(--ak-radius-md);
+  padding: 0.85rem 1rem;
+  box-shadow: 0 10px 30px -4px rgba(0, 0, 0, 0.12), 0 3px 8px -2px rgba(0, 0, 0, 0.05);
+  border: 1.5px solid var(--border-card);
+  animation: akToastSlideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: all 0.22s ease;
+
+  .ak-toast-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .ak-toast-body {
+    flex: 1;
+    min-width: 0;
+
+    .ak-toast-title {
+      font-weight: 700;
+      font-size: 0.925rem;
+      color: var(--text-primary);
+      margin-bottom: 0.15rem;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    .ak-toast-message {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.35;
+      word-break: break-word;
+    }
+  }
+
+  .ak-toast-close {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    padding: 0.3rem;
+    border-radius: var(--ak-radius-sm);
+    cursor: pointer;
+    transition: var(--ak-transition);
+    line-height: 1;
+
+    &:hover {
+      color: var(--text-primary);
+      background: #F3F4F6;
+    }
+  }
+
+  // --- Variants ---
+  &-success {
+    border-color: rgba(0, 194, 97, 0.25);
+    .ak-toast-icon {
+      background: var(--brand-surface);
+      color: var(--brand-primary);
+    }
+  }
+
+  &-error {
+    border-color: rgba(239, 68, 68, 0.25);
+    .ak-toast-icon {
+      background: #FEE2E2;
+      color: var(--brand-coral);
+    }
+  }
+
+  &-warning {
+    border-color: rgba(245, 158, 11, 0.25);
+    .ak-toast-icon {
+      background: #FEF3C7;
+      color: #D97706;
+    }
+  }
+
+  &-info {
+    border-color: rgba(2, 132, 199, 0.25);
+    .ak-toast-icon {
+      background: #E0F2FE;
+      color: #0284C7;
+    }
+  }
+}
+
+// --- 2. CONFIRMATION & ALERT DIALOG MODALS ---
+.ak-dialog-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 78, 59, 0.48);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: var(--z-backdrop, 1060);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  animation: akFadeIn 0.22s ease forwards;
+}
+
+.ak-dialog-card {
+  position: relative;
+  z-index: var(--z-modal, 1080);
+  background: #FFFFFF;
+  border-radius: var(--ak-radius-lg);
+  max-width: 440px;
+  width: 100%;
+  padding: 2.25rem 1.85rem;
+  box-shadow: 0 20px 45px -8px rgba(0, 0, 0, 0.22), 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+  animation: akDialogPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  border: 1px solid var(--border-card);
+
+  .ak-dialog-icon-box {
+    width: 64px;
+    height: 64px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.85rem;
+    margin-bottom: 1.15rem;
+
+    &-primary {
+      background: var(--brand-surface);
+      color: var(--brand-primary);
+    }
+
+    &-danger {
+      background: #FEE2E2;
+      color: var(--brand-coral);
+    }
+
+    &-warning {
+      background: #FEF3C7;
+      color: #D97706;
+    }
+
+    &-info {
+      background: #E0F2FE;
+      color: #0284C7;
+    }
+  }
+
+  .ak-dialog-title {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-family: 'Prompt', sans-serif;
+  }
+
+  .ak-dialog-message {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1.75rem;
+  }
+
+  .ak-dialog-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+}
+
+// --- 3. BOTTOM SHEET DRAWER (LINE LIFF Signature UI) ---
+.ak-bottom-sheet-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(6, 78, 59, 0.45);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: var(--z-backdrop, 1060);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  animation: akFadeIn 0.22s ease forwards;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    padding: 1.5rem;
+  }
+}
+
+.ak-bottom-sheet {
+  position: relative;
+  z-index: var(--z-bottom-sheet, 1070);
+  background: #FFFFFF;
+  width: 100%;
+  max-width: 520px;
+  border-radius: 26px 26px 0 0;
+  box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.16);
+  animation: akSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  padding-bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+  overflow: hidden;
+
+  @media (min-width: 768px) {
+    border-radius: var(--ak-radius-lg);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+    padding-bottom: 0;
+    animation: akDialogPop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .ak-bottom-sheet-handle {
+    width: 44px;
+    height: 4px;
+    background: #E5E7EB;
+    border-radius: var(--ak-radius-pill);
+    margin: 0.85rem auto 0.5rem;
+
+    @media (min-width: 768px) {
+      display: none;
+    }
+  }
+
+  .ak-bottom-sheet-header {
+    padding: 1rem 1.5rem 0.5rem;
+    text-align: center;
+
+    .ak-bottom-sheet-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+      font-family: 'Prompt', sans-serif;
+    }
+
+    .ak-bottom-sheet-subtitle {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+  }
+
+  .ak-bottom-sheet-options {
+    padding: 0.5rem 1rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  .ak-bottom-sheet-item {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background: #FFFFFF;
+    border: 1px solid transparent;
+    border-radius: var(--ak-radius-md);
+    cursor: pointer;
+    transition: var(--ak-transition);
+    text-align: left;
+
+    .ak-bottom-sheet-item-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--brand-surface);
+      color: var(--brand-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .ak-bottom-sheet-item-label {
+      font-weight: 600;
+      color: var(--text-primary);
+      font-size: 0.95rem;
+    }
+
+    &:hover,
+    &:active {
+      background: var(--brand-surface-soft);
+      border-color: rgba(0, 194, 97, 0.2);
+    }
+  }
+}
+
+// --- Keyframe Animations ---
+@keyframes akToastSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes akDialogPop {
+  from {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes akFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes akSlideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}

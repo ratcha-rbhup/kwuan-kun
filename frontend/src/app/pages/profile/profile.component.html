@@ -1,0 +1,514 @@
+<div class="ak-profile-page">
+  <!-- Title & Action Bar -->
+  <div class="profile-header-bar">
+    <div>
+      <div class="header-badge-row">
+        <span class="ak-badge ak-badge-active">
+          <i class="fa-solid fa-circle-user"></i> ข้อมูลนักกีฬาของคุณ
+        </span>
+      </div>
+      <h1 class="page-title">
+        โปรไฟล์นักแบดมินตัน (Player Profile)
+      </h1>
+      <p class="page-subtitle">ข้อมูลประจำตัว ระดับฝีมือ และการตั้งค่าของท่านในระบบ KwuanKun</p>
+    </div>
+
+    <!-- Quick Toggle Edit / Save Buttons in Page Header -->
+    <div class="header-actions">
+      <button 
+        *ngIf="!isEditing()" 
+        type="button" 
+        class="ak-btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
+        (click)="startEdit()">
+        <i class="fa-solid fa-user-pen"></i>
+        <span>แก้ไขข้อมูลโปรไฟล์</span>
+      </button>
+
+      <div *ngIf="isEditing()" class="d-flex align-items-center gap-2">
+        <button 
+          type="button" 
+          class="btn btn-outline-secondary rounded-pill px-3 py-1.5 small"
+          (click)="cancelEdit()">
+          <i class="fa-solid fa-xmark me-1"></i> ยกเลิก
+        </button>
+        <button 
+          type="button" 
+          class="ak-btn-primary rounded-pill px-4 py-1.5 small shadow-sm"
+          (click)="saveProfile()">
+          <i class="fa-solid fa-floppy-disk me-1"></i> บันทึกข้อมูล
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Notification -->
+  <div *ngIf="saveSuccess()" class="alert alert-success d-flex align-items-center gap-2.5 shadow-sm mb-4 rounded-4 border-success border-opacity-25 py-3 px-3.5">
+    <i class="fa-solid fa-circle-check fs-5 text-success"></i>
+    <div class="fw-medium text-success-emphasis">บันทึกข้อมูลโปรไฟล์ ชื่อ-นามสกุล เบอร์โทร และรูปภาพเรียบร้อยแล้ว</div>
+  </div>
+
+  <!-- Player Digital ID Card (White & Green Edition) -->
+  <div class="player-id-card">
+    <div class="row g-4 align-items-center">
+      <!-- Avatar with Upload Overlay -->
+      <div class="col-sm-auto avatar-col">
+        <div class="avatar-wrapper">
+          <div class="avatar-img-box">
+            <img *ngIf="(isEditing() ? editForm.avatar : profile().avatar); else fallbackAvatar" 
+                 [src]="isEditing() ? editForm.avatar : profile().avatar" 
+                 alt="User Avatar">
+            <ng-template #fallbackAvatar>
+              <i class="fa-solid fa-user-ninja text-success fs-2"></i>
+            </ng-template>
+          </div>
+          <button 
+            type="button" 
+            class="btn-camera-upload" 
+            (click)="avatarFileInput.click()" 
+            title="เปลี่ยนรูปโปรไฟล์">
+            <i class="fa-solid fa-camera"></i>
+          </button>
+          <input type="file" #avatarFileInput (change)="onAvatarFileSelected($event)" accept="image/*" class="d-none">
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <div class="player-identity-content">
+          <div class="player-header-row">
+            <div class="player-name-badges">
+              <h2 class="display-name">{{ isEditing() ? editForm.displayName : profile().displayName }}</h2>
+              <span class="ak-badge ak-badge-verified">
+                <i class="fa-brands fa-line me-1"></i> LINE Login Verified
+              </span>
+              <span class="ak-badge ak-badge-owner">
+                <i class="fa-solid fa-crown me-1"></i> OWNER
+              </span>
+              <span *ngIf="isEditing() ? editForm.isCustomAvatar : profile().isCustomAvatar" class="ak-badge ak-badge-active">
+                <i class="fa-solid fa-cloud-arrow-up me-1"></i> รูปที่อัปโหลดเอง
+              </span>
+            </div>
+
+            <!-- Edit status pill or button inside ID card -->
+            <div>
+              <button 
+                *ngIf="!isEditing()" 
+                type="button" 
+                class="btn btn-outline-success btn-sm rounded-pill px-3 py-1.5 d-inline-flex align-items-center gap-1.5 shadow-xs" 
+                (click)="startEdit()">
+                <i class="fa-solid fa-user-pen"></i>
+                <span>แก้ไขโปรไฟล์</span>
+              </button>
+              <span 
+                *ngIf="isEditing()" 
+                class="ak-editing-badge">
+                <i class="fa-solid fa-pen-to-square"></i>
+                <span>กำลังอยู่ในโหมดแก้ไข</span>
+              </span>
+            </div>
+          </div>
+
+          <p class="player-subdetails">
+            <span class="detail-item text-dark fw-bold">
+              {{ isEditing() ? editForm.firstName : profile().firstName }} {{ isEditing() ? editForm.lastName : profile().lastName }}
+            </span>
+            <span class="detail-divider">•</span>
+            <span class="detail-item">
+              <i class="fa-solid fa-phone text-success"></i> {{ isEditing() ? editForm.phone : profile().phone }}
+            </span>
+            <span class="detail-divider">•</span>
+            <span class="detail-item">
+              <i class="fa-brands fa-line text-success"></i> LINE ID: {{ profile().lineId }}
+            </span>
+          </p>
+
+          <!-- Player Skill & Reliability Pills -->
+          <div class="player-stats-pills">
+            <span class="stat-pill skill-pill">
+              <i class="fa-solid fa-trophy"></i> {{ isEditing() ? editForm.skillLevel : profile().skillLevel }}
+            </span>
+            <span class="stat-pill verified-pill">
+              <i class="fa-solid fa-shield-heart text-danger"></i> ความน่าเชื่อถือ {{ profile().reliabilityScore }}
+            </span>
+            <span class="stat-pill">
+              <i class="fa-solid fa-calendar-check text-primary"></i> ลงคอร์ตแล้ว {{ profile().totalMatches }} แมตช์
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. VIEW MODE (มองเห็นทั่วไป สบายตา เป็นระเบียบ ไม่เบียดขอบ)                -->
+  <!-- ========================================================================= -->
+  <div *ngIf="!isEditing()" class="profile-content-card">
+    <!-- Section Header with Edit Profile Button -->
+    <div class="content-header">
+      <div class="header-left">
+        <div class="icon-box">
+          <i class="fa-solid fa-id-badge"></i>
+        </div>
+        <div>
+          <h2 class="card-title">ข้อมูลโปรไฟล์ทั่วไป (Profile Overview)</h2>
+          <p class="card-subtitle">ข้อมูลที่แสดงต่อสมาชิกในก๊วน กิจกรรมนัดตี และตารางจับคู่</p>
+        </div>
+      </div>
+      <button 
+        type="button" 
+        class="ak-btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
+        (click)="startEdit()">
+        <i class="fa-solid fa-user-pen"></i>
+        <span>แก้ไขข้อมูลโปรไฟล์</span>
+      </button>
+    </div>
+
+    <div class="row g-4">
+      <!-- Card 1: ข้อมูลส่วนตัว -->
+      <div class="col-lg-6">
+        <div class="info-section-card">
+          <div class="section-headline">
+            <h3 class="title">
+              <i class="fa-solid fa-user-check text-success"></i> ข้อมูลส่วนตัว (Personal Details)
+            </h3>
+            <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1 small">
+              <i class="fa-brands fa-line me-1"></i> เชื่อมต่อแล้ว
+            </span>
+          </div>
+
+          <div class="info-rows-list">
+            <div class="info-row-item">
+              <span class="row-label">ชื่อแสดงในระบบ / ฉายา</span>
+              <span class="row-value">{{ profile().displayName }}</span>
+            </div>
+
+            <div class="info-row-item">
+              <span class="row-label">ชื่อจริง - นามสกุล</span>
+              <span class="row-value">{{ profile().firstName }} {{ profile().lastName }}</span>
+            </div>
+
+            <div class="info-row-item">
+              <span class="row-label">เบอร์โทรศัพท์ติดต่อ</span>
+              <div class="row-value">
+                <span>{{ profile().phone }}</span>
+                <span class="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0.5 small">
+                  <i class="fa-solid fa-circle-check me-1"></i> ยืนยันแล้ว
+                </span>
+              </div>
+            </div>
+
+            <div class="info-row-item">
+              <span class="row-label">LINE ID</span>
+              <span class="row-value">
+                <i class="fa-brands fa-line text-success"></i> {{ profile().lineId }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: ทักษะและระดับฝีมือแบดมินตัน -->
+      <div class="col-lg-6">
+        <div class="info-section-card">
+          <div class="section-headline">
+            <h3 class="title">
+              <i class="fa-solid fa-sliders text-success"></i> ข้อมูลการเล่นแบดมินตัน
+            </h3>
+            <span class="ak-badge ak-badge-skill py-0.5 px-2">
+              {{ profile().skillLevel.split(' ')[0] }}
+            </span>
+          </div>
+
+          <div class="info-rows-list">
+            <div class="info-row-item">
+              <span class="row-label">ระดับฝีมือประเมินตนเอง</span>
+              <span class="row-value">
+                <span class="ak-badge ak-badge-skill">
+                  <i class="fa-solid fa-trophy text-warning"></i> {{ profile().skillLevel }}
+                </span>
+              </span>
+            </div>
+
+            <div class="info-row-item">
+              <span class="row-label">มือที่ถนัด</span>
+              <span class="row-value">{{ profile().dominantHand }}</span>
+            </div>
+
+            <div class="info-row-item">
+              <span class="row-label">สไตล์การเล่น</span>
+              <span class="row-value">{{ profile().playStyle }}</span>
+            </div>
+
+            <div class="info-row-item">
+              <span class="row-label">ไม้แบดคู่ใจ</span>
+              <span class="row-value">{{ profile().preferredRacket }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: การแจ้งเตือน LINE (Full Width) -->
+      <div class="col-12">
+        <div class="notifications-showcase-box">
+          <div class="notify-header">
+            <h3 class="title">
+              <i class="fa-brands fa-line text-success fa-lg"></i> การตั้งค่าการแจ้งเตือน (LINE Official Account)
+            </h3>
+            <span class="text-secondary small">แจ้งเตือนอัตโนมัติผ่าน LINE</span>
+          </div>
+
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="notify-card">
+                <div class="notify-text-group">
+                  <div class="notify-name">แจ้งเตือนก่อนเวลานัดตีก๊วน 2 ชั่วโมง</div>
+                  <div class="notify-desc">ส่งข้อความสรุปเวลา คอร์ต และแผนที่สนาม</div>
+                </div>
+                <span *ngIf="profile().notifyLine; else notifyLineOff" class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1.5 small fw-semibold">
+                  <i class="fa-solid fa-circle-check me-1"></i> เปิดรับ
+                </span>
+                <ng-template #notifyLineOff>
+                  <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2.5 py-1.5 small">
+                    <i class="fa-solid fa-circle-xmark me-1"></i> ปิด
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="notify-card">
+                <div class="notify-text-group">
+                  <div class="notify-name">แจ้งเตือนเมื่อก๊วนเปิดกิจกรรมนัดตีใหม่</div>
+                  <div class="notify-desc">ไม่พลาดการลงชื่อเข้าร่วมรอบตียอดนิยม</div>
+                </div>
+                <span *ngIf="profile().notifyNewEvents; else notifyEventsOff" class="badge bg-success bg-opacity-10 text-success rounded-pill px-2.5 py-1.5 small fw-semibold">
+                  <i class="fa-solid fa-circle-check me-1"></i> เปิดรับ
+                </span>
+                <ng-template #notifyEventsOff>
+                  <span class="badge bg-secondary bg-opacity-10 text-secondary rounded-pill px-2.5 py-1.5 small">
+                    <i class="fa-solid fa-circle-xmark me-1"></i> ปิด
+                  </span>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Action Callout -->
+    <div class="bottom-edit-callout">
+      <div class="callout-text">
+        <i class="fa-solid fa-circle-info"></i>
+        <span>ต้องการเปลี่ยนชื่อฉายา เบอร์โทรศัพท์ ระดับมือ หรือรูปภาพประจำตัว? กดปุ่มแก้ไขเพื่อปรับปรุงข้อมูลได้ทันที</span>
+      </div>
+      <button 
+        type="button" 
+        class="ak-btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm"
+        (click)="startEdit()">
+        <i class="fa-solid fa-user-pen"></i>
+        <span>แก้ไขโปรไฟล์</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. EDIT MODE (ฟิลด์ Input แสดงเฉพาะเมื่อกดปุ่ม "แก้ไขโปรไฟล์")           -->
+  <!-- ========================================================================= -->
+  <div *ngIf="isEditing()" class="profile-content-card edit-mode-active">
+    
+    <!-- Section Header with Cancel and Save Buttons -->
+    <div class="content-header">
+      <div class="header-left">
+        <div class="icon-box">
+          <i class="fa-solid fa-user-pen"></i>
+        </div>
+        <div>
+          <h2 class="card-title">แก้ไขข้อมูลโปรไฟล์ (Edit Profile)</h2>
+          <p class="card-subtitle">แก้ไขข้อมูลและรูปภาพ จากนั้นกด "บันทึกข้อมูลโปรไฟล์"</p>
+        </div>
+      </div>
+      <div class="d-flex align-items-center gap-2">
+        <button 
+          type="button" 
+          class="btn btn-outline-secondary rounded-pill px-3 py-1.5 small"
+          (click)="cancelEdit()">
+          <i class="fa-solid fa-xmark me-1"></i> ยกเลิก
+        </button>
+        <button 
+          type="button" 
+          class="ak-btn-primary rounded-pill px-4 py-1.5 small shadow-sm"
+          (click)="saveProfile()">
+          <i class="fa-solid fa-floppy-disk me-1"></i> บันทึกข้อมูล
+        </button>
+      </div>
+    </div>
+
+    <!-- Quick Avatar Selection & Reset Bar -->
+    <div class="avatar-preset-bar">
+      <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+        <div class="d-flex flex-wrap align-items-center gap-2">
+          <button type="button" class="ak-btn-primary ak-btn-sm rounded-pill px-3.5 py-1.5" (click)="avatarFileInput.click()">
+            <i class="fa-solid fa-cloud-arrow-up me-1"></i> อัปโหลดรูปภาพใหม่...
+          </button>
+          
+          <!-- Reset to LINE Avatar Button -->
+          <button 
+            type="button" 
+            class="btn btn-sm btn-outline-success rounded-pill px-3.5 py-1.5 d-inline-flex align-items-center gap-1.5"
+            (click)="resetToLineAvatar()" 
+            title="รีเซ็ตกลับไปใช้รูปภาพโปรไฟล์จาก LINE ดั้งเดิม">
+            <i class="fa-brands fa-line fs-6"></i>
+            <span>รีเซ็ตเป็นรูป LINE</span>
+          </button>
+        </div>
+
+        <span class="text-secondary small">
+          <i class="fa-solid fa-circle-info text-success me-1"></i> รองรับไฟล์ JPG, PNG ขนาดไม่เกิน 5 MB
+        </span>
+      </div>
+    </div>
+
+    <div class="row g-4 mb-4">
+      <!-- Display Name -->
+      <div class="col-md-6">
+        <div class="edit-field-group mb-0">
+          <label class="edit-label">
+            <i class="fa-solid fa-signature text-success"></i> ชื่อที่แสดงในระบบ / ฉายาในก๊วน (Display Name)
+          </label>
+          <input type="text" [(ngModel)]="editForm.displayName" class="ak-profile-input" placeholder="เช่น Coach Kitti, บอล แบดเหนียว" />
+          <div class="edit-hint">ชื่อนี้จะปรากฏในตารางจัดคู่ กิจกรรมนัดตี และแชตในก๊วน</div>
+        </div>
+      </div>
+
+      <!-- Phone Number -->
+      <div class="col-md-6">
+        <div class="edit-field-group mb-0">
+          <label class="edit-label">
+            <i class="fa-solid fa-phone text-success"></i> เบอร์โทรศัพท์ (Phone Number)
+          </label>
+          <div class="input-group">
+            <input type="tel" [(ngModel)]="editForm.phone" class="ak-profile-input rounded-0 rounded-start" placeholder="08x-xxx-xxxx" />
+            <span class="input-group-text bg-success bg-opacity-10 text-success border-start-0 small fw-bold">
+              <i class="fa-solid fa-circle-check me-1"></i> ยืนยันแล้ว
+            </span>
+          </div>
+          <div class="edit-hint">ใช้สำหรับติดต่อฉุกเฉินหรือประสานงานหน้าคอร์ต</div>
+        </div>
+      </div>
+
+      <!-- First Name -->
+      <div class="col-md-6">
+        <div class="edit-field-group mb-0">
+          <label class="edit-label">
+            <i class="fa-solid fa-user text-success"></i> ชื่อจริง (First Name)
+          </label>
+          <input type="text" [(ngModel)]="editForm.firstName" class="ak-profile-input" placeholder="ชื่อจริงของคุณ" />
+        </div>
+      </div>
+
+      <!-- Last Name -->
+      <div class="col-md-6">
+        <div class="edit-field-group mb-0">
+          <label class="edit-label">
+            <i class="fa-solid fa-user text-success"></i> นามสกุล (Last Name)
+          </label>
+          <input type="text" [(ngModel)]="editForm.lastName" class="ak-profile-input" placeholder="นามสกุลของคุณ" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 2: Badminton Skills & Equipment -->
+    <div class="pt-4 border-top border-light mb-4">
+      <h3 class="fw-bold text-dark fs-6 mb-3">
+        <i class="fa-solid fa-sliders text-success me-2"></i> ข้อมูลการเล่นและระดับฝีมือแบดมินตัน
+      </h3>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="edit-field-group mb-0">
+            <label class="edit-label">ระดับฝีมือประเมินตนเอง (Self-Assessed Level)</label>
+            <div class="profile-select-wrapper">
+              <select [(ngModel)]="editForm.skillLevel">
+                <option value="N (มือใหม่หัดเล่น)">N (มือใหม่หัดเล่น / เพิ่งเริ่ม)</option>
+                <option value="S- (เริ่มต้นเบสิก)">S- (เริ่มต้นเบสิก / วิ่งคอร์ตได้)</option>
+                <option value="S (ปานกลางทั่วไป)">S (ปานกลางทั่วไป / ตบได้รับได้)</option>
+                <option value="S+ (เล่นประจำฝีมือดี)">S+ (เล่นประจำฝีมือดี / เกมไว)</option>
+                <option value="P- (ฝีมือดีมาก)">P- (ฝีมือดีมาก / ลงแข่งบ่อย)</option>
+                <option value="P+ (ชำนาญสูง/แข่งประจำ)">P+ (ชำนาญสูง / แข่งประจำ)</option>
+                <option value="B (นักกีฬาระดับแข่ง)">B (นักกีฬาระดับแข่ง / อดีตตัวแทน)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-arrow"></i>
+            </div>
+            <div class="edit-hint">ช่วยให้ระบบจับคู่และคัดเลือกก๊วนที่สูสีและสมดุล</div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="edit-field-group mb-0">
+            <label class="edit-label">มือที่ถนัด (Dominant Hand)</label>
+            <div class="profile-select-wrapper">
+              <select [(ngModel)]="editForm.dominantHand">
+                <option value="ขวา (Right-handed)">มือขวา (Right-handed)</option>
+                <option value="ซ้าย (Left-handed)">มือซ้าย (Left-handed)</option>
+              </select>
+              <i class="fa-solid fa-chevron-down select-arrow"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="edit-field-group mb-0">
+            <label class="edit-label">สไตล์การเล่น (Playing Style)</label>
+            <input type="text" [(ngModel)]="editForm.playStyle" class="ak-profile-input" placeholder="เช่น เกมบุกตบหนัก, วางลูกแม่นยำ" />
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="edit-field-group mb-0">
+            <label class="edit-label">ไม้แบดคู่ใจ (Preferred Racket)</label>
+            <input type="text" [(ngModel)]="editForm.preferredRacket" class="ak-profile-input" placeholder="เช่น Yonex Astrox, Victor Thruster" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section 3: LINE Notification Preferences -->
+    <div class="pt-4 border-top border-light mb-4">
+      <h3 class="fw-bold text-dark fs-6 mb-3">
+        <i class="fa-brands fa-line text-success me-2"></i> การแจ้งเตือนผ่าน LINE Official Account
+      </h3>
+
+      <div class="d-flex flex-column gap-3">
+        <div class="switch-item-box">
+          <div>
+            <div class="fw-bold text-dark small mb-0.5">แจ้งเตือนความจำก่อนเวลาเริ่มนัดตีก๊วน 2 ชั่วโมง</div>
+            <div class="text-secondary" style="font-size: 0.8rem;">ส่งข้อความสรุปเวลา คอร์ต และแผนที่สนามล่วงหน้า</div>
+          </div>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" id="notifyLineSwitch" [(ngModel)]="editForm.notifyLine" style="cursor: pointer; width: 2.75rem; height: 1.4rem;">
+          </div>
+        </div>
+
+        <div class="switch-item-box">
+          <div>
+            <div class="fw-bold text-dark small mb-0.5">แจ้งเตือนเมื่อก๊วนที่สังกัดเปิดกิจกรรมนัดตีแบดใหม่</div>
+            <div class="text-secondary" style="font-size: 0.8rem;">ไม่พลาดการลงชื่อเข้าร่วมรอบตียอดนิยม</div>
+          </div>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" id="notifyEventsSwitch" [(ngModel)]="editForm.notifyNewEvents" style="cursor: pointer; width: 2.75rem; height: 1.4rem;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Save and Cancel Actions -->
+    <div class="d-flex flex-wrap align-items-center justify-content-end gap-2 pt-4 border-top border-light">
+      <button type="button" class="btn btn-outline-secondary rounded-pill px-4 py-2" (click)="cancelEdit()">
+        <i class="fa-solid fa-xmark me-1"></i> ยกเลิก
+      </button>
+      <button class="ak-btn-primary rounded-pill px-5 py-2 shadow-sm" (click)="saveProfile()">
+        <i class="fa-solid fa-floppy-disk me-1.5"></i> บันทึกข้อมูลโปรไฟล์
+      </button>
+    </div>
+  </div>
+</div>

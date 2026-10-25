@@ -1,0 +1,58 @@
+// =============================================================================
+// Group List Component Styles (KwuanKun Theme)
+// Modern White & Green Atmosphere with Pill Controls & Sleek Sorting
+// =============================================================================
+
+.sort-toggle-btn {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(0, 194, 97, 0.28);
+  color: #1E293B;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 1.15rem;
+  min-height: 42px;
+  border-radius: 999px;
+  box-shadow: 0 2px 8px rgba(0, 194, 97, 0.06);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  white-space: nowrap;
+
+  i {
+    font-size: 0.95rem;
+    transition: transform 0.2s ease, color 0.2s ease;
+  }
+
+  &:hover {
+    border-color: #00C261;
+    background: #F0FDF4;
+    color: #00C261;
+    box-shadow: 0 4px 14px rgba(0, 194, 97, 0.18);
+    transform: translateY(-1px);
+
+    i {
+      transform: scale(1.15);
+    }
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #00C261 0%, #059669 100%);
+    border-color: #00C261;
+    color: #FFFFFF;
+    box-shadow: 0 4px 16px rgba(0, 194, 97, 0.32);
+
+    i {
+      color: #FFFFFF !important;
+    }
+
+    .badge {
+      background-color: #FFFFFF !important;
+    }
+  }
+}

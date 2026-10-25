@@ -1,0 +1,190 @@
+<div class="ak-members-page">
+  <!-- Page Header -->
+  <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+    <div>
+      <div class="d-inline-flex align-items-center gap-2 ak-badge ak-badge-owner mb-2">
+        <i class="fa-solid fa-users-gear"></i> จัดการสมาชิกก๊วน
+      </div>
+      <h1 class="h4 fw-bold text-dark mb-1">
+        สมาชิกก๊วน & ระดับฝีมือ (Player Roster)
+      </h1>
+      <p class="text-secondary small mb-0">
+        {{ groupName() }} • สมาชิกทั้งหมด {{ members().length }} คน • คำขอรอพิจารณา {{ pendingRequests().length }} รายการ
+      </p>
+    </div>
+
+    <!-- Tab Toggle -->
+    <div class="btn-group rounded-pill p-1 bg-light border">
+      <button 
+        (click)="activeTab.set('MEMBERS')" 
+        class="btn btn-sm rounded-pill px-3 fw-semibold border-0" 
+        [class.btn-success]="activeTab() === 'MEMBERS'"
+        [class.text-secondary]="activeTab() !== 'MEMBERS'">
+        <i class="fa-solid fa-users me-1"></i> สมาชิกปัจจุบัน ({{ members().length }})
+      </button>
+      <button 
+        (click)="activeTab.set('REQUESTS')" 
+        class="btn btn-sm rounded-pill px-3 fw-semibold border-0 position-relative" 
+        [class.btn-warning]="activeTab() === 'REQUESTS'"
+        [class.text-secondary]="activeTab() !== 'REQUESTS'">
+        <i class="fa-solid fa-user-clock me-1"></i> คำขอรอพิจารณา ({{ pendingRequests().length }})
+        <span *ngIf="pendingRequests().length > 0" class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- TAB 1: MEMBERS ROSTER -->
+  <div *ngIf="activeTab() === 'MEMBERS'">
+    <!-- Search & Filter Bar -->
+    <div class="ak-card p-3 shadow-sm mb-4">
+      <div class="row g-2 align-items-center">
+        <div class="col-md-6 col-lg-7">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0 text-secondary">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </span>
+            <input 
+              type="text" 
+              class="form-control border-start-0 ps-0" 
+              placeholder="ค้นหาชื่อสมาชิก หรือ LINE ID..." 
+              [ngModel]="searchQuery()"
+              (ngModelChange)="searchQuery.set($event)" />
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-5">
+          <div class="d-flex align-items-center gap-2">
+            <span class="small text-secondary fw-semibold text-nowrap">ระดับมือ:</span>
+            <select 
+              class="form-select form-select-sm" 
+              [ngModel]="selectedLevelFilter()" 
+              (ngModelChange)="selectedLevelFilter.set($event)">
+              <option value="ALL">ทุกระดับมือ (All Levels)</option>
+              <option value="N">N (Beginner / มือใหม่)</option>
+              <option value="N+">N+ (พัฒนาแล้ว)</option>
+              <option value="S">S (Semi-Pro / ปานกลาง)</option>
+              <option value="S+">S+ (ปานกลางค่อนข้างสูง)</option>
+              <option value="P">P (Proficient / ฝีมือดี)</option>
+              <option value="P+">P+ (แข่งล่ารางวัล)</option>
+              <option value="C">C (Coach / โค้ชหรือนักกีฬา)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members Table -->
+    <div class="ak-card p-0 shadow-sm overflow-hidden">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0 ak-data-table">
+          <thead>
+            <tr>
+              <th class="ps-4">สมาชิก</th>
+              <th>บทบาทในก๊วน</th>
+              <th class="text-center">ระดับมือแบดมินตัน</th>
+              <th class="text-center">รอบที่ลงตี</th>
+              <th class="text-center">วันที่เข้าก๊วน</th>
+              <th class="pe-4 text-end">การจัดการ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let m of filteredMembers()">
+              <td class="ps-4">
+                <div class="d-flex align-items-center gap-2.5">
+                  <div class="ak-icon-box ak-icon-box-primary" style="width: 36px; height: 36px; font-size: 0.95rem;">
+                    <i class="fa-solid fa-user"></i>
+                  </div>
+                  <div>
+                    <div class="fw-bold text-dark">{{ m.name }}</div>
+                    <div class="text-muted small">
+                      <i class="fa-brands fa-line text-success me-1"></i> {{ m.lineId }}
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-warning text-dark': m.role === 'HOST',
+                  'bg-info text-white': m.role === 'CO_HOST',
+                  'bg-light text-secondary border': m.role === 'MEMBER'
+                }">
+                  {{ m.role === 'HOST' ? 'เจ้าของก๊วน (Host)' : (m.role === 'CO_HOST' ? 'ผู้ช่วยก๊วน' : 'สมาชิกทั่วไป') }}
+                </span>
+              </td>
+              <td class="text-center">
+                <select 
+                  class="form-select form-select-sm d-inline-block w-auto text-center fw-bold"
+                  [ngModel]="m.skillLevel" 
+                  (ngModelChange)="updateSkillLevel(m, $event)">
+                  <option value="N">N (มือใหม่)</option>
+                  <option value="N+">N+</option>
+                  <option value="S">S (ปานกลาง)</option>
+                  <option value="S+">S+</option>
+                  <option value="P">P (ฝีมือดี)</option>
+                  <option value="P+">P+</option>
+                  <option value="C">C (โค้ช)</option>
+                </select>
+              </td>
+              <td class="text-center fw-bold text-success">
+                {{ m.sessionsCount }} รอบ
+              </td>
+              <td class="text-center text-secondary small">
+                {{ m.joinDate }}
+              </td>
+              <td class="pe-4 text-end">
+                <button 
+                  *ngIf="m.role !== 'HOST'" 
+                  (click)="removeMember(m)" 
+                  class="ak-btn-ghost text-danger ak-btn-sm rounded-pill" 
+                  title="นำออกจากก๊วน">
+                  <i class="fa-solid fa-user-minus me-1"></i> ปลดออก
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: PENDING JOIN REQUESTS -->
+  <div *ngIf="activeTab() === 'REQUESTS'">
+    <div class="row g-3">
+      <div class="col-12" *ngIf="pendingRequests().length === 0">
+        <div class="ak-card p-5 text-center shadow-sm">
+          <i class="fa-solid fa-circle-check text-success fa-3x mb-3"></i>
+          <h5 class="fw-bold text-dark">ไม่มีคำขอค้างพิจารณา</h5>
+          <p class="text-secondary small mb-0">คำขอสมัครเข้าก๊วนทั้งหมดได้รับการตรวจสอบเรียบร้อยแล้ว</p>
+        </div>
+      </div>
+
+      <div class="col-md-6" *ngFor="let req of pendingRequests()">
+        <div class="ak-card p-4 shadow-sm border-warning border-opacity-50">
+          <div class="d-flex align-items-center justify-content-between mb-2">
+            <span class="badge bg-warning bg-opacity-20 text-warning-emphasis fw-bold">
+              <i class="fa-solid fa-clock me-1"></i> ยื่นคำขอเมื่อ {{ req.appliedDate }}
+            </span>
+            <span class="badge bg-success bg-opacity-10 text-success fw-bold">
+              {{ req.skillLevel }}
+            </span>
+          </div>
+          <h3 class="h5 fw-bold text-dark mb-1">{{ req.name }}</h3>
+          <p class="text-muted small mb-2">
+            <i class="fa-brands fa-line text-success me-1"></i> LINE ID: {{ req.lineId }}
+          </p>
+          <div class="p-2.5 rounded-3 bg-light border small text-secondary mb-3">
+            "{{ req.message }}"
+          </div>
+
+          <div class="d-flex align-items-center gap-2">
+            <button (click)="approveRequest(req)" class="ak-btn-primary ak-btn-sm rounded-pill flex-grow-1">
+              <i class="fa-solid fa-user-check me-1"></i> อนุมัติเข้าก๊วน
+            </button>
+            <button (click)="rejectRequest(req)" class="ak-btn-outline text-danger ak-btn-sm rounded-pill">
+              <i class="fa-solid fa-xmark me-1"></i> ปฏิเสธ
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none" width="100%" height="100%">
+  <defs>
+    <!-- Background Gradient: Deep court green to dark jade -->
+    <linearGradient id="iconBgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0E4A37" />
+      <stop offset="50%" stop-color="#083425" />
+      <stop offset="100%" stop-color="#041F16" />
+    </linearGradient>
+
+    <!-- App Icon Feather Glow -->
+    <linearGradient id="whiteFeatherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="50%" stop-color="#F0FDF4" />
+      <stop offset="100%" stop-color="#DCFCE7" />
+    </linearGradient>
+
+    <linearGradient id="whiteWingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#BBF7D0" />
+    </linearGradient>
+
+    <linearGradient id="corkWhiteGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#DCFCE7" />
+      <stop offset="100%" stop-color="#86EFAC" />
+    </linearGradient>
+
+    <filter id="iconInnerShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Squircle Rounded App Icon Base -->
+  <rect width="512" height="512" rx="115" fill="url(#iconBgGrad)" />
+
+  <!-- Badminton Court Subtly Angled Lines Watermark -->
+  <g opacity="0.12" stroke="#FFFFFF" stroke-width="4" transform="rotate(-15 256 256)">
+    <rect x="40" y="40" width="432" height="432" fill="none" />
+    <line x1="100" y1="40" x2="100" y2="472" />
+    <line x1="412" y1="40" x2="412" y2="472" />
+    <line x1="40" y1="256" x2="472" y2="256" />
+    <line x1="40" y1="180" x2="472" y2="180" />
+    <line x1="40" y1="332" x2="472" y2="332" />
+    <line x1="256" y1="40" x2="256" y2="472" />
+  </g>
+
+  <!-- Central Symbol scaled to fit squircle -->
+  <g transform="translate(116, 96) scale(1.4)" filter="url(#iconInnerShadow)">
+    <!-- Left Wing -->
+    <path d="M44 32 C34 46, 26 72, 32 108 C36 114, 46 116, 54 114 C62 102, 65 74, 60 52 C56 42, 50 35, 44 32 Z" fill="url(#whiteWingGrad)" />
+    <!-- Right Wing -->
+    <path d="M156 32 C166 46, 174 72, 168 108 C164 114, 154 116, 146 114 C138 102, 135 74, 140 52 C144 42, 150 35, 156 32 Z" fill="url(#whiteFeatherGrad)" />
+    <!-- Central 'A' Apex and Body -->
+    <path d="M100 18 L138 116 C138 116, 128 120, 118 118 L111 96 H89 L82 118 C72 120, 62 116, 62 116 L100 18 Z" fill="url(#whiteFeatherGrad)" />
+    <!-- 'A' Inner Cutouts -->
+    <path d="M100 44 L107 78 H93 L100 44 Z" fill="#083425" />
+    <path d="M91 88 H109 L114 118 H86 L91 88 Z" fill="#083425" />
+    <!-- Strings -->
+    <line x1="95" y1="88" x2="93" y2="118" stroke="#DCFCE7" stroke-width="2.5" />
+    <line x1="100" y1="88" x2="100" y2="118" stroke="#FFFFFF" stroke-width="2.5" />
+    <line x1="105" y1="88" x2="107" y2="118" stroke="#DCFCE7" stroke-width="2.5" />
+    <!-- Shaft Ribs -->
+    <line x1="72" y1="116" x2="75" y2="136" stroke="#DCFCE7" stroke-width="3" />
+    <line x1="86" y1="118" x2="87" y2="136" stroke="#FFFFFF" stroke-width="3" />
+    <line x1="100" y1="118" x2="100" y2="136" stroke="#FFFFFF" stroke-width="3" />
+    <line x1="114" y1="118" x2="113" y2="136" stroke="#FFFFFF" stroke-width="3" />
+    <line x1="128" y1="116" x2="125" y2="136" stroke="#DCFCE7" stroke-width="3" />
+    <!-- Collar Ribbon -->
+    <rect x="70" y="132" width="60" height="5" rx="2.5" fill="#FFFFFF" />
+    <!-- Cork Base -->
+    <path d="M72 138 C72 138, 70 162, 82 174 C90 182, 110 182, 118 174 C130 162, 128 138, 128 138 Z" fill="url(#corkWhiteGrad)" />
+    <path d="M84 168 C92 176, 108 176, 116 168" stroke="#00E575" stroke-width="2.5" stroke-linecap="round" fill="none" opacity="0.6" />
+  </g>
+</svg>

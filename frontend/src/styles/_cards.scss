@@ -1,0 +1,1514 @@
+// =============================================================================
+// Reusable Card Components, Rich Menu Cards & FontAwesome Icons Grid
+// White & Green (ขาว-เขียว) Style (TBad App Inspiration)
+// =============================================================================
+
+.ak-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: var(--ak-radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--ak-shadow-card);
+  transition: var(--ak-transition);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  @media (max-width: 575.98px) {
+    padding: 1.15rem 1rem;
+    border-radius: 18px;
+  }
+
+  // Interactive hover elevation
+  &-interactive {
+    cursor: pointer;
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: var(--brand-primary);
+      box-shadow: var(--ak-shadow-card-hover);
+      background: #FFFFFF;
+      z-index: var(--z-card-hover, 10);
+    }
+  }
+
+  // Frosted Mint Glass Effect
+  &-glass {
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+}
+
+// =============================================================================
+// TBad App Iconic Green Gradient Banner (Inspiration: tbadapp.com/th)
+// =============================================================================
+.ak-tbad-banner {
+  background: var(--brand-primary-gradient);
+  border-radius: var(--ak-radius-lg);
+  padding: 1.5rem 1.75rem;
+  color: #FFFFFF;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 10px 25px -4px rgba(0, 194, 97, 0.35);
+
+  @media (max-width: 575.98px) {
+    padding: 1.25rem 1rem;
+    border-radius: 18px;
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    right: -15px;
+    bottom: -15px;
+    width: 130px;
+    height: 130px;
+    background-image: url('/assets/image/add-kwuan-symbol.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    pointer-events: none;
+    filter: brightness(0) invert(1);
+  }
+
+  .banner-badge {
+    background: rgba(255, 255, 255, 0.22);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.28rem 0.75rem;
+    border-radius: var(--ak-radius-pill);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+
+    i {
+      font-size: var(--icon-size-sm);
+    }
+  }
+
+  .banner-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 0.4rem;
+    letter-spacing: -0.01em;
+
+    @media (max-width: 575.98px) {
+      font-size: 1.22rem;
+    }
+  }
+
+  .banner-desc {
+    font-size: 0.925rem;
+    color: rgba(255, 255, 255, 0.92);
+    margin-bottom: 1rem;
+    max-width: 480px;
+
+    @media (max-width: 575.98px) {
+      font-size: 0.85rem;
+      margin-bottom: 0.85rem;
+    }
+  }
+
+  .banner-pill-pop {
+    background: #FFFFFF;
+    color: var(--brand-coral);
+    font-weight: 800;
+    font-size: 0.8rem;
+    padding: 0.28rem 0.75rem;
+    border-radius: var(--ak-radius-pill);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+
+    i {
+      font-size: var(--icon-size-sm);
+    }
+  }
+}
+
+// =============================================================================
+// LINE Rich Menu 6-Tile Cards System (FontAwesome Powered Icons)
+// =============================================================================
+.ak-rich-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+}
+
+.ak-rich-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: var(--ak-radius-lg);
+  padding: 1.15rem 0.75rem;
+  min-height: 136px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  @media (max-width: 480px) {
+    padding: 0.95rem 0.5rem;
+    min-height: 122px;
+  }
+
+  // FontAwesome Rich Icon Box
+  .ak-rich-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 0.55rem;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    flex-shrink: 0;
+
+    @media (max-width: 480px) {
+      width: 46px;
+      height: 46px;
+      border-radius: 13px;
+      margin-bottom: 0.45rem;
+    }
+
+    i {
+      font-size: 1.55rem;
+      transition: transform 0.22s ease;
+      line-height: 1;
+
+      @media (max-width: 480px) {
+        font-size: 1.35rem;
+      }
+    }
+  }
+
+  .ak-rich-title {
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: 0.2rem;
+
+    @media (max-width: 480px) {
+      font-size: 0.925rem;
+    }
+  }
+
+  .ak-rich-subtitle {
+    font-size: 0.775rem;
+    line-height: 1.2;
+    margin: 0;
+
+    @media (max-width: 480px) {
+      font-size: 0.725rem;
+    }
+  }
+
+  // --- Clean Crisp White Card Variant (TBad Style) ---
+  &-white,
+  &-dark {
+    background: #FFFFFF;
+    border: 1px solid var(--border-card);
+    box-shadow: var(--ak-shadow-card);
+
+    .ak-rich-title {
+      color: var(--text-primary);
+    }
+
+    .ak-rich-subtitle {
+      color: var(--text-secondary);
+    }
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: var(--brand-primary);
+      background: var(--brand-surface-soft);
+      box-shadow: 0 10px 24px -4px rgba(0, 194, 97, 0.16);
+
+      .ak-rich-icon {
+        transform: scale(1.08) translateY(-2px);
+      }
+    }
+  }
+
+  // --- Highlight Mint Cream Card Variant (Card 1: ค้นหาก๊วน) ---
+  &-highlight {
+    background: linear-gradient(145deg, #E8F8F0 0%, #D1FAE5 70%, #A7F3D0 100%);
+    border: 2px solid var(--brand-primary);
+    box-shadow: 0 6px 20px -2px rgba(0, 194, 97, 0.22);
+
+    .ak-rich-title {
+      color: var(--brand-forest);
+      font-weight: 800;
+    }
+
+    .ak-rich-subtitle {
+      color: var(--brand-primary-dark);
+      font-weight: 600;
+    }
+
+    &:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 12px 28px -4px rgba(0, 194, 97, 0.32);
+
+      .ak-rich-icon {
+        transform: scale(1.1) translateY(-2px);
+      }
+    }
+  }
+}
+
+// Rich Menu Card Icon Color Presets (FontAwesome Themes)
+.icon-box-search {
+  background: linear-gradient(135deg, #00C261 0%, #009647 100%);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(0, 194, 97, 0.32);
+}
+
+.icon-box-groups {
+  background: #EBF8FF;
+  color: #0284C7;
+  border: 1px solid rgba(2, 132, 199, 0.2);
+}
+
+.icon-box-create {
+  background: #F0FDF4;
+  color: #16A34A;
+  border: 1px solid rgba(22, 163, 74, 0.2);
+}
+
+.icon-box-join {
+  background: #FEF3C7;
+  color: #D97706;
+  border: 1px solid rgba(217, 119, 6, 0.25);
+}
+
+.icon-box-activities {
+  background: #F3E8FF;
+  color: #9333EA;
+  border: 1px solid rgba(147, 51, 234, 0.2);
+}
+
+.icon-box-profile {
+  background: #E8F8F0;
+  color: #059669;
+  border: 1px solid rgba(5, 150, 105, 0.2);
+}
+
+// =============================================================================
+// Activity Session Card (TBad Style: Court Thumbnail + Details + Amenities)
+// =============================================================================
+.ak-session-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: var(--ak-radius-lg);
+  padding: 1.25rem;
+  display: flex;
+  gap: 1.15rem;
+  align-items: stretch;
+  box-shadow: var(--ak-shadow-card);
+  transition: var(--ak-transition);
+  position: relative;
+  overflow: hidden;
+
+  @media (max-width: 575.98px) {
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.85rem;
+  }
+
+  .session-thumb {
+    width: 110px;
+    min-height: 100px;
+    border-radius: var(--ak-radius-md);
+    background: linear-gradient(135deg, #E8F8F0 0%, #D1FAE5 100%);
+    border: 1px solid rgba(0, 194, 97, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+
+    @media (max-width: 575.98px) {
+      width: 100%;
+      height: 90px;
+      min-height: 90px;
+    }
+
+    i {
+      font-size: 2rem;
+      color: var(--brand-primary);
+    }
+  }
+
+  .session-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .facility-pill {
+    background: #E8F8F0;
+    color: var(--brand-forest);
+    border: 1px solid rgba(0, 194, 97, 0.2);
+    font-size: 0.725rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--ak-radius-sm);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+
+    i {
+      font-size: var(--icon-size-sm);
+      display: inline-flex;
+      align-items: center;
+    }
+  }
+}
+
+// =============================================================================
+// Horizontal Scrollable Tab Bar (Prevents tab pills from breaking on mobile)
+// =============================================================================
+.ak-nav-tabs-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  flex-wrap: nowrap;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  list-style: none;
+  margin: 0;
+  padding: 0.45rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: var(--ak-radius-lg);
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  li {
+    flex-shrink: 0;
+  }
+}
+
+// =============================================================================
+// Consistent Icon Box Sizing Grid (FontAwesome based)
+// =============================================================================
+.ak-icon-box {
+  border-radius: var(--ak-radius-md);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  line-height: 1;
+
+  i {
+    transition: transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+  }
+
+  &-sm {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    i {
+      font-size: var(--icon-size-sm);
+    }
+  }
+
+  &-md {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    i {
+      font-size: var(--icon-size-md);
+    }
+  }
+
+  &-lg {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    i {
+      font-size: var(--icon-size-lg);
+    }
+  }
+
+  &-primary {
+    background: var(--brand-surface);
+    color: var(--brand-primary);
+    border: 1px solid rgba(0, 194, 97, 0.25);
+  }
+
+  &-forest {
+    background: var(--brand-forest);
+    color: #FFFFFF;
+    border: 1px solid var(--brand-primary);
+  }
+
+  &-coral {
+    background: #FEF2F2;
+    color: var(--brand-coral);
+    border: 1px solid #FCA5A5;
+  }
+
+  &-surface {
+    background: var(--brand-surface);
+    color: var(--brand-forest);
+    border: 1px solid var(--border-default);
+  }
+}
+
+// =============================================================================
+// Kwuan / Group Hero Banner with Dynamic Cover & Logo
+// =============================================================================
+.ak-group-hero-banner {
+  position: relative;
+  border-radius: var(--ak-radius-lg);
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 10px 28px -4px rgba(0, 0, 0, 0.16);
+  min-height: 250px;
+  display: flex;
+  align-items: flex-end;
+  color: #FFFFFF;
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg, 
+      rgba(4, 56, 42, 0.35) 0%, 
+      rgba(6, 78, 59, 0.85) 65%, 
+      rgba(4, 56, 42, 0.96) 100%
+    );
+    z-index: 1;
+  }
+
+  .hero-change-cover-btn {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #FFFFFF;
+    border-radius: var(--ak-radius-pill);
+    padding: 0.35rem 0.85rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--ak-transition);
+
+    &:hover {
+      background: rgba(0, 194, 97, 0.9);
+      border-color: #00C261;
+      transform: translateY(-2px);
+    }
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    padding: 1.75rem 1.5rem;
+    width: 100%;
+
+    @media (max-width: 575.98px) {
+      padding: 1.25rem 1rem;
+    }
+  }
+
+  .group-logo-frame {
+    width: 90px;
+    height: 90px;
+    border-radius: 22px;
+    background: #FFFFFF;
+    border: 3.5px solid #FFFFFF;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .logo-edit-badge {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.48);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #FFFFFF;
+      opacity: 0;
+      transition: var(--ak-transition);
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    &:hover .logo-edit-badge {
+      opacity: 1;
+    }
+  }
+}
+
+// Facility Badges & Court Venue Information
+.ak-facility-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--ak-radius-pill);
+  font-size: 0.775rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+
+  i {
+    font-size: 0.85rem;
+  }
+}
+
+// Interactive Map Pin Preview Card
+.ak-map-card {
+  background: #FFFFFF;
+  border: 1.5px solid var(--border-card);
+  border-radius: var(--ak-radius-md);
+  overflow: hidden;
+  transition: var(--ak-transition);
+
+  &:hover {
+    border-color: var(--brand-primary);
+    box-shadow: var(--ak-shadow-card-hover);
+  }
+
+  .map-canvas-mock {
+    height: 160px;
+    position: relative;
+    background: 
+      radial-gradient(circle at 50% 50%, rgba(0, 194, 97, 0.12) 0%, transparent 60%),
+      linear-gradient(to right, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.04) 1px, transparent 1px),
+      #E8F5E9;
+    background-size: 100% 100%, 30px 30px, 30px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .map-pin-pulse {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(0, 194, 97, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: akPinPulse 2s infinite;
+
+      .map-pin-core {
+        width: 32px;
+        height: 32px;
+        background: #00C261;
+        border: 2.5px solid #FFFFFF;
+        border-radius: 50%;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 194, 97, 0.4);
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+@keyframes akPinPulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 194, 97, 0.5); }
+  70% { transform: scale(1.15); box-shadow: 0 0 0 16px rgba(0, 194, 97, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 194, 97, 0); }
+}
+
+// User Avatar Uploader
+.ak-avatar-uploader {
+  position: relative;
+  display: inline-block;
+
+  .avatar-img-container {
+    width: 96px;
+    height: 96px;
+    border-radius: 28px;
+    overflow: hidden;
+    border: 3.5px solid #FFFFFF;
+    box-shadow: 0 6px 20px rgba(0, 194, 97, 0.18);
+    background: var(--brand-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .avatar-camera-btn {
+    position: absolute;
+    bottom: -4px;
+    right: -4px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--brand-primary);
+    color: #FFFFFF;
+    border: 2.5px solid #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: var(--ak-transition);
+
+    &:hover {
+      background: var(--brand-forest);
+      transform: scale(1.1);
+    }
+  }
+}
+
+// =============================================================================
+// TBad App: Horizontal Date Scroller Strip (Screenshot 2 Inspiration)
+// =============================================================================
+.ak-date-strip {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.15rem 0.75rem 0.15rem;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  .date-card {
+    min-width: 64px;
+    height: 72px;
+    padding: 0.5rem 0.35rem;
+    border-radius: 14px;
+    background: #FFFFFF;
+    border: 1px solid var(--border-card);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+    flex-shrink: 0;
+
+    .day-name {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: #6B7280;
+      margin-bottom: 0.2rem;
+    }
+
+    .day-number {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: #111827;
+      line-height: 1.1;
+    }
+
+    &:hover:not(.active) {
+      border-color: var(--brand-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    }
+
+    &.active {
+      background: #00C261 !important;
+      border-color: #00C261 !important;
+      box-shadow: 0 6px 16px rgba(0, 194, 97, 0.38);
+      transform: translateY(-2px) scale(1.02);
+
+      .day-name,
+      .day-number {
+        color: #FFFFFF !important;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// TBad App: Filter Pills Row (ทั้งหมด, ก๊วน, หาเพื่อนตี + เรียงลำดับ)
+// =============================================================================
+.ak-filter-pills-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+
+  .pills-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding-bottom: 0.25rem;
+    scrollbar-width: none;
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .filter-pill {
+    padding: 0.4rem 1.15rem;
+    border-radius: var(--ak-radius-pill);
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    border: 1px solid var(--border-card);
+    background: #FFFFFF;
+    color: var(--text-secondary);
+    transition: var(--ak-transition);
+    white-space: nowrap;
+
+    &:hover:not(.active) {
+      border-color: var(--brand-primary);
+      color: var(--brand-forest);
+      background: var(--brand-surface-soft);
+    }
+
+    &.active {
+      background: #00C261;
+      border-color: #00C261;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px rgba(0, 194, 97, 0.3);
+    }
+  }
+}
+
+// Modern Sort Toggle Button (Nearest / Popular)
+.sort-toggle-btn {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(0, 194, 97, 0.28);
+  color: #1E293B;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.15rem;
+  min-height: 42px;
+  border-radius: var(--ak-radius-pill);
+  box-shadow: 0 2px 8px rgba(0, 194, 97, 0.06);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  i {
+    font-size: 0.95rem;
+    color: var(--brand-primary);
+    transition: transform 0.2s ease;
+  }
+
+  &:hover {
+    border-color: var(--brand-primary);
+    background: var(--brand-surface-soft);
+    color: var(--brand-primary);
+    box-shadow: 0 4px 12px rgba(0, 194, 97, 0.15);
+    transform: translateY(-1px);
+
+    i {
+      transform: scale(1.15);
+    }
+  }
+
+  &.active {
+    background: linear-gradient(135deg, #00C261 0%, #059669 100%);
+    border-color: #00C261;
+    color: #FFFFFF;
+    box-shadow: 0 4px 14px rgba(0, 194, 97, 0.3);
+
+    i {
+      color: #FFFFFF !important;
+    }
+
+    .badge {
+      background-color: #FFFFFF !important;
+    }
+  }
+}
+
+// =============================================================================
+// Advanced Filtering: Province, District, and Skill Level Selectors
+// =============================================================================
+.ak-filter-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: 16px;
+  padding: 1rem 1.25rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+
+  @media (max-width: 575.98px) {
+    padding: 0.85rem;
+  }
+}
+
+.ak-filter-select-group {
+  display: flex;
+  flex-direction: column;
+
+  .ak-filter-label {
+    font-size: 0.775rem;
+    font-weight: 700;
+    color: #4B5563;
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+
+    i {
+      font-size: 0.85rem;
+    }
+  }
+
+  .ak-select-pill {
+    position: relative;
+    background: #F9FAFB;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 12px;
+    height: 42px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+
+    select {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #1F2937;
+      cursor: pointer;
+      padding: 0 2.2rem 0 0.85rem;
+      appearance: none;
+      -webkit-appearance: none;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+
+      &:focus {
+        outline: none;
+      }
+
+      option {
+        color: #1F2937;
+        font-weight: 500;
+      }
+    }
+
+    .select-arrow {
+      position: absolute;
+      right: 0.85rem;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      font-size: 0.72rem;
+      color: #9CA3AF;
+      transition: transform 0.2s ease;
+    }
+
+    &:hover:not(.disabled) {
+      border-color: #00C261;
+      background: #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 194, 97, 0.12);
+    }
+
+    &:focus-within {
+      border-color: #00C261;
+      background: #FFFFFF;
+      box-shadow: 0 0 0 3px rgba(0, 194, 97, 0.18);
+
+      .select-arrow {
+        color: #00C261;
+      }
+    }
+
+    &.disabled {
+      opacity: 0.55;
+      background: #F3F4F6;
+      cursor: not-allowed;
+
+      select {
+        cursor: not-allowed;
+      }
+    }
+  }
+}
+
+.ak-active-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: #E8F8F0;
+  color: #047857;
+  border: 1px solid rgba(0, 194, 97, 0.35);
+  padding: 0.22rem 0.75rem;
+  border-radius: var(--ak-radius-pill);
+  font-size: 0.775rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  i {
+    font-size: 0.7rem;
+    transition: transform 0.15s ease;
+  }
+
+  &:hover {
+    background: #DCFCE7;
+    border-color: #00C261;
+    transform: translateY(-1px);
+
+    i {
+      transform: scale(1.2);
+      color: #DC2626;
+    }
+  }
+}
+
+
+// =============================================================================
+// TBad App: Party / Kwuan Card (Matching Screenshot 2)
+// =============================================================================
+.ak-tbad-party-card {
+  background: #FFFFFF;
+  border: 1px solid var(--border-card);
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px -4px rgba(0, 194, 97, 0.2);
+    border-color: #00C261;
+
+    .party-banner-img {
+      transform: scale(1.04);
+    }
+  }
+
+  .party-banner-frame {
+    height: 180px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #E8F5E9;
+
+    .party-banner-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .party-count-badge {
+      position: absolute;
+      top: 0.75rem;
+      right: 0.75rem;
+      background: #00C261;
+      color: #FFFFFF;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.65rem;
+      border-radius: var(--ak-radius-pill);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      z-index: 2;
+
+      &.badge-full {
+        background: #DC2626;
+      }
+    }
+  }
+
+  .party-body {
+    padding: 1rem 1.15rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .court-pin-location {
+      font-size: 0.78rem;
+      color: #6B7280;
+      margin-bottom: 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+
+      i {
+        color: #00C261;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .date-time-strip {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 0.45rem;
+      flex-wrap: wrap;
+
+      .today-pill {
+        background: #00C261;
+        color: #FFFFFF;
+        font-size: 0.68rem;
+        font-weight: 800;
+        padding: 0.12rem 0.45rem;
+        border-radius: 6px;
+      }
+
+      .time-text {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #00C261;
+      }
+    }
+
+    .party-title {
+      font-size: 1.05rem;
+      font-weight: 800;
+      line-height: 1.35;
+      color: #111827;
+      margin-bottom: 0.25rem;
+
+      .type-tag {
+        color: #00C261;
+        font-weight: 800;
+        margin-right: 0.25rem;
+      }
+    }
+
+    .party-subtitle {
+      font-size: 0.82rem;
+      color: #6B7280;
+      margin-bottom: 0.65rem;
+    }
+
+    .skills-requirement {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      margin-top: auto;
+      margin-bottom: 0.85rem;
+
+      .skill-label {
+        font-size: 0.75rem;
+        color: #6B7280;
+        margin-right: 0.15rem;
+      }
+
+      .skill-pill {
+        font-size: 0.72rem;
+        font-weight: 700;
+        padding: 0.15rem 0.5rem;
+        border-radius: 6px;
+
+        &.skill-sky {
+          background: #E0F2FE;
+          color: #0284C7;
+          border: 1px solid #BAE6FD;
+        }
+
+        &.skill-green {
+          background: #DCFCE7;
+          color: #16A34A;
+          border: 1px solid #BBF7D0;
+        }
+
+        &.skill-amber {
+          background: #FEF3C7;
+          color: #D97706;
+          border: 1px solid #FDE68A;
+        }
+
+        &.skill-purple {
+          background: #F3E8FF;
+          color: #9333EA;
+          border: 1px solid #E9D5FF;
+        }
+
+        &.skill-rose {
+          background: #FEE2E2;
+          color: #DC2626;
+          border: 1px solid #FECACA;
+        }
+      }
+    }
+  }
+
+  .party-footer {
+    padding: 0.65rem 1.15rem;
+    border-top: 1px solid #F3F4F6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+
+    .host-block {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+
+      .host-avatar {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .host-name {
+        font-size: 0.82rem;
+        font-weight: 700;
+        color: #1F2937;
+      }
+
+      .host-badge {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: #00C261;
+      }
+    }
+
+    .player-count-block {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #374151;
+
+      i {
+        font-size: 0.85rem;
+        color: #6B7280;
+      }
+    }
+  }
+}
+
+// =============================================================================
+// TBad App: Detail Page Elements (Screenshot 1 Inspiration)
+// =============================================================================
+.ak-tbad-detail-hero {
+  position: relative;
+  width: 100%;
+  height: 380px;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+
+  @media (max-width: 575.98px) {
+    height: 260px;
+    border-radius: 16px;
+  }
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-player-counter {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: #00C261;
+    color: #FFFFFF;
+    font-size: 0.95rem;
+    font-weight: 800;
+    padding: 0.4rem 1rem;
+    border-radius: var(--ak-radius-pill);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    z-index: 5;
+  }
+}
+
+.ak-tbad-tabs-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #E5E7EB;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+
+  .tbad-tab-btn {
+    padding: 0.75rem 1.5rem;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #4B5563;
+    background: transparent;
+    border: none;
+    border-bottom: 3.5px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: var(--ak-transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      color: #00C261;
+    }
+
+    &.active {
+      color: #00C261;
+      border-bottom-color: #00C261;
+    }
+
+    .tab-counter-badge {
+      background: #00C261;
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 0.15rem 0.55rem;
+      border-radius: var(--ak-radius-pill);
+    }
+  }
+}
+
+.ak-tbad-info-card {
+  background: #F9FAFB;
+  border: 1px solid #E5E7EB;
+  border-radius: 16px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+
+  .info-row {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    font-size: 0.92rem;
+    color: #1F2937;
+    font-weight: 600;
+
+    .row-icon {
+      color: #00C261;
+      font-size: 1rem;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    .today-tag {
+      background: #00C261;
+      color: #FFFFFF;
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 0.15rem 0.5rem;
+      border-radius: 6px;
+      margin-right: 0.35rem;
+    }
+
+    .clickable-court-link {
+      color: #047857;
+      text-decoration: underline;
+      cursor: pointer;
+      font-weight: 700;
+
+      &:hover {
+        color: #00C261;
+      }
+    }
+  }
+}
+
+.ak-participants-box {
+  margin-top: 1.5rem;
+
+  .participants-title {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #111827;
+    margin-bottom: 0.85rem;
+  }
+
+  .avatar-stack-row {
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+
+    .stacked-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      border: 3px solid #FFFFFF;
+      object-fit: cover;
+      margin-left: -10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s ease;
+
+      &:hover {
+        transform: translateY(-4px) scale(1.1);
+        z-index: 10;
+      }
+    }
+
+    .stacked-more-pill {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: #00C261;
+      color: #FFFFFF;
+      border: 3px solid #FFFFFF;
+      margin-left: -10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.85rem;
+      font-weight: 800;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    }
+  }
+}
+
+// Bottom Sticky Action Bar (Orange 'สนใจ' + Green 'เข้าร่วม' + Share icon)
+.ak-tbad-bottom-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+  padding: 1rem 0;
+
+  @media (max-width: 767.98px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.96);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid #E5E7EB;
+    padding: 0.75rem 1rem;
+    margin-top: 0;
+    z-index: var(--z-fixed, 1030);
+    box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  .btn-action-interest {
+    background: #FFA000;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+    border-radius: var(--ak-radius-pill);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(255, 160, 0, 0.35);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: #F57C00;
+      transform: translateY(-2px);
+    }
+  }
+
+  .btn-action-join {
+    background: #00C261;
+    color: #FFFFFF;
+    font-weight: 800;
+    font-size: 1rem;
+    padding: 0.75rem 2.25rem;
+    border-radius: var(--ak-radius-pill);
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 14px rgba(0, 194, 97, 0.35);
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    &:hover {
+      background: #009647;
+      transform: translateY(-2px);
+    }
+  }
+
+  .btn-action-share {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid #00C261;
+    background: #FFFFFF;
+    color: #00C261;
+    font-size: 1.15rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+
+    &:hover {
+      background: #E8F8F0;
+      transform: translateY(-2px);
+    }
+  }
+}
+

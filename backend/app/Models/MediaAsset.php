@@ -29,6 +29,15 @@ class MediaAsset extends Model
         'is_private' => 'boolean',
     ];
 
+    protected $appends = [
+        'url',
+    ];
+
+    public function getUrlAttribute(): string
+    {
+        return \Illuminate\Support\Facades\Storage::disk($this->disk)->url($this->file_path);
+    }
+
     public function uploader(): BelongsTo
     {
         return $this->belongsTo(User::class, 'uploaded_by_user_id');
