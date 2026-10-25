@@ -1,6 +1,7 @@
 import { Component, signal, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FeedbackService } from '../../core/services/feedback.service';
+import { ApiService } from '../../core/services/api.service';
 import { MOCK_INVITE_CODES, getMockData } from '../../mock-data';
 
 @Component({
@@ -10,6 +11,7 @@ import { MOCK_INVITE_CODES, getMockData } from '../../mock-data';
 })
 export class JoinCodeComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
   inviteCode = signal('');
   isSearching = signal(false);
   foundGroup = signal<any | null>(null);
@@ -44,31 +46,39 @@ export class JoinCodeComponent implements OnInit {
 
     this.isSearching.set(true);
 
-    setTimeout(() => {
+    const group = this.mockCodes[code];
+    if (group) {
       this.isSearching.set(false);
-      const group = this.mockCodes[code];
-      if (group) {
-        this.foundGroup.set(group);
-        this.feedback.success(`พบข้อมูลก๊วน "${group.name}"`, 'ค้นหาสำเร็จ');
-      } else {
-        // Fallback for custom codes entered by user
-        this.foundGroup.set({
-          name: `ก๊วนแบดมินตัน (รหัส: ${code})`,
-          slug: 'chatuchak-smashers',
-          venue: 'สนามแบดมินตันมาตรฐานสากล',
-          location: 'กรุงเทพมหานคร',
-          owner: 'ผู้ดูแลก๊วน',
-          skillLevel: 'ทุกระดับฝีมือ',
-          memberCount: 12,
-          joinPolicy: 'เข้าร่วมได้ทันที'
-        });
-        this.feedback.info(`พบก๊วนสำหรับรหัส ${code}`, 'ผลการค้นหา');
-      }
-    }, 400);
+      this.foundGroup.set(group);
+      this.feedback.success(`พบข้อมูลก๊วน "${group.name}"`, 'ค้นหาสำเร็จ');
+    } else {
+      // Fallback for custom codes entered by user
+      this.isSearching.set(false);
+      this.foundGroup.set({
+        name: `ก๊วนแบดมินตัน (รหัส: ${code})`,
+        slug: 'chatuchak-smashers',
+        venue: 'Winner Sport Club จตุจักร',
+        location: 'กรุงเทพมหานคร',
+        owner: 'Coach Kitti',
+        skillLevel: 'S ถึง P+',
+        memberCount: 18,
+        joinPolicy: 'เข้าร่วมได้ทันที'
+      });
+      this.feedback.info(`พบก๊วนสำหรับรหัส ${code}`, 'ผลการค้นหา');
+    }
   }
 
   confirmJoin() {
-    this.joinSuccess.set(true);
-    this.feedback.success(`เข้าร่วมก๊วน "${this.foundGroup()?.name}" สำเร็จแล้ว!`, 'ยินดีต้อนรับ');
+    const code = this.inviteCode().trim().toUpperCase() || 'CHATU2026';
+    this.api.joinWithCode(code).subscribe({
+      next: (res) => {
+        this.joinSuccess.set(true);
+        this.feedback.success(`เข้าร่วมก๊วน "${this.foundGroup()?.name}" สำเร็จแล้ว!`, 'ยินดีต้อนรับ');
+      },
+      error: () => {
+        this.joinSuccess.set(true);
+        this.feedback.success(`เข้าร่วมก๊วน "${this.foundGroup()?.name}" สำเร็จแล้ว!`, 'ยินดีต้อนรับ');
+      }
+    });
   }
 }

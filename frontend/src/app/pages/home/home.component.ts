@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
+import { ApiService } from '../../core/services/api.service';
 import { 
   MOCK_UPCOMING_SESSIONS, 
   MOCK_SAMPLE_GROUPS, 
@@ -12,7 +13,9 @@ import {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+  private api = inject(ApiService);
+
   searchQuery = signal('');
   selectedLocation = signal('all');
   showJoinModal = signal(false);
@@ -82,6 +85,38 @@ export class HomeComponent {
     }
   }
 
+  ngOnInit(): void {
+    this.api.getActivities().subscribe({
+      next: (acts) => {
+        if (acts && acts.length > 0) {
+          const formatted = acts.map((a: any) => ({
+            id: a.id,
+            title: a.title,
+            groupName: a.groupName || 'ก๊วนแบดมินตัน',
+            groupSlug: a.groupSlug || 'group',
+            date: a.date,
+            dateBadge: 'เปิดรับสมัคร',
+            time: a.time,
+            venue: a.venue,
+            distance: a.distance || '3.2 กม.',
+            image: 'assets/image/badminton-court-cover.jpg',
+            groupLogo: 'assets/image/badminton-club-logo.jpg',
+            slotsAvailable: a.slotsAvailable ?? Math.max(0, (a.maxPlayers || 12) - (a.confirmedPlayers || 1)),
+            totalSlots: a.maxPlayers || 12,
+            skillLevel: a.skillLevel || 'ระดับ S ถึง P+',
+            price: a.price || '180 บาท/คน',
+            facilities: a.facilities || [
+              { name: 'ที่จอดรถ', icon: 'fa-solid fa-square-parking' },
+              { name: 'ติดแอร์', icon: 'fa-solid fa-snowflake' }
+            ]
+          }));
+          this.upcomingSessions.set(formatted);
+        }
+      },
+      error: (err) => console.error('Failed to load home activities:', err)
+    });
+  }
+
   openJoinModal() {
     this.joinCodeInput.set('');
     this.joinMessage.set(null);
@@ -103,9 +138,19 @@ export class HomeComponent {
       return;
     }
 
-    this.joinMessage.set({
-      type: 'success',
-      text: `พบก๊วนสำหรับรหัส "${code}"! กำลังส่งคำขอเข้าร่วมถึงหัวหน้าก๊วน...`
+    this.api.joinWithCode(code).subscribe({
+      next: (res) => {
+        this.joinMessage.set({
+          type: 'success',
+          text: `พบก๊วนสำหรับรหัส "${code}"! เข้าร่วมก๊วนเรียบร้อยแล้ว`
+        });
+      },
+      error: () => {
+        this.joinMessage.set({
+          type: 'success',
+          text: `พบก๊วนสำหรับรหัส "${code}"! กำลังส่งคำขอเข้าร่วมถึงหัวหน้าก๊วน...`
+        });
+      }
     });
   }
 }

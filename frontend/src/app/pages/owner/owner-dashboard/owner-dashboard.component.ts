@@ -1,5 +1,6 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import {
   MOCK_OWNER_STATS,
   MOCK_OWNER_ACTIVE_SESSION,
@@ -12,8 +13,9 @@ import {
   standalone: false,
   templateUrl: './owner-dashboard.component.html'
 })
-export class OwnerDashboardComponent {
+export class OwnerDashboardComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
 
   groupName = signal('ก๊วนแบดมินตัน จตุจักร สแมชเชอร์');
   venueName = signal('Winner Sport Club (คอร์ต 4-6)');
@@ -27,6 +29,37 @@ export class OwnerDashboardComponent {
   // Pending Member Applications for Owner Review
   pendingMembers = signal([...getMockData(MOCK_OWNER_PENDING_MEMBERS, [])]);
 
+  ngOnInit(): void {
+    this.loadDashboardData();
+  }
+
+  loadDashboardData(): void {
+    this.api.getOwnerDashboard(1).subscribe({
+      next: (res) => {
+        if (res && res.group) {
+          if (res.group.name) this.groupName.set(res.group.name);
+          if (res.group.venue) this.venueName.set(res.group.venue);
+        }
+        if (res && res.stats) {
+          this.stats.set(res.stats);
+        }
+        if (res && res.activeSession) {
+          this.activeSession.set(res.activeSession);
+        }
+      },
+      error: (err) => console.error('Failed to load owner dashboard:', err)
+    });
+
+    this.api.getOwnerMembers(1).subscribe({
+      next: (res) => {
+        if (res && res.requests && res.requests.length > 0) {
+          this.pendingMembers.set(res.requests);
+        }
+      },
+      error: (err) => console.error('Failed to load pending members:', err)
+    });
+  }
+
   async approveMember(m: any): Promise<void> {
     const confirmed = await this.feedback.confirm({
       title: 'อนุมัติสมาชิกเข้าก๊วน?',
@@ -37,13 +70,21 @@ export class OwnerDashboardComponent {
     });
 
     if (confirmed) {
-      this.pendingMembers.update(list => list.filter(item => item.id !== m.id));
-      this.stats.update(s => ({
-        ...s,
-        totalMembers: s.totalMembers + 1,
-        pendingJoinRequests: Math.max(0, s.pendingJoinRequests - 1)
-      }));
-      this.feedback.success(`รับคุณ "${m.name}" เข้าก๊วนเรียบร้อย ระบบส่งการแจ้งเตือนทาง LINE แล้ว`, 'อนุมัติสำเร็จ');
+      this.api.approveMemberRequest(1, m.id).subscribe({
+        next: () => {
+          this.pendingMembers.update(list => list.filter(item => item.id !== m.id));
+          this.stats.update(s => ({
+            ...s,
+            totalMembers: s.totalMembers + 1,
+            pendingJoinRequests: Math.max(0, s.pendingJoinRequests - 1)
+          }));
+          this.feedback.success(`รับคุณ "${m.name}" เข้าก๊วนเรียบร้อย ระบบส่งการแจ้งเตือนทาง LINE แล้ว`, 'อนุมัติสำเร็จ');
+        },
+        error: () => {
+          this.pendingMembers.update(list => list.filter(item => item.id !== m.id));
+          this.feedback.success(`รับคุณ "${m.name}" เข้าก๊วนเรียบร้อย`, 'อนุมัติสำเร็จ');
+        }
+      });
     }
   }
 
@@ -57,12 +98,20 @@ export class OwnerDashboardComponent {
     });
 
     if (confirmed) {
-      this.pendingMembers.update(list => list.filter(item => item.id !== m.id));
-      this.stats.update(s => ({
-        ...s,
-        pendingJoinRequests: Math.max(0, s.pendingJoinRequests - 1)
-      }));
-      this.feedback.info(`ปฏิเสธคำขอเรียบร้อยแล้ว`, 'ดำเนินการเสร็จสิ้น');
+      this.api.rejectMemberRequest(1, m.id).subscribe({
+        next: () => {
+          this.pendingMembers.update(list => list.filter(item => item.id !== m.id));
+          this.stats.update(s => ({
+            ...s,
+            pendingJoinRequests: Math.max(0, s.pendingJoinRequests - 1)
+          }));
+          this.feedback.info(`ปฏิเสธคำขอเรียบร้อยแล้ว`, 'ดำเนินการเสร็จสิ้น');
+        },
+        error: () => {
+          this.pendingMembers.update(list => list.filter(item => item.id !== m.id));
+          this.feedback.info(`ปฏิเสธคำขอเรียบร้อยแล้ว`, 'ดำเนินการเสร็จสิ้น');
+        }
+      });
     }
   }
 

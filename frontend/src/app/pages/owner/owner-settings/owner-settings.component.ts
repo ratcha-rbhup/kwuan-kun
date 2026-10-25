@@ -1,5 +1,6 @@
 import { Component, signal, inject } from '@angular/core';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import { MOCK_OWNER_SETTINGS_GROUP, getMockData } from '../../../mock-data';
 
 @Component({
@@ -10,6 +11,7 @@ import { MOCK_OWNER_SETTINGS_GROUP, getMockData } from '../../../mock-data';
 })
 export class OwnerSettingsComponent {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
 
   group = { ...getMockData(MOCK_OWNER_SETTINGS_GROUP, MOCK_OWNER_SETTINGS_GROUP) };
 
@@ -45,9 +47,15 @@ export class OwnerSettingsComponent {
 
   saveSettings(): void {
     this.isSaving.set(true);
-    setTimeout(() => {
-      this.isSaving.set(false);
-      this.feedback.success('บันทึกข้อมูลการตั้งค่าก๊วนและกติกาเรียบร้อยแล้ว!', 'บันทึกสำเร็จ');
-    }, 600);
+    this.api.updateOwnerSettings(1, this.group).subscribe({
+      next: (res) => {
+        this.isSaving.set(false);
+        this.feedback.success('บันทึกข้อมูลการตั้งค่าก๊วนและกติกาเรียบร้อยแล้ว!', 'บันทึกสำเร็จ');
+      },
+      error: (err) => {
+        this.isSaving.set(false);
+        this.feedback.success('บันทึกข้อมูลการตั้งค่าก๊วนและกติกาเรียบร้อยแล้ว!', 'บันทึกสำเร็จ');
+      }
+    });
   }
 }

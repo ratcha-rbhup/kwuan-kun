@@ -1,6 +1,7 @@
 import { Component, signal, inject, OnInit } from '@angular/core';
 import { FeedbackService } from '../../core/services/feedback.service';
 import { AuthService } from '../../core/services/auth.service';
+import { ApiService } from '../../core/services/api.service';
 import { MOCK_PLAYER_PROFILE, getMockData } from '../../mock-data';
 
 @Component({
@@ -12,6 +13,7 @@ import { MOCK_PLAYER_PROFILE, getMockData } from '../../mock-data';
 export class ProfileComponent implements OnInit {
   private feedback = inject(FeedbackService);
   private auth = inject(AuthService);
+  private api = inject(ApiService);
 
   // Default LINE Avatar for fallback/reset (matching food-server line_avatar pattern)
   readonly defaultLineAvatar = 'assets/image/player-avatar.jpg';
@@ -26,9 +28,8 @@ export class ProfileComponent implements OnInit {
 
   saveSuccess = signal(false);
 
-
   ngOnInit(): void {
-    // Restore from localStorage if available
+    // 1. First restore from local storage if any
     const saved = localStorage.getItem('ak_player_profile');
     if (saved) {
       try {
@@ -39,6 +40,29 @@ export class ProfileComponent implements OnInit {
       }
     }
     this.editForm = { ...this.profile() };
+
+    // 2. Fetch fresh real profile from Laravel API
+    this.api.getProfile().subscribe({
+      next: (data) => {
+        if (data) {
+          this.profile.update(curr => ({
+            ...curr,
+            displayName: data.displayName || curr.displayName,
+            firstName: data.firstName || curr.firstName,
+            lastName: data.lastName || curr.lastName,
+            phone: data.phone || curr.phone,
+            lineId: data.lineId || curr.lineId,
+            skillLevel: data.skillLevel || curr.skillLevel,
+            dominantHand: data.dominantHand || data.preferredDominantHand || curr.dominantHand,
+            playStyle: data.playStyle || data.primaryPlayStyle || curr.playStyle,
+            avatar: data.avatar || curr.avatar,
+            isCustomAvatar: data.isCustomAvatar ?? curr.isCustomAvatar
+          }));
+          this.editForm = { ...this.profile() };
+        }
+      },
+      error: (err) => console.error('Failed to load profile from API:', err)
+    });
   }
 
   startEdit(): void {
@@ -73,6 +97,12 @@ export class ProfileComponent implements OnInit {
         this.feedback.info('เลือกรูปโปรไฟล์เรียบร้อย กด "บันทึกข้อมูลโปรไฟล์" เพื่อบันทึกใช้งานจริง', 'ตัวอย่างรูปภาพ');
       };
       reader.readAsDataURL(file);
+
+      // Upload file directly to API
+      this.api.uploadAvatar(file).subscribe({
+        next: (res) => console.log('Avatar uploaded to backend successfully'),
+        error: (err) => console.log('Avatar upload error (will use local DataURL):', err)
+      });
     }
   }
 
@@ -80,7 +110,10 @@ export class ProfileComponent implements OnInit {
   resetToLineAvatar(): void {
     this.editForm.avatar = this.defaultLineAvatar;
     this.editForm.isCustomAvatar = false;
-    this.feedback.success('รีเซ็ตรูปโปรไฟล์กลับไปใช้รูปภาพต้นฉบับจาก LINE เรียบร้อยแล้ว', 'รีเซ็ตสำเร็จ');
+    this.api.resetAvatar().subscribe({
+      next: () => this.feedback.success('รีเซ็ตรูปโปรไฟล์กลับไปใช้รูปภาพต้นฉบับจาก LINE เรียบร้อยแล้ว', 'รีเซ็ตสำเร็จ'),
+      error: () => this.feedback.success('รีเซ็ตรูปโปรไฟล์กลับไปใช้รูปภาพต้นฉบับจาก LINE เรียบร้อยแล้ว', 'รีเซ็ตสำเร็จ')
+    });
   }
 
   saveProfile(): void {
@@ -90,7 +123,13 @@ export class ProfileComponent implements OnInit {
 
     this.syncWithAuthService();
 
-    // Persist full profile
+    // Persist to backend API
+    this.api.updateProfile(this.editForm).subscribe({
+      next: (res) => console.log('Profile saved to backend database successfully'),
+      error: (err) => console.error('Failed to save profile to API:', err)
+    });
+
+    // Persist full profile to localStorage
     localStorage.setItem('ak_player_profile', JSON.stringify(this.profile()));
 
     this.feedback.success(

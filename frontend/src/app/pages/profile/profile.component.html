@@ -88,19 +88,9 @@
               </span>
             </div>
 
-            <!-- Edit status pill or button inside ID card -->
-            <div>
-              <button 
-                *ngIf="!isEditing()" 
-                type="button" 
-                class="btn btn-outline-success btn-sm rounded-pill px-3 py-1.5 d-inline-flex align-items-center gap-1.5 shadow-xs" 
-                (click)="startEdit()">
-                <i class="fa-solid fa-user-pen"></i>
-                <span>แก้ไขโปรไฟล์</span>
-              </button>
-              <span 
-                *ngIf="isEditing()" 
-                class="ak-editing-badge">
+            <!-- Status badge inside ID card when editing -->
+            <div *ngIf="isEditing()">
+              <span class="ak-editing-badge">
                 <i class="fa-solid fa-pen-to-square"></i>
                 <span>กำลังอยู่ในโหมดแก้ไข</span>
               </span>
@@ -142,7 +132,7 @@
   <!-- 1. VIEW MODE (มองเห็นทั่วไป สบายตา เป็นระเบียบ ไม่เบียดขอบ)                -->
   <!-- ========================================================================= -->
   <div *ngIf="!isEditing()" class="profile-content-card">
-    <!-- Section Header with Edit Profile Button -->
+    <!-- Section Header -->
     <div class="content-header">
       <div class="header-left">
         <div class="icon-box">
@@ -153,13 +143,6 @@
           <p class="card-subtitle">ข้อมูลที่แสดงต่อสมาชิกในก๊วน กิจกรรมนัดตี และตารางจับคู่</p>
         </div>
       </div>
-      <button 
-        type="button" 
-        class="ak-btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center gap-2 shadow-sm"
-        (click)="startEdit()">
-        <i class="fa-solid fa-user-pen"></i>
-        <span>แก้ไขข้อมูลโปรไฟล์</span>
-      </button>
     </div>
 
     <div class="row g-4">
@@ -295,19 +278,12 @@
       </div>
     </div>
 
-    <!-- Bottom Action Callout -->
+    <!-- Bottom Info Callout -->
     <div class="bottom-edit-callout">
       <div class="callout-text">
         <i class="fa-solid fa-circle-info"></i>
-        <span>ต้องการเปลี่ยนชื่อฉายา เบอร์โทรศัพท์ ระดับมือ หรือรูปภาพประจำตัว? กดปุ่มแก้ไขเพื่อปรับปรุงข้อมูลได้ทันที</span>
+        <span>ข้อมูลระดับฝีมือ เบอร์โทรศัพท์ และฉายา จะนำไปใช้ในการจัดคู่และแสดงต่อเพื่อนร่วมก๊วน</span>
       </div>
-      <button 
-        type="button" 
-        class="ak-btn-primary rounded-pill px-4 py-2 d-inline-flex align-items-center gap-1.5 shadow-sm"
-        (click)="startEdit()">
-        <i class="fa-solid fa-user-pen"></i>
-        <span>แก้ไขโปรไฟล์</span>
-      </button>
     </div>
   </div>
 
@@ -316,7 +292,7 @@
   <!-- ========================================================================= -->
   <div *ngIf="isEditing()" class="profile-content-card edit-mode-active">
     
-    <!-- Section Header with Cancel and Save Buttons -->
+    <!-- Section Header -->
     <div class="content-header">
       <div class="header-left">
         <div class="icon-box">
@@ -324,22 +300,8 @@
         </div>
         <div>
           <h2 class="card-title">แก้ไขข้อมูลโปรไฟล์ (Edit Profile)</h2>
-          <p class="card-subtitle">แก้ไขข้อมูลและรูปภาพ จากนั้นกด "บันทึกข้อมูลโปรไฟล์"</p>
+          <p class="card-subtitle">แก้ไขข้อมูลและรูปภาพ จากนั้นกด "บันทึกข้อมูลโปรไฟล์" ที่ด้านล่าง</p>
         </div>
-      </div>
-      <div class="d-flex align-items-center gap-2">
-        <button 
-          type="button" 
-          class="btn btn-outline-secondary rounded-pill px-3 py-1.5 small"
-          (click)="cancelEdit()">
-          <i class="fa-solid fa-xmark me-1"></i> ยกเลิก
-        </button>
-        <button 
-          type="button" 
-          class="ak-btn-primary rounded-pill px-4 py-1.5 small shadow-sm"
-          (click)="saveProfile()">
-          <i class="fa-solid fa-floppy-disk me-1"></i> บันทึกข้อมูล
-        </button>
       </div>
     </div>
 

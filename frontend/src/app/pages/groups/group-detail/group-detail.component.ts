@@ -1,5 +1,6 @@
-import { Component, signal, Input, inject } from '@angular/core';
+import { Component, signal, Input, inject, OnInit } from '@angular/core';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import {
   BadmintonCourtVenue,
   MOCK_GROUP_PARTICIPANTS,
@@ -15,8 +16,9 @@ export { BadmintonCourtVenue };
   templateUrl: './group-detail.component.html',
   styleUrls: ['./group-detail.component.scss']
 })
-export class GroupDetailComponent {
+export class GroupDetailComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
   @Input() slug = 'chatuchak-smashers';
   activeTab = signal<'info' | 'courts' | 'activities' | 'members' | 'announcements'>('info');
 
@@ -26,6 +28,26 @@ export class GroupDetailComponent {
   participants = signal([...getMockData(MOCK_GROUP_PARTICIPANTS, [])]);
 
   group = signal({ ...getMockData(MOCK_GROUP_DETAIL, MOCK_GROUP_DETAIL) });
+
+  ngOnInit(): void {
+    if (this.slug) {
+      this.api.getGroupDetail(this.slug).subscribe({
+        next: (data) => {
+          if (data && data.name) {
+            this.group.update(curr => ({
+              ...curr,
+              name: data.name,
+              slug: data.slug,
+              description: data.description || curr.description,
+              memberCount: data.current_member_count || curr.memberCount,
+              maxMembers: data.max_members || curr.maxMembers
+            }));
+          }
+        },
+        error: (err) => console.error('Failed to load group detail from API:', err)
+      });
+    }
+  }
 
   // Action: Toggle Interest (🧡 สนใจ)
   toggleInterest(): void {

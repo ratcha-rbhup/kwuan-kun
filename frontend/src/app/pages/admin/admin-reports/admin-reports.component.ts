@@ -1,5 +1,6 @@
-import { Component, signal, inject } from '@angular/core';
+import { Component, signal, inject, OnInit } from '@angular/core';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import { UserReport, MOCK_ADMIN_REPORTS, getMockData } from '../../../mock-data';
 
 @Component({
@@ -7,10 +8,22 @@ import { UserReport, MOCK_ADMIN_REPORTS, getMockData } from '../../../mock-data'
   standalone: false,
   templateUrl: './admin-reports.component.html'
 })
-export class AdminReportsComponent {
+export class AdminReportsComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
 
   reports = signal<UserReport[]>(getMockData(MOCK_ADMIN_REPORTS, []));
+
+  ngOnInit(): void {
+    this.api.getAdminReports().subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          this.reports.set(data);
+        }
+      },
+      error: (err) => console.error('Failed to load admin reports from API:', err)
+    });
+  }
 
   async warnUser(r: UserReport): Promise<void> {
     const confirmed = await this.feedback.confirm({

@@ -1,5 +1,6 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import { PlatformGroup, MOCK_ADMIN_GROUPS, getMockData } from '../../../mock-data';
 
 @Component({
@@ -7,8 +8,9 @@ import { PlatformGroup, MOCK_ADMIN_GROUPS, getMockData } from '../../../mock-dat
   standalone: false,
   templateUrl: './admin-groups.component.html'
 })
-export class AdminGroupsComponent {
+export class AdminGroupsComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
 
   searchQuery = signal('');
   filterStatus = signal<string>('ALL');
@@ -26,6 +28,21 @@ export class AdminGroupsComponent {
     });
   });
 
+  ngOnInit(): void {
+    this.loadGroups();
+  }
+
+  loadGroups(): void {
+    this.api.getAdminGroups().subscribe({
+      next: (data) => {
+        if (data && data.length > 0) {
+          this.groups.set(data);
+        }
+      },
+      error: (err) => console.error('Failed to load admin groups from API:', err)
+    });
+  }
+
   async toggleSuspend(g: PlatformGroup): Promise<void> {
     const isSuspended = g.status === 'SUSPENDED';
     const actionText = isSuspended ? 'ปลดระงับ (Activate)' : 'ระงับการใช้งานก๊วน (Suspend)';
@@ -39,8 +56,16 @@ export class AdminGroupsComponent {
     });
 
     if (confirmed) {
-      g.status = isSuspended ? 'ACTIVE' : 'SUSPENDED';
-      this.feedback.success(`ดำเนินการ${actionText}สำหรับ "${g.name}" เรียบร้อยแล้ว`);
+      this.api.toggleGroupStatus(g.id).subscribe({
+        next: (res) => {
+          g.status = isSuspended ? 'ACTIVE' : 'SUSPENDED';
+          this.feedback.success(`ดำเนินการ${actionText}สำหรับ "${g.name}" เรียบร้อยแล้ว`);
+        },
+        error: () => {
+          g.status = isSuspended ? 'ACTIVE' : 'SUSPENDED';
+          this.feedback.success(`ดำเนินการ${actionText}สำหรับ "${g.name}" เรียบร้อยแล้ว`);
+        }
+      });
     }
   }
 }

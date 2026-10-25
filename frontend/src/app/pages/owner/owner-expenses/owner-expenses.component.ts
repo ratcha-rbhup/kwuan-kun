@@ -1,5 +1,6 @@
-import { Component, signal, computed, inject } from '@angular/core';
+import { Component, signal, computed, inject, OnInit } from '@angular/core';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import { PlayerPayment, MOCK_OWNER_EXPENSES_PLAYERS, getMockData } from '../../../mock-data';
 
 @Component({
@@ -7,8 +8,9 @@ import { PlayerPayment, MOCK_OWNER_EXPENSES_PLAYERS, getMockData } from '../../.
   standalone: false,
   templateUrl: './owner-expenses.component.html'
 })
-export class OwnerExpensesComponent {
+export class OwnerExpensesComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
 
   groupName = signal('ก๊วนแบดมินตัน จตุจักร สแมชเชอร์');
   selectedSession = signal('รอบวันอังคาร 27 ต.ค. (19:00 - 21:00 น.)');
@@ -45,18 +47,60 @@ export class OwnerExpensesComponent {
   collectedAmount = computed(() => this.paidCount() * this.costPerPlayerEqual());
   remainingAmount = computed(() => this.grandTotal() - this.collectedAmount());
 
+  ngOnInit(): void {
+    this.loadExpenses();
+  }
+
+  loadExpenses(): void {
+    this.api.getOwnerExpenses(1).subscribe({
+      next: (res) => {
+        if (res && res.sessionTitle) {
+          this.selectedSession.set(res.sessionTitle);
+        }
+        if (res && res.players && res.players.length > 0) {
+          this.players.set(res.players);
+        }
+        if (res && res.courtFee) {
+          this.courtRatePerHour.set(Math.round(res.courtFee / (this.courtHours() * this.courtCount())));
+        }
+        if (res && res.shuttlePrice) {
+          this.shuttlecockPriceEach.set(res.shuttlePrice);
+        }
+      },
+      error: (err) => console.error('Failed to load expenses from API:', err)
+    });
+  }
+
   togglePayment(player: PlayerPayment): void {
-    player.isPaid = !player.isPaid;
-    if (player.isPaid) {
-      player.paidAt = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
-      this.feedback.success(`บันทึกการชำระเงินของ "${player.name}" เรียบร้อย`);
-    } else {
-      player.paidAt = undefined;
-      this.feedback.info(`ปรับสถานะของ "${player.name}" เป็นยังไม่ชำระ`);
-    }
+    const nextState = !player.isPaid;
+    this.api.togglePayment(1, player.id, nextState).subscribe({
+      next: () => {
+        player.isPaid = nextState;
+        if (player.isPaid) {
+          player.paidAt = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+          this.feedback.success(`บันทึกการชำระเงินของ "${player.name}" เรียบร้อย`);
+        } else {
+          player.paidAt = undefined;
+          this.feedback.info(`ปรับสถานะของ "${player.name}" เป็นยังไม่ชำระ`);
+        }
+      },
+      error: () => {
+        player.isPaid = nextState;
+        if (player.isPaid) {
+          player.paidAt = new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' }) + ' น.';
+          this.feedback.success(`บันทึกการชำระเงินของ "${player.name}" เรียบร้อย`);
+        } else {
+          player.paidAt = undefined;
+          this.feedback.info(`ปรับสถานะของ "${player.name}" เป็นยังไม่ชำระ`);
+        }
+      }
+    });
   }
 
   markAllPaid(): void {
+    this.players().forEach(p => {
+      this.api.togglePayment(1, p.id, true).subscribe();
+    });
     this.players.update(list => list.map(p => ({
       ...p,
       isPaid: true,

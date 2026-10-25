@@ -64,9 +64,10 @@
       </div>
 
       <!-- Facilities Pills -->
-      <div class="d-flex flex-wrap gap-1 mb-3">
+      <div class="d-flex flex-wrap gap-2 mb-3">
         <span class="facility-pill" *ngFor="let f of a.facilities">
-          <i class="fa-solid fa-check text-success" style="font-size: 0.65rem;"></i> {{ f }}
+          <i [class]="f?.icon || 'fa-solid fa-check'"></i>
+          <span>{{ f?.name || f }}</span>
         </span>
       </div>
 

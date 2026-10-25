@@ -9,11 +9,11 @@ export interface GroupMember {
   name: string;
   lineId: string;
   avatarUrl?: string;
-  skillLevel: 'N' | 'N+' | 'S' | 'S+' | 'P' | 'P+' | 'C';
-  role: 'HOST' | 'CO_HOST' | 'MEMBER';
+  skillLevel: string;
+  role: 'OWNER' | 'ADMIN' | 'CO_HOST' | 'MEMBER' | 'HOST' | string;
   joinDate: string;
   sessionsCount: number;
-  status: 'ACTIVE' | 'INACTIVE';
+  status: 'ACTIVE' | 'INACTIVE' | 'LEFT' | 'SUSPENDED' | string;
 }
 
 export interface PendingMemberRequest {

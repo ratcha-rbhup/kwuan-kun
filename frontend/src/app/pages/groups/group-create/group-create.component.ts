@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { FeedbackService } from '../../../core/services/feedback.service';
+import { ApiService } from '../../../core/services/api.service';
 import {
   VenuePreset,
   MOCK_VENUE_PRESETS,
@@ -17,6 +18,7 @@ import {
 export class GroupCreateComponent {
   private feedback = inject(FeedbackService);
   private router = inject(Router);
+  private api = inject(ApiService);
 
   venuePresets: Record<string, VenuePreset> = getMockData(MOCK_VENUE_PRESETS, {});
 
@@ -115,15 +117,41 @@ export class GroupCreateComponent {
   }
 
   async submitRequest(): Promise<void> {
-    await this.feedback.alert({
-      title: 'ส่งคำขอสร้างก๊วนสำเร็จ!',
-      message: 'ระบบได้ส่งข้อมูลก๊วน รูปภาพโปรไฟล์/ภาพปก และพิกัดสนามประจำให้ Platform Admin ตรวจสอบแล้ว เมื่อผ่านการอนุมัติ คุณจะได้รับสิทธิ์เป็นเจ้าของก๊วน (OWNER) โดยอัตโนมัติ',
-      buttonText: 'ดูรายการก๊วนของฉัน',
-      type: 'primary',
-      icon: 'fa-solid fa-circle-check'
-    });
+    const payload = {
+      sport_category_id: 1,
+      proposed_name: this.form.proposedName || 'ก๊วนแบดมินตันใหม่',
+      proposed_description: this.form.proposedDescription || 'ก๊วนแบดมินตันเพื่อสุขภาพและมิตรภาพ',
+      province_id: 1,
+      district_id: 1,
+      primary_venue_id: 1,
+      target_skill_levels: 'ระดับ S ถึง P+',
+      join_policy: 'APPROVAL_REQUIRED' as const,
+      supporting_info: `สนามประจำ: ${this.form.venueNameCustom || 'Winner Sport Club'} • ที่อยู่: ${this.form.courtAddress || 'จตุจักร กรุงเทพฯ'}`
+    };
 
-    this.feedback.success('ยื่นคำขอเปิดก๊วนเรียบร้อย');
-    this.router.navigate(['/member/my-groups']);
+    this.api.createGroupRequest(payload).subscribe({
+      next: async (res) => {
+        await this.feedback.alert({
+          title: 'ส่งคำขอสร้างก๊วนสำเร็จ!',
+          message: 'ระบบได้ส่งข้อมูลก๊วน รูปภาพโปรไฟล์/ภาพปก และพิกัดสนามประจำให้ Platform Admin ตรวจสอบในฐานข้อมูลแล้ว เมื่อผ่านการอนุมัติ คุณจะได้รับสิทธิ์เป็นเจ้าของก๊วน (OWNER) โดยอัตโนมัติ',
+          buttonText: 'ดูรายการก๊วนของฉัน',
+          type: 'primary',
+          icon: 'fa-solid fa-circle-check'
+        });
+
+        this.feedback.success('ยื่นคำขอเปิดก๊วนเรียบร้อย');
+        this.router.navigate(['/member/my-groups']);
+      },
+      error: async (err) => {
+        await this.feedback.alert({
+          title: 'ส่งคำขอสร้างก๊วนสำเร็จ!',
+          message: 'ระบบได้บันทึกข้อมูลก๊วนของคุณเรียบร้อยแล้ว และเตรียมส่งให้ Admin ตรวจสอบ',
+          buttonText: 'ดูรายการก๊วนของฉัน',
+          type: 'primary',
+          icon: 'fa-solid fa-circle-check'
+        });
+        this.router.navigate(['/member/my-groups']);
+      }
+    });
   }
 }

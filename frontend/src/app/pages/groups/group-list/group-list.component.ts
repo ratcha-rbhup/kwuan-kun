@@ -12,6 +12,8 @@ import {
 
 export { TargetSkill, PartyCardItem };
 
+import { ApiService } from '../../../core/services/api.service';
+
 @Component({
   selector: 'app-group-list',
   standalone: false,
@@ -20,6 +22,7 @@ export { TargetSkill, PartyCardItem };
 })
 export class GroupListComponent implements OnInit {
   private feedback = inject(FeedbackService);
+  private api = inject(ApiService);
 
   searchQuery = '';
   
@@ -55,6 +58,59 @@ export class GroupListComponent implements OnInit {
 
   ngOnInit(): void {
     this.recalculateDistances();
+    this.loadGroupsFromApi();
+  }
+
+  loadGroupsFromApi(): void {
+    this.api.getGroups().subscribe({
+      next: (groups) => {
+        if (!groups || groups.length === 0) return;
+        const currentList = this.parties();
+        const existingSlugs = new Set(currentList.map(p => p.slug));
+
+        const newItems: PartyCardItem[] = [];
+        groups.forEach((g: any) => {
+          if (!existingSlugs.has(g.slug)) {
+            newItems.push({
+              id: g.id,
+              slug: g.slug,
+              type: 'KWUAN',
+              typeLabel: 'ก๊วนประจำ',
+              title: g.name,
+              subtitle: g.description || 'ก๊วนแบดมินตันเพื่อสุขภาพและมิตรภาพ',
+              province: g.province?.name_th || 'กรุงเทพมหานคร',
+              district: g.district?.name_th || 'เขตจตุจักร',
+              venueName: g.primary_venue?.name || 'สนามแบดมินตันมาตรฐาน',
+              venueAddress: 'เขตจตุจักร กรุงเทพมหานคร',
+              lat: 13.8282,
+              lng: 100.5615,
+              distanceKm: 3.5,
+              bannerImage: 'assets/image/badminton-court-cover.jpg',
+              isoDate: '2026-10-25',
+              dateBadge: 'เปิดรับสมัคร',
+              dateTimeDisplay: 'อังคาร 19:00 - 21:00 น.',
+              targetSkills: [
+                { label: 'S', cssClass: 'ak-badge-s' },
+                { label: 'P', cssClass: 'ak-badge-p' }
+              ],
+              hostName: 'หัวหน้าก๊วน',
+              hostAvatar: 'assets/image/player-avatar.jpg',
+              hostRole: 'OWNER',
+              currentPlayers: g.current_member_count || 1,
+              maxPlayers: g.max_members || 12,
+              isFull: false,
+              status: 'OPEN'
+            });
+          }
+        });
+
+        if (newItems.length > 0) {
+          this.parties.update(list => [...newItems, ...list]);
+          this.recalculateDistances();
+        }
+      },
+      error: (err) => console.error('Failed to load groups from API:', err)
+    });
   }
 
   // Haversine formula to calculate distance in km
