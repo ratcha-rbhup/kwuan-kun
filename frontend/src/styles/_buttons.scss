@@ -63,11 +63,12 @@
     background: var(--brand-primary-gradient);
     color: #FFFFFF !important;
     border-color: var(--brand-primary);
-    box-shadow: 0 4px 14px rgba(0, 194, 97, 0.28);
+    box-shadow: 0 4px 14px rgba(0, 122, 77, 0.28);
 
     &:hover {
-      background: linear-gradient(135deg, #10E57B 0%, #00B359 100%);
-      box-shadow: 0 6px 20px rgba(0, 194, 97, 0.42);
+      background: linear-gradient(135deg, #1DB36E 0%, #007A4D 100%);
+      box-shadow: 0 6px 20px rgba(133, 232, 68, 0.35);
+      border-color: #85E844;
       color: #FFFFFF !important;
       transform: translateY(-1px);
     }

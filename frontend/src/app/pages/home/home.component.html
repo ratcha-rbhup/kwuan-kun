@@ -62,40 +62,55 @@
     <div class="ak-search-bar mb-4">
       <i class="fa-solid fa-magnifying-glass text-success ms-1"></i>
       <input type="text" placeholder="ค้นหาชื่อก๊วน, สนามแบด, ย่าน/เขต, หรือระดับฝีมือ..." class="flex-grow-1"
-        [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)" (keyup.enter)="searchQuery() ? null : null">
+        [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)"
+        (keyup.enter)="searchQuery() ? null : null">
       <a routerLink="/groups" class="ak-btn-primary ak-btn-sm px-3 px-sm-4 rounded-pill flex-shrink-0">
         ค้นหา
       </a>
     </div>
 
     <!-- ========================================================================= -->
-    <!-- 4. "คุณอยากทำอะไร?" (What do you want to do?) - FontAwesome Icons Grid     -->
+    <!-- 4. Signature "Add ก๊วน" Badminton Court Hub Board (Exact Graphic Theme)     -->
     <!-- ========================================================================= -->
-    <div class="mb-5">
-      <div class="d-flex align-items-center justify-content-between mb-3 px-1">
-        <div class="d-flex align-items-center gap-2">
-          <span class="ak-icon-box ak-icon-box-primary ak-icon-box-sm">
-            <i class="fa-solid fa-bolt"></i>
-          </span>
-          <h2 class="h5 fw-bold text-dark mb-0">คุณอยากทำอะไร?</h2>
+    @if(false) {
+    <div class="ak-court-hub-board shadow-lg">
+      <!-- Pure CSS Court Lines Geometry Background -->
+      <div class="court-lines-bg"></div>
+
+      <!-- Watermark Shuttlecock in corner -->
+      <i class="fa-solid fa-shuttlecock court-watermark-shuttle"></i>
+
+      <!-- Hub Brand Header -->
+      <div class="hub-header">
+        <div class="hub-brand">
+          <div class="brand-icon-wrap">
+            <i class="fa-solid fa-shuttlecock"></i>
+          </div>
+          <div class="hub-brand-text">
+            <span class="text-add">Add </span><span class="text-kuan">ก๊วน</span>
+          </div>
         </div>
-        <span class="text-muted small">เมนูด่วน 6 บริการหลัก</span>
+        <div class="hub-tagline">
+          <i class="fa-solid fa-bolt text-lime me-1"></i> เมนูหลัก เชื่อมต่อก๊วนแบดมินตันทั่วไทย
+        </div>
       </div>
 
-      <!-- 6-Tile Grid (Powered strictly by FontAwesome Icons) -->
+      <!-- 6-Tile Menu Grid (Mobile-First 2 Columns, Tablet/PC 3 Columns) -->
       <div class="ak-rich-grid">
 
-        <!-- Card 1: ค้นหาก๊วน (Highlight Mint Card) -->
+        <!-- Card 1: ค้นหาก๊วน (Active Mint Highlight Card from Reference Image) -->
         <a routerLink="/groups" class="ak-rich-card ak-rich-card-highlight">
+          <i class="fa-solid fa-sparkle sparkle-accent"></i>
           <div class="ak-rich-icon icon-box-search">
             <i class="fa-solid fa-magnifying-glass"></i>
           </div>
           <div class="ak-rich-title">ค้นหาก๊วน</div>
-          <div class="ak-rich-subtitle">หาใกล้คุณ</div>
+          <div class="ak-rich-subtitle">หาก๊วนใกล้คุณ</div>
         </a>
 
-        <!-- Card 2: ก๊วนของฉัน -->
-        <a routerLink="/member/my-groups" class="ak-rich-card ak-rich-card-white">
+        <!-- Card 2: ก๊วนของฉัน (Court Dark Green) -->
+        <a routerLink="/member/my-groups" class="ak-rich-card ak-rich-card-court">
+          <i class="fa-solid fa-sparkle sparkle-accent"></i>
           <div class="ak-rich-icon icon-box-groups">
             <i class="fa-solid fa-users"></i>
           </div>
@@ -103,8 +118,9 @@
           <div class="ak-rich-subtitle">ก๊วนที่เข้าร่วม</div>
         </a>
 
-        <!-- Card 3: ขอเปิดก๊วนใหม่ -->
-        <a routerLink="/member/create-group" class="ak-rich-card ak-rich-card-white">
+        <!-- Card 3: ขอเปิดก๊วนใหม่ (Court Dark Green) -->
+        <a routerLink="/member/create-group" class="ak-rich-card ak-rich-card-court">
+          <i class="fa-solid fa-sparkle sparkle-accent"></i>
           <div class="ak-rich-icon icon-box-create">
             <i class="fa-solid fa-square-plus"></i>
           </div>
@@ -112,26 +128,29 @@
           <div class="ak-rich-subtitle">สร้างคอมมูนิตี้ของคุณ</div>
         </a>
 
-        <!-- Card 4: เข้าก๊วนด้วยรหัส -->
-        <a routerLink="/member/join-code" class="ak-rich-card ak-rich-card-white">
+        <!-- Card 4: เข้าก๊วนด้วยรหัส (Court Dark Green) -->
+        <a routerLink="/member/join-code" class="ak-rich-card ak-rich-card-court">
+          <i class="fa-solid fa-sparkle sparkle-accent"></i>
           <div class="ak-rich-icon icon-box-join">
-            <i class="fa-solid fa-ticket"></i>
+            <i class="fa-solid fa-qrcode"></i>
           </div>
           <div class="ak-rich-title">เข้าก๊วนด้วยรหัส</div>
           <div class="ak-rich-subtitle">มีรหัสก็เข้าร่วมได้</div>
         </a>
 
-        <!-- Card 5: กิจกรรม -->
-        <a routerLink="/member/activities" class="ak-rich-card ak-rich-card-white">
+        <!-- Card 5: กิจกรรม (Court Dark Green) -->
+        <a routerLink="/member/activities" class="ak-rich-card ak-rich-card-court">
+          <i class="fa-solid fa-sparkle sparkle-accent"></i>
           <div class="ak-rich-icon icon-box-activities">
-            <i class="fa-solid fa-calendar-check"></i>
+            <i class="fa-solid fa-calendar-days"></i>
           </div>
           <div class="ak-rich-title">กิจกรรม</div>
           <div class="ak-rich-subtitle">นัดตีแบดครั้งต่อไป</div>
         </a>
 
-        <!-- Card 6: โปรไฟล์ -->
-        <a routerLink="/member/profile" class="ak-rich-card ak-rich-card-white">
+        <!-- Card 6: โปรไฟล์ (Court Dark Green) -->
+        <a routerLink="/member/profile" class="ak-rich-card ak-rich-card-court">
+          <i class="fa-solid fa-sparkle sparkle-accent"></i>
           <div class="ak-rich-icon icon-box-profile">
             <i class="fa-solid fa-circle-user"></i>
           </div>
@@ -141,6 +160,7 @@
 
       </div>
     </div>
+    }
 
     <!-- ========================================================================= -->
     <!-- 5. "กิจกรรมที่กำลังจะมาถึงเร็วๆ นี้" (Upcoming Activities - TBad Style)      -->
@@ -178,8 +198,8 @@
               <div>
                 <h5 class="fw-bold text-dark mb-1 fs-6">{{ s.title }}</h5>
                 <div class="d-flex align-items-center gap-1.5 text-secondary small">
-                  <img *ngIf="s.groupLogo" [src]="s.groupLogo" [alt]="s.groupName"
-                    class="rounded-circle" style="width: 18px; height: 18px; object-fit: cover;">
+                  <img *ngIf="s.groupLogo" [src]="s.groupLogo" [alt]="s.groupName" class="rounded-circle"
+                    style="width: 18px; height: 18px; object-fit: cover;">
                   <i *ngIf="!s.groupLogo" class="fa-solid fa-building text-success"></i>
                   <strong>{{ s.venue }}</strong>
                   <span class="mx-1">•</span>
@@ -339,7 +359,8 @@
               <div class="min-w-0">
                 <div class="d-flex align-items-center gap-1.5">
                   <h5 class="group-title-clamp mb-0 text-truncate">{{ g.name }}</h5>
-                  <i *ngIf="g.verified" class="fa-solid fa-circle-check text-success flex-shrink-0" title="ผ่านการยืนยันแล้ว"></i>
+                  <i *ngIf="g.verified" class="fa-solid fa-circle-check text-success flex-shrink-0"
+                    title="ผ่านการยืนยันแล้ว"></i>
                 </div>
                 <div class="text-secondary small text-truncate">
                   <i class="fa-solid fa-location-dot me-1 text-danger"></i> {{ g.location }}
@@ -438,7 +459,8 @@
           </span>
           <h2 class="cta-title">พร้อมลงสนามแล้วหรือยัง?</h2>
           <p class="cta-desc">
-            ค้นหาก๊วนแบดใกล้บ้านคุณ หรือเปิดก๊วนใหม่เพื่อสร้างสังคมนักตบที่คุณเป็นผู้กำหนดกติกาได้เอง ใช้งานฟรี สะดวก รวดเร็ว
+            ค้นหาก๊วนแบดใกล้บ้านคุณ หรือเปิดก๊วนใหม่เพื่อสร้างสังคมนักตบที่คุณเป็นผู้กำหนดกติกาได้เอง ใช้งานฟรี สะดวก
+            รวดเร็ว
           </p>
         </div>
         <div class="col-lg-4 text-lg-end">

@@ -4,32 +4,47 @@
 // =============================================================================
 
 :root {
-  /* Core TBad Sports Brand Colors */
-  --brand-primary: #00C261;
-  --brand-primary-light: #22C55E;
-  --brand-primary-dark: #009647;
-  --brand-primary-glow: rgba(0, 194, 97, 0.28);
-  --brand-primary-gradient: linear-gradient(135deg, #00D26A 0%, #00AC52 100%);
+  /* ===========================================================================
+     KwuanKun Official Monochromatic Green Root Colors (Extracted from Brand Graphic)
+     =========================================================================== */
+  --kwuan-court-dark: #0B3C26;        /* สีเขียวเข้มมาก: Dark Background ของ Court Board */
+  --kwuan-court-gradient: linear-gradient(155deg, #0B3C26 0%, #0E442B 60%, #082F1E 100%);
+  --kwuan-card-bg: #145C3A;           /* สีเขียวกลาง: Card Background ของกล่องเมนู */
+  --kwuan-card-hover: #196F46;        /* สีเขียวกลางสว่างเมื่อ Hover */
+  --kwuan-brand-green: #007A4D;       /* สีเขียวโลโก้: Brand Green (คำว่า "Add") */
+  --kwuan-emerald: #1DB36E;           /* สีเขียวมรกต: Emerald Green ไล่ระดับ */
+  --kwuan-lime-neon: #85E844;         /* สีเขียวมะนาว/นีออน: Lime Accent, ไม้แบด, ลูกแบด, แสงวิบวับ */
+  --kwuan-mint-light: #E4F6EB;        /* สีเขียวมิ้นต์อ่อน: Active Highlight Card & Badges */
+  --kwuan-mint-soft: #F2FAF5;         /* Canvas Surface นุ่มตา ไม่มืดเกินไป */
+  --kwuan-neutral-dark: #333333;      /* สีเทาเข้ม: ตัวอักษร "Kwuan" & Dark Neutral */
+  --kwuan-white: #FFFFFF;             /* สีขาว */
+
+  /* Core Sports Brand Tokens */
+  --brand-primary: #007A4D;
+  --brand-primary-light: #1DB36E;
+  --brand-primary-dark: #0B3C26;
+  --brand-primary-glow: rgba(133, 232, 68, 0.28);
+  --brand-primary-gradient: linear-gradient(135deg, #1DB36E 0%, #007A4D 100%);
 
   /* Deep Forest & Neutral Contrast */
-  --brand-forest: #064E3B;
-  --brand-forest-dark: #04382A;
+  --brand-forest: #0B3C26;
+  --brand-forest-dark: #062618;
 
   /* Youthful Accents */
-  --brand-accent: #A3E635; // Neon Shuttlecock Lime
+  --brand-accent: #85E844; // Neon Shuttlecock Lime
   --brand-yellow: #FACC15; // TBPoint / Reward Gold
   --brand-coral: #EF4444;  // Playful "ไม่ง้อคนขี้เท!" Coral Pill
-  --brand-surface: #E8F8F0; // Crisp Mint Surface
+  --brand-surface: #E4F6EB; // Crisp Mint Surface
   --brand-surface-soft: #F2FAF5;
 
   /* Typography & Interface */
-  --text-primary: #111827;   // Deep Charcoal Headings
+  --text-primary: #1F2937;   // Deep Charcoal Headings
   --text-secondary: #4B5563; // Clean Readable Body
   --text-muted: #9CA3AF;
-  --text-forest: #064E3B;
+  --text-forest: #0B3C26;
   --border-default: #E5E7EB;
-  --border-card: #E8EFEA;
-  --border-mint: rgba(0, 194, 97, 0.2);
+  --border-card: #E4EFE8;
+  --border-mint: rgba(0, 122, 77, 0.2);
 
   /* Consistent Sizing Grid */
   --icon-size-sm: 16px;

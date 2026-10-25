@@ -223,9 +223,8 @@
     }
   }
 
-  // --- Clean Crisp White Card Variant (TBad Style) ---
-  &-white,
-  &-dark {
+  // --- Clean Crisp White Card Variant (Canvas Mode) ---
+  &-white {
     background: #FFFFFF;
     border: 1px solid var(--border-card);
     box-shadow: var(--ak-shadow-card);
@@ -242,7 +241,7 @@
       transform: translateY(-3px);
       border-color: var(--brand-primary);
       background: var(--brand-surface-soft);
-      box-shadow: 0 10px 24px -4px rgba(0, 194, 97, 0.16);
+      box-shadow: 0 10px 24px -4px rgba(0, 122, 77, 0.16);
 
       .ak-rich-icon {
         transform: scale(1.08) translateY(-2px);
@@ -250,68 +249,240 @@
     }
   }
 
-  // --- Highlight Mint Cream Card Variant (Card 1: ค้นหาก๊วน) ---
-  &-highlight {
-    background: linear-gradient(145deg, #E8F8F0 0%, #D1FAE5 70%, #A7F3D0 100%);
-    border: 2px solid var(--brand-primary);
-    box-shadow: 0 6px 20px -2px rgba(0, 194, 97, 0.22);
+  // --- Monochromatic Deep Green Court Card (Reference Image Style) ---
+  &-court {
+    background: #145C3A;
+    border: 1px solid rgba(133, 232, 68, 0.2);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.22);
 
     .ak-rich-title {
-      color: var(--brand-forest);
+      color: #FFFFFF;
+      font-weight: 700;
+    }
+
+    .ak-rich-subtitle {
+      color: #E4F6EB;
+      opacity: 0.88;
+    }
+
+    .ak-rich-icon {
+      background: rgba(11, 60, 38, 0.65);
+      border: 1.5px solid rgba(133, 232, 68, 0.4);
+      color: #85E844;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .sparkle-accent {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      color: #85E844;
+      font-size: 0.75rem;
+      opacity: 0.75;
+      transition: all 0.25s ease;
+    }
+
+    &:hover {
+      background: #196F46;
+      border-color: #85E844;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 28px -4px rgba(0, 0, 0, 0.35), 0 0 16px rgba(133, 232, 68, 0.28);
+
+      .ak-rich-icon {
+        transform: scale(1.1) translateY(-2px);
+        border-color: #85E844;
+        box-shadow: 0 0 18px rgba(133, 232, 68, 0.38);
+      }
+
+      .sparkle-accent {
+        opacity: 1;
+        transform: scale(1.2) rotate(15deg);
+      }
+    }
+  }
+
+  // --- Highlight Mint Card Variant (Card 1: ค้นหาก๊วน from Reference Image) ---
+  &-highlight {
+    background: #E4F6EB;
+    border: 2px solid #85E844;
+    box-shadow: 0 8px 26px rgba(0, 0, 0, 0.28), 0 0 18px rgba(133, 232, 68, 0.3);
+
+    .ak-rich-title {
+      color: #0B3C26;
       font-weight: 800;
     }
 
     .ak-rich-subtitle {
-      color: var(--brand-primary-dark);
+      color: #145C3A;
       font-weight: 600;
+      opacity: 0.95;
+    }
+
+    .ak-rich-icon {
+      background: linear-gradient(135deg, #85E844 0%, #1DB36E 100%);
+      color: #0B3C26;
+      border: 1.5px solid #85E844;
+      box-shadow: 0 4px 16px rgba(133, 232, 68, 0.45);
+    }
+
+    .sparkle-accent {
+      position: absolute;
+      top: 10px;
+      right: 12px;
+      color: #1DB36E;
+      font-size: 0.85rem;
+      opacity: 0.9;
     }
 
     &:hover {
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 12px 28px -4px rgba(0, 194, 97, 0.32);
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 14px 34px -4px rgba(0, 0, 0, 0.35), 0 0 24px rgba(133, 232, 68, 0.5);
 
       .ak-rich-icon {
-        transform: scale(1.1) translateY(-2px);
+        transform: scale(1.12) translateY(-2px);
       }
     }
   }
 }
 
+// =============================================================================
+// Signature Badminton Court Hub Board (Outer Container from Graphic Reference)
+// =============================================================================
+.ak-court-hub-board {
+  background: var(--kwuan-court-gradient, linear-gradient(155deg, #0B3C26 0%, #0E442B 60%, #082F1E 100%));
+  border-radius: 24px;
+  border: 1px solid rgba(133, 232, 68, 0.25);
+  box-shadow: 0 12px 36px -6px rgba(11, 60, 38, 0.35), 0 4px 16px rgba(0, 0, 0, 0.15);
+  padding: 1.65rem 1.4rem;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 2.25rem;
+
+  @media (max-width: 575.98px) {
+    border-radius: 20px;
+    padding: 1.25rem 1rem;
+    margin-bottom: 1.75rem;
+  }
+
+  // Pure CSS Badminton Court Lines Background Overlay
+  .court-lines-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: 
+      linear-gradient(to right, rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1.5px, transparent 1.5px);
+    background-size: 60px 60px;
+    z-index: 0;
+  }
+
+  // Floating Watermark Shuttlecock in corner
+  .court-watermark-shuttle {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 8rem;
+    color: rgba(255, 255, 255, 0.04);
+    transform: rotate(25deg);
+    pointer-events: none;
+    z-index: 0;
+
+    @media (max-width: 575.98px) {
+      font-size: 5.5rem;
+      top: -10px;
+      right: -10px;
+    }
+  }
+
+  // Hub Header Bar
+  .hub-header {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.25rem;
+    padding: 0 0.35rem;
+
+    .hub-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      text-decoration: none;
+
+      .brand-icon-wrap {
+        width: 38px;
+        height: 38px;
+        background: rgba(133, 232, 68, 0.15);
+        border: 1px solid rgba(133, 232, 68, 0.35);
+        border-radius: 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #85E844;
+        font-size: 1.15rem;
+      }
+
+      .hub-brand-text {
+        font-size: 1.45rem;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+
+        .text-add {
+          color: #85E844;
+          text-shadow: 0 0 12px rgba(133, 232, 68, 0.4);
+        }
+
+        .text-kuan {
+          color: #FFFFFF;
+        }
+      }
+    }
+
+    .hub-tagline {
+      color: rgba(228, 246, 235, 0.85);
+      font-size: 0.8rem;
+      font-weight: 500;
+
+      @media (max-width: 575.98px) {
+        display: none;
+      }
+    }
+  }
+
+  // Relative Grid Positioning
+  .ak-rich-grid {
+    position: relative;
+    z-index: 1;
+  }
+}
+
 // Rich Menu Card Icon Color Presets (FontAwesome Themes)
 .icon-box-search {
-  background: linear-gradient(135deg, #00C261 0%, #009647 100%);
-  color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(0, 194, 97, 0.32);
+  background: linear-gradient(135deg, #85E844 0%, #1DB36E 100%);
+  color: #0B3C26;
+  box-shadow: 0 4px 12px rgba(133, 232, 68, 0.35);
 }
 
 .icon-box-groups {
-  background: #EBF8FF;
-  color: #0284C7;
-  border: 1px solid rgba(2, 132, 199, 0.2);
+  color: #85E844;
 }
 
 .icon-box-create {
-  background: #F0FDF4;
-  color: #16A34A;
-  border: 1px solid rgba(22, 163, 74, 0.2);
+  color: #85E844;
 }
 
 .icon-box-join {
-  background: #FEF3C7;
-  color: #D97706;
-  border: 1px solid rgba(217, 119, 6, 0.25);
+  color: #85E844;
 }
 
 .icon-box-activities {
-  background: #F3E8FF;
-  color: #9333EA;
-  border: 1px solid rgba(147, 51, 234, 0.2);
+  color: #85E844;
 }
 
 .icon-box-profile {
-  background: #E8F8F0;
-  color: #059669;
-  border: 1px solid rgba(5, 150, 105, 0.2);
+  color: #85E844;
 }
 
 // =============================================================================
