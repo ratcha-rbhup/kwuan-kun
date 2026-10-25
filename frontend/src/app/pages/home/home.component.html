@@ -30,49 +30,9 @@
       </div>
     </div>
 
-    <!-- 2. Iconic Green Gradient Announcement Banner (TBad App Style) -->
-    <div class="ak-tbad-banner mb-4">
-      <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
-        <span class="banner-badge">
-          <i class="fa-solid fa-shuttlecock"></i> แพลตฟอร์มก๊วนแบด
-        </span>
-        <span class="banner-pill-pop">
-          <i class="fa-solid fa-bolt text-danger"></i> ไม่ง้อคนขี้เท!
-        </span>
-      </div>
-
-      <h1 class="banner-title">
-        หาเพื่อนตีแบด เข้าร่วมก๊วนใกล้บ้านคุณ
-      </h1>
-      <p class="banner-desc">
-        เช็กระดับฝีมือ (N, S, P, B, A) ก่อนลงสนาม จองคอร์ตนัดตีก๊วนร่วมกัน บริหารง่ายไม่ต้องกลัวคนเบี้ยว
-      </p>
-
-      <div class="ak-btn-group-responsive">
-        <a routerLink="/groups" class="btn btn-light fw-bold text-success rounded-pill px-4 shadow-sm">
-          <i class="fa-solid fa-magnifying-glass me-1"></i> ค้นหาก๊วนใกล้ฉัน
-        </a>
-        <a routerLink="/member/create-group" class="btn btn-outline-light rounded-pill px-3">
-          <i class="fa-solid fa-plus me-1"></i> ขอเปิดก๊วนใหม่
-        </a>
-      </div>
-    </div>
-
-    <!-- 3. Quick Search Bar -->
-    <div class="ak-search-bar mb-4">
-      <i class="fa-solid fa-magnifying-glass text-success ms-1"></i>
-      <input type="text" placeholder="ค้นหาชื่อก๊วน, สนามแบด, ย่าน/เขต, หรือระดับฝีมือ..." class="flex-grow-1"
-        [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)"
-        (keyup.enter)="searchQuery() ? null : null">
-      <a routerLink="/groups" class="ak-btn-primary ak-btn-sm px-3 px-sm-4 rounded-pill flex-shrink-0">
-        ค้นหา
-      </a>
-    </div>
-
     <!-- ========================================================================= -->
-    <!-- 4. Signature "Add ก๊วน" Badminton Court Hub Board (Exact Graphic Theme)     -->
+    <!-- 2. Signature "Add ก๊วน" Badminton Court Hub Board (Brand Graphic Centerpiece)-->
     <!-- ========================================================================= -->
-    @if(false) {
     <div class="ak-court-hub-board shadow-lg">
       <!-- Pure CSS Court Lines Geometry Background -->
       <div class="court-lines-bg"></div>
@@ -100,67 +60,151 @@
 
         <!-- Card 1: ค้นหาก๊วน (Active Mint Highlight Card from Reference Image) -->
         <a routerLink="/groups" class="ak-rich-card ak-rich-card-highlight">
-          <i class="fa-solid fa-sparkle sparkle-accent"></i>
-          <div class="ak-rich-icon icon-box-search">
-            <i class="fa-solid fa-magnifying-glass"></i>
-          </div>
+          <svg viewBox="0 0 80 64" fill="none" class="hub-tile-svg" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="34" cy="28" r="18" stroke="#007A4D" stroke-width="4.5" fill="#85E844" fill-opacity="0.3" />
+            <path d="M22 22 A13 13 0 0 1 35 15" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" opacity="0.8" />
+            <path d="M47 41 L61 55" stroke="#007A4D" stroke-width="5.5" stroke-linecap="round" />
+            <g transform="translate(26, 17) scale(0.65) rotate(15)">
+              <path d="M12 2 L3 20 H21 L12 2 Z" fill="#FFFFFF" />
+              <path d="M7 14 H17" stroke="#85E844" stroke-width="1.5" />
+              <path d="M7 20 C7 25 17 25 17 20 Z" fill="#85E844" />
+            </g>
+            <path d="M66 12 Q66 16 70 16 Q66 16 66 20 Q66 16 62 16 Q66 16 66 12 Z" fill="#1DB36E" />
+            <path d="M56 6 Q56 9 59 9 Q56 9 56 12 Q56 9 53 9 Q56 9 56 6 Z" fill="#85E844" />
+          </svg>
           <div class="ak-rich-title">ค้นหาก๊วน</div>
           <div class="ak-rich-subtitle">หาก๊วนใกล้คุณ</div>
         </a>
 
         <!-- Card 2: ก๊วนของฉัน (Court Dark Green) -->
         <a routerLink="/member/my-groups" class="ak-rich-card ak-rich-card-court">
-          <i class="fa-solid fa-sparkle sparkle-accent"></i>
-          <div class="ak-rich-icon icon-box-groups">
-            <i class="fa-solid fa-users"></i>
-          </div>
+          <svg viewBox="0 0 80 64" fill="none" class="hub-tile-svg" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="25" cy="25" r="5.5" fill="#85E844" fill-opacity="0.85" />
+            <path d="M16 41 C16 34 22 32 26 32 C30 32 36 34 36 41 Z" fill="#85E844" fill-opacity="0.85" />
+            <circle cx="49" cy="25" r="5.5" fill="#85E844" fill-opacity="0.85" />
+            <path d="M39 41 C39 34 45 32 49 32 C53 32 59 34 59 41 Z" fill="#85E844" fill-opacity="0.85" />
+            <circle cx="37" cy="21" r="7.5" fill="#85E844" stroke="#145C3A" stroke-width="1.5" />
+            <path d="M26 43 C26 34 33 30 37 30 C41 30 48 34 48 43 Z" fill="#85E844" stroke="#145C3A" stroke-width="1.5" />
+            <g transform="translate(56, 12) scale(0.6) rotate(35)">
+              <path d="M10 2 L2 18 H18 L10 2 Z" fill="#FFFFFF" />
+              <path d="M5 12 H15" stroke="#85E844" stroke-width="1.5" />
+              <path d="M5 18 C5 23 15 23 15 18 Z" fill="#85E844" />
+            </g>
+            <path d="M68 6 Q68 10 72 10 Q68 10 68 14 Q68 10 64 10 Q68 10 68 6 Z" fill="#85E844" />
+          </svg>
           <div class="ak-rich-title">ก๊วนของฉัน</div>
           <div class="ak-rich-subtitle">ก๊วนที่เข้าร่วม</div>
         </a>
 
         <!-- Card 3: ขอเปิดก๊วนใหม่ (Court Dark Green) -->
         <a routerLink="/member/create-group" class="ak-rich-card ak-rich-card-court">
-          <i class="fa-solid fa-sparkle sparkle-accent"></i>
-          <div class="ak-rich-icon icon-box-create">
-            <i class="fa-solid fa-square-plus"></i>
-          </div>
+          <svg viewBox="0 0 80 64" fill="none" class="hub-tile-svg" xmlns="http://www.w3.org/2000/svg">
+            <g transform="translate(14, 17)">
+              <rect x="7" y="0" width="6" height="22" rx="3" fill="#85E844" />
+              <rect x="0" y="8" width="20" height="6" rx="3" fill="#85E844" />
+            </g>
+            <rect x="38" y="10" width="30" height="42" rx="4" fill="#0E442B" stroke="#85E844" stroke-width="1.5" />
+            <line x1="38" y1="31" x2="68" y2="31" stroke="#FFFFFF" stroke-width="1.5" />
+            <line x1="43" y1="10" x2="43" y2="52" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6" />
+            <line x1="63" y1="10" x2="63" y2="52" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6" />
+            <line x1="53" y1="10" x2="53" y2="52" stroke="#FFFFFF" stroke-width="0.8" opacity="0.6" />
+            <g transform="translate(52, 14) scale(0.5) rotate(-20)">
+              <path d="M10 2 L2 18 H18 L10 2 Z" fill="#FFFFFF" />
+              <path d="M5 18 C5 23 15 23 15 18 Z" fill="#85E844" />
+            </g>
+            <path d="M72 6 Q72 9 75 9 Q72 9 72 12 Q72 9 69 9 Q72 9 72 6 Z" fill="#85E844" />
+          </svg>
           <div class="ak-rich-title">ขอเปิดก๊วนใหม่</div>
           <div class="ak-rich-subtitle">สร้างคอมมูนิตี้ของคุณ</div>
         </a>
 
         <!-- Card 4: เข้าก๊วนด้วยรหัส (Court Dark Green) -->
         <a routerLink="/member/join-code" class="ak-rich-card ak-rich-card-court">
-          <i class="fa-solid fa-sparkle sparkle-accent"></i>
-          <div class="ak-rich-icon icon-box-join">
-            <i class="fa-solid fa-qrcode"></i>
-          </div>
+          <svg viewBox="0 0 80 64" fill="none" class="hub-tile-svg" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 16 C16 19 13 22 10 22 L10 42 C13 42 16 45 16 48 L58 48 C58 45 61 42 64 42 L64 22 C61 22 58 19 58 16 Z" 
+                  fill="#85E844" stroke="#145C3A" stroke-width="1.5" />
+            <rect x="20" y="24" width="6" height="6" fill="#0B3C26" />
+            <rect x="28" y="24" width="4" height="4" fill="#0B3C26" />
+            <rect x="20" y="34" width="6" height="6" fill="#0B3C26" />
+            <rect x="28" y="32" width="4" height="8" fill="#0B3C26" />
+            <rect x="36" y="24" width="3" height="3" fill="#0B3C26" />
+            <rect x="36" y="30" width="3" height="3" fill="#0B3C26" />
+            <rect x="36" y="36" width="3" height="4" fill="#0B3C26" />
+            <line x1="43" y1="18" x2="43" y2="46" stroke="#0B3C26" stroke-width="1.5" stroke-dasharray="2 2" />
+            <g transform="translate(48, 12) scale(0.6) rotate(45)">
+              <path d="M10 2 L2 18 H18 L10 2 Z" fill="#FFFFFF" />
+              <path d="M5 18 C5 23 15 23 15 18 Z" fill="#85E844" />
+            </g>
+          </svg>
           <div class="ak-rich-title">เข้าก๊วนด้วยรหัส</div>
           <div class="ak-rich-subtitle">มีรหัสก็เข้าร่วมได้</div>
         </a>
 
         <!-- Card 5: กิจกรรม (Court Dark Green) -->
         <a routerLink="/member/activities" class="ak-rich-card ak-rich-card-court">
-          <i class="fa-solid fa-sparkle sparkle-accent"></i>
-          <div class="ak-rich-icon icon-box-activities">
-            <i class="fa-solid fa-calendar-days"></i>
-          </div>
+          <svg viewBox="0 0 80 64" fill="none" class="hub-tile-svg" xmlns="http://www.w3.org/2000/svg">
+            <rect x="18" y="14" width="38" height="38" rx="8" fill="#FFFFFF" stroke="#85E844" stroke-width="2" />
+            <rect x="18" y="14" width="38" height="12" rx="8" fill="#1DB36E" />
+            <rect x="26" y="10" width="4" height="8" rx="2" fill="#85E844" />
+            <rect x="44" y="10" width="4" height="8" rx="2" fill="#85E844" />
+            <circle cx="28" cy="34" r="2.5" fill="#85E844" />
+            <circle cx="37" cy="34" r="2.5" fill="#85E844" />
+            <circle cx="46" cy="34" r="2.5" fill="#85E844" />
+            <circle cx="28" cy="42" r="2.5" fill="#85E844" />
+            <circle cx="37" cy="42" r="2.5" fill="#85E844" />
+            <g transform="translate(42, 28) scale(0.65) rotate(25)">
+              <path d="M10 2 L2 18 H18 L10 2 Z" fill="#FFFFFF" stroke="#145C3A" stroke-width="1" />
+              <path d="M5 12 H15" stroke="#85E844" stroke-width="1.5" />
+              <path d="M5 18 C5 23 15 23 15 18 Z" fill="#85E844" />
+            </g>
+            <path d="M68 18 Q68 22 72 22 Q68 22 68 26 Q68 22 64 22 Q68 22 68 18 Z" fill="#85E844" />
+          </svg>
           <div class="ak-rich-title">กิจกรรม</div>
           <div class="ak-rich-subtitle">นัดตีแบดครั้งต่อไป</div>
         </a>
 
         <!-- Card 6: โปรไฟล์ (Court Dark Green) -->
         <a routerLink="/member/profile" class="ak-rich-card ak-rich-card-court">
-          <i class="fa-solid fa-sparkle sparkle-accent"></i>
-          <div class="ak-rich-icon icon-box-profile">
-            <i class="fa-solid fa-circle-user"></i>
-          </div>
+          <svg viewBox="0 0 80 64" fill="none" class="hub-tile-svg" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="36" cy="32" r="22" fill="#1DB36E" stroke="#85E844" stroke-width="2" />
+            <circle cx="36" cy="25" r="7.5" fill="#FFFFFF" />
+            <path d="M22 47 C22 38 29 35 36 35 C43 35 50 38 50 47 Z" fill="#FFFFFF" />
+            <g transform="translate(42, 10) rotate(25)">
+              <ellipse cx="14" cy="14" rx="8" ry="11" fill="none" stroke="#85E844" stroke-width="2.5" />
+              <line x1="14" y1="5" x2="14" y2="23" stroke="#85E844" stroke-width="1" opacity="0.75" />
+              <line x1="8" y1="14" x2="20" y2="14" stroke="#85E844" stroke-width="1" opacity="0.75" />
+              <line x1="14" y1="25" x2="14" y2="44" stroke="#85E844" stroke-width="2.5" stroke-linecap="round" />
+            </g>
+          </svg>
           <div class="ak-rich-title">โปรไฟล์</div>
           <div class="ak-rich-subtitle">ข้อมูลส่วนตัว</div>
         </a>
 
       </div>
     </div>
-    }
+
+    <!-- 3. Smart Unified Search Bar with Quick Filter Chips -->
+    <div class="mb-4">
+      <div class="ak-search-bar mb-2">
+        <i class="fa-solid fa-magnifying-glass text-success ms-1"></i>
+        <input type="text" placeholder="ค้นหาชื่อก๊วน, สนามแบด, ย่าน/เขต, หรือระดับฝีมือ..." class="flex-grow-1"
+          [value]="searchQuery()" (input)="searchQuery.set($any($event.target).value)"
+          (keyup.enter)="searchQuery() ? null : null">
+        <a routerLink="/groups" class="ak-btn-primary ak-btn-sm px-3 px-sm-4 rounded-pill flex-shrink-0">
+          ค้นหา
+        </a>
+      </div>
+      <!-- Quick Filter Pills -->
+      <div class="d-flex align-items-center gap-1.5 overflow-x-auto pb-1 px-1 ak-filter-chips">
+        <span class="ak-badge ak-badge-active rounded-pill cursor-pointer">ทั้งหมด</span>
+        <span class="ak-badge bg-white text-secondary border rounded-pill cursor-pointer">กรุงเทพฯ</span>
+        <span class="ak-badge bg-white text-secondary border rounded-pill cursor-pointer">นนทบุรี</span>
+        <span class="ak-badge bg-white text-secondary border rounded-pill cursor-pointer">สมุทรปราการ</span>
+        <span class="ak-badge bg-white text-secondary border rounded-pill cursor-pointer">ระดับ N (มือใหม่)</span>
+        <span class="ak-badge bg-white text-secondary border rounded-pill cursor-pointer">ระดับ S (พอเล่นได้)</span>
+        <span class="ak-badge bg-white text-secondary border rounded-pill cursor-pointer">ระดับ P (ปานกลาง)</span>
+      </div>
+    </div>
 
     <!-- ========================================================================= -->
     <!-- 5. "กิจกรรมที่กำลังจะมาถึงเร็วๆ นี้" (Upcoming Activities - TBad Style)      -->

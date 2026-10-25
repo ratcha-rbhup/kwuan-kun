@@ -1,23 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none" width="100%" height="100%">
   <defs>
-    <!-- Feather Gradient: Vivid Mint to Energetic Emerald -->
+    <!-- Feather Gradient: Emerald to Brand Green -->
     <linearGradient id="featherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#34D399" />
-      <stop offset="40%" stop-color="#10B981" />
-      <stop offset="100%" stop-color="#059669" />
+      <stop offset="0%" stop-color="#1DB36E" />
+      <stop offset="60%" stop-color="#007A4D" />
+      <stop offset="100%" stop-color="#0B3C26" />
     </linearGradient>
 
     <!-- Wing Highlight Gradient -->
     <linearGradient id="wingHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#A3E635" />
-      <stop offset="60%" stop-color="#10B981" />
-      <stop offset="100%" stop-color="#047857" />
+      <stop offset="0%" stop-color="#85E844" />
+      <stop offset="60%" stop-color="#1DB36E" />
+      <stop offset="100%" stop-color="#007A4D" />
     </linearGradient>
 
     <!-- Cork Base Gradient -->
     <linearGradient id="corkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#059669" />
-      <stop offset="100%" stop-color="#064E3B" />
+      <stop offset="0%" stop-color="#007A4D" />
+      <stop offset="100%" stop-color="#0B3C26" />
     </linearGradient>
 
     <!-- Mask to punch transparent holes in 'A' -->

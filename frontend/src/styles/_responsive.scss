@@ -69,11 +69,17 @@ html, body {
   }
 }
 
-// --- 2. Mobile Phone Breakpoint (< 576px - iPhone & Android) ---
-@media (max-width: 575.98px) {
+// --- 2. Mobile Phone Breakpoint (< 768px - iPhone & Android) ---
+@media (max-width: 767.98px) {
   .container {
     padding-left: 0.85rem;
     padding-right: 0.85rem;
+  }
+
+  // 2-Column Grid on Mobile (Exact Match to Graphic Reference)
+  .ak-rich-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
   }
 
   // Cards touch target ergonomics
@@ -82,39 +88,24 @@ html, body {
     border-radius: 18px;
   }
 
-  // TBad Announcement Banner on small phone
-  .ak-tbad-banner {
-    padding: 1.25rem 1rem;
-    border-radius: 18px;
-
-    .banner-title {
-      font-size: 1.22rem;
-    }
-
-    .banner-desc {
-      font-size: 0.85rem;
-      margin-bottom: 0.85rem;
-    }
-  }
-
   // Buttons touch target
   .ak-btn, .btn {
     min-height: 42px; // Apple Human Interface Guidelines minimum ergonomic target
   }
 }
 
-// --- 3. Tablet & iPad Breakpoint (576px - 991.98px) ---
-@media (min-width: 576px) and (max-width: 991.98px) {
+// --- 3. Tablet & iPad Breakpoint (768px - 1024px) ---
+@media (min-width: 768px) and (max-width: 1024px) {
   .container {
-    max-width: 92%;
+    max-width: 94%;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
   }
 
-  // Balanced 3 column grid on iPad
+  // Balanced 3 column grid on iPad / Tablet
   .ak-rich-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0.85rem;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 1rem !important;
   }
 
   .ak-session-card {

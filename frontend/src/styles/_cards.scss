@@ -202,6 +202,27 @@
     }
   }
 
+  // Pure SVG Illustration View (Pixel-precise to graphic reference)
+  .hub-tile-svg {
+    width: 72px;
+    height: 58px;
+    margin-bottom: 0.45rem;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.2));
+
+    @media (max-width: 480px) {
+      width: 58px;
+      height: 46px;
+      margin-bottom: 0.35rem;
+    }
+  }
+
+  &:hover {
+    .hub-tile-svg {
+      transform: scale(1.1) translateY(-2px);
+    }
+  }
+
   .ak-rich-title {
     font-size: 1rem;
     font-weight: 700;

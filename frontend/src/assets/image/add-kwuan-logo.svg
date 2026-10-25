@@ -1,25 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 120" fill="none" width="100%" height="100%">
   <defs>
-    <!-- Feather Gradient: Fresh Emerald to Rich Mint -->
+    <!-- Feather Gradient: Fresh Emerald to Rich Brand Green -->
     <linearGradient id="logoFeatherGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#10B981" />
-      <stop offset="60%" stop-color="#059669" />
-      <stop offset="100%" stop-color="#047857" />
+      <stop offset="0%" stop-color="#1DB36E" />
+      <stop offset="60%" stop-color="#007A4D" />
+      <stop offset="100%" stop-color="#0B3C26" />
     </linearGradient>
 
     <linearGradient id="logoWingHighlight" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#34D399" />
-      <stop offset="100%" stop-color="#10B981" />
+      <stop offset="0%" stop-color="#85E844" />
+      <stop offset="100%" stop-color="#1DB36E" />
     </linearGradient>
 
     <linearGradient id="logoCorkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="#047857" />
-      <stop offset="100%" stop-color="#064E3B" />
+      <stop offset="0%" stop-color="#007A4D" />
+      <stop offset="100%" stop-color="#0B3C26" />
     </linearGradient>
 
     <linearGradient id="textAddGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-      <stop offset="0%" stop-color="#10B981" />
-      <stop offset="100%" stop-color="#059669" />
+      <stop offset="0%" stop-color="#1DB36E" />
+      <stop offset="100%" stop-color="#007A4D" />
     </linearGradient>
   </defs>
 
@@ -64,12 +64,12 @@
 
   <!-- Wordmark: "KwuanKun" (Designed for White & Green modern theme) -->
   <g id="brand-text" transform="translate(125, 0)">
-    <!-- "Kwuan" in Gradient and "Kun" in Deep Modern Charcoal/Forest -->
+    <!-- "Kwuan" in Gradient and "Kun" in Neutral Dark #333333 -->
     <text x="0" y="78" font-family="'Prompt', 'Kanit', 'Outfit', system-ui, sans-serif" font-weight="800" font-size="58" letter-spacing="-1">
-      <tspan fill="url(#textAddGrad)">Kwuan</tspan><tspan fill="#111827">Kun</tspan>
+      <tspan fill="url(#textAddGrad)">Kwuan</tspan><tspan fill="#333333">Kun</tspan>
     </text>
     
     <!-- Subtitle / Tagline -->
-    <text x="2" y="105" font-family="'Prompt', 'Kanit', system-ui, sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="#059669">BADMINTON COMMUNITY</text>
+    <text x="2" y="105" font-family="'Prompt', 'Kanit', system-ui, sans-serif" font-weight="700" font-size="14" letter-spacing="3" fill="#007A4D">BADMINTON COMMUNITY</text>
   </g>
 </svg>
